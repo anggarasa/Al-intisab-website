@@ -12,10 +12,15 @@ use Livewire\Form;
 
 class LoginForm extends Form
 {
-    #[Validate('required|string|email')]
+    #[Validate('required|string|email', message: [
+        'required' => 'Email tidak boleh kosong',
+        'email' => 'Format email tidak valid'
+    ])]
     public string $email = '';
 
-    #[Validate('required|string')]
+    #[Validate('required|string' , message: [
+        'required' => 'Kata sandi tidak boleh kosong',
+    ])]
     public string $password = '';
 
     #[Validate('boolean')]
@@ -26,19 +31,20 @@ class LoginForm extends Form
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate()
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'form.email' => trans('auth.failed'),
-            ]);
+        // Langsung return user yang berhasil login
+        if (Auth::attempt($this->only(['email', 'password']), $this->remember)) {
+            return Auth::user(); // Tambahkan ini
         }
 
-        RateLimiter::clear($this->throttleKey());
+        RateLimiter::hit($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'form.email' => trans('Email atau Password Salah'),
+        ]);
     }
 
     /**
@@ -55,10 +61,7 @@ class LoginForm extends Form
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'form.email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'form.email' => trans('Terlalu sering melakukan login, coba lagi setelah '. $seconds . ' detik'),
         ]);
     }
 
