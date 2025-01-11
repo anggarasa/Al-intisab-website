@@ -1,7 +1,8 @@
-<?php 
+<?php
 
+use App\Livewire\Pages\TataUsaha\Dashboard;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/tu', function() {
-  echo 'Halaman tu';
-})->middleware(['auth', 'role:tu']);
+Route::prefix('tata-usaha')->name('tata-usaha.')->middleware(['auth', 'role:tu'])->group(function() {
+  Route::get('/dashboard', Dashboard::class)->name('dashboard');
+});

@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{--
-    <link rel="shortcut icon" href="/imgs/logo/logo-aplikasi-ym.svg" type="image/x-icon"> --}}
+    <link rel="shortcut icon" href="/imgs/logo/logo-intisab.svg" type="image/x-icon">
 
     <title>Smk Al-intisab Patokbeusi - {{ $title }}</title>
 
@@ -29,9 +28,14 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-poppins" x-data="{ sidebarOpen: false, bookingDropdown: false, settingsDropdown: false }">
+    @include('tata-usaha.sidebar')
 
-    {{ $slot }}
+    <!-- Rest of the content remains the same -->
+    <div class="lg:pl-64">
+        <livewire:layout.tata-usaha.navbar />
+        {{ $slot }}
+    </div>
 
     @livewireScripts
 </body>
