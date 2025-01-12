@@ -71,16 +71,16 @@
                     <div class="bg-gradient-to-r from-green-600 to-green-400 px-6 py-8">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
-                                <h2 class="text-3xl font-bold text-white mb-2" x-text="sekolah.nama"></h2>
+                                <h2 class="text-3xl font-bold text-white mb-2">{{ $identitas->nama_sekolah }}</h2>
                                 <p class="text-green-50">
                                     <i class="fas fa-map-marker-alt mr-2"></i>
-                                    <span x-text="sekolah.kota + ', ' + sekolah.provinsi"></span>
+                                    <span>{{ $identitas->kabupaten_kota }}, {{ $identitas->provinsi }}</span>
                                 </p>
                             </div>
                             <div class="mt-4 md:mt-0">
                                 <span class="bg-white px-4 py-2 rounded-full text-green-600 font-semibold shadow-md">
                                     <i class="fas fa-award mr-2"></i>Akreditasi
-                                    <span x-text="sekolah.akreditasi"></span>
+                                    <span>{{ $identitas->akreditasi }}</span>
                                 </span>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                 </div>
 
                 <!-- Info Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                     <!-- Card Examples -->
                     <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
                         <div class="flex items-center space-x-4">
@@ -97,7 +97,7 @@
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm">NPSN</p>
-                                <p class="font-semibold text-lg" x-text="sekolah.npsn"></p>
+                                <p class="font-semibold text-lg">{{ $identitas->npsn }}</p>
                             </div>
                         </div>
                     </div>
@@ -110,20 +110,7 @@
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm">Kepala Sekolah</p>
-                                <p class="font-semibold text-lg" x-text="sekolah.kepalaSekolah"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tahun Berdiri Card -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <div class="flex items-center space-x-4">
-                            <div class="bg-green-100 p-3 rounded-full">
-                                <i class="fas fa-calendar-alt text-green-600 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-sm">Tahun Berdiri</p>
-                                <p class="font-semibold text-lg" x-text="sekolah.tahunBerdiri"></p>
+                                <p class="font-semibold text-lg">{{ $identitas->kepala_sekolah }}</p>
                             </div>
                         </div>
                     </div>
@@ -138,12 +125,12 @@
                         <div>
                             <p class="text-gray-500 text-sm mb-2">Alamat Lengkap</p>
                             <p class="text-gray-800">
-                                <span x-text="sekolah.alamat"></span><br />
-                                Kel. <span x-text="sekolah.kelurahan"></span>, Kec.
-                                <span x-text="sekolah.kecamatan"></span><br />
-                                <span x-text="sekolah.kota"></span>,
-                                <span x-text="sekolah.provinsi"></span><br />
-                                Kode Pos: <span x-text="sekolah.kodePos"></span>
+                                <span>{{ $identitas->alamat_sekolah }}</span><br />
+                                Kel. <span>{{ $identitas->kelurahan }}</span>, Kec.
+                                <span>{{ $identitas->kecamatan }}</span><br />
+                                <span>{{ $identitas->kecamatan }}</span>,
+                                <span>{{ $identitas->provinsi }}</span><br />
+                                Kode Pos: <span>{{ $identitas->kode_pos }}</span>
                             </p>
                         </div>
                     </div>
@@ -158,11 +145,10 @@
                         <div>
                             <p class="text-gray-500 text-sm mb-2">Kontak</p>
                             <p class="text-gray-800">
-                                <i class="fas fa-phone-alt mr-2 text-green-600"></i><span
-                                    x-text="sekolah.telepon"></span><br />
-                                <i class="fas fa-envelope mr-2 text-green-600"></i><span
-                                    x-text="sekolah.email"></span><br />
-                                <i class="fas fa-globe mr-2 text-green-600"></i><span x-text="sekolah.website"></span>
+                                <i class="fas fa-phone-alt mr-2 text-green-600"></i><span>{{ $identitas->no_telpone
+                                    }}</span><br />
+                                <i class="fas fa-envelope mr-2 text-green-600"></i><span>{{ $identitas->email
+                                    }}</span>
                             </p>
                         </div>
                     </div>
