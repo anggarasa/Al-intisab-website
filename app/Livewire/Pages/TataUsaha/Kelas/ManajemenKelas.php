@@ -6,6 +6,7 @@ use App\Models\Kelas;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 #[Layout('layouts.tatausaha-layout', ['title' => 'Manajemen Kelas'])]
 #[On('management-kelas')]
@@ -45,6 +46,31 @@ class ManajemenKelas extends Component
         }
     }
     // End Delete Kelas
+
+    // Update status kelas
+    public function updateStatusKelas($id, $status)
+    {
+        try {
+            $kelas = Kelas::find($id);
+            $kelas->update([
+                'status' => $status
+            ]);
+
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'success',
+                'message' => 'Status kelas berhasil diubah!',
+                'title' => 'Sukses',
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => 'Status kelas gagal diubah!',
+                'title' => 'Gagal',
+            ]);
+        }
+    }
+    // End update status kelas
+    
     public function render()
     {
         return view('livewire.pages.tata-usaha.kelas.manajemen-kelas', [

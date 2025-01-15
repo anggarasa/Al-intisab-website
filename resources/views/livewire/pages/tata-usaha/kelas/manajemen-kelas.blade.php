@@ -17,12 +17,11 @@
     <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
       <div class="flex items-center">
         <div class="p-3 bg-green-100 rounded-lg">
-          {{-- <i class="fa-solid fa-user-check text-2xl text-green-600"></i> --}}
           <i class="text-2xl text-green-600 fa-solid fa-school-circle-check"></i>
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Kelas Aktif</h3>
-          <p class="text-lg font-semibold text-gray-800">156</p>
+          <p class="text-lg font-semibold text-gray-800">{{ $kelases->where('status', 'AKTIF')->count() }}</p>
         </div>
       </div>
     </div>
@@ -34,7 +33,7 @@
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Kelas Tidak Aktif</h3>
-          <p class="text-lg font-semibold text-gray-800">89</p>
+          <p class="text-lg font-semibold text-gray-800">{{ $kelases->where('status', 'TIDAK AKTIF')->count() }}</p>
         </div>
       </div>
     </div>
@@ -132,11 +131,41 @@
                 {{ $kelas->jurusan->nama_jurusan }}
               </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span
-                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                Aktif
-              </span>
+            <td class="px-6 py-4 whitespace-nowrap" x-data="{ dropdownStatus: false }">
+              <div class="px-6 py-3">
+                <div class="relative inline-flex items-center group">
+                  <span @click="dropdownStatus = !dropdownStatus" class="px-3 py-1 inline-flex items-center gap-2 text-xs leading-5 font-semibold rounded-full hover:underline cursor-pointer
+                            @switch($kelas->status)
+                                @case('AKTIF')
+                                    bg-green-100 text-green-800
+                                @break
+                                @case('TIDAK AKTIF')
+                                    bg-red-100 text-red-800
+                                @break
+                                @default
+                                    bg-yellow-100 text-yellow-800
+                            @endswitch">
+                    {{ $kelas->status }}
+                    <i class="fa-solid fa-angle-down text-xs transition-transform duration-200"
+                      :class="{'rotate-180': dropdownStatus}"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div x-show="dropdownStatus" @click.outside="dropdownStatus = false"
+                class="z-10 absolute bg-gray-200 divide-y divide-gray-100 rounded-lg shadow w-44"
+                style="display: none;">
+                <ul class="py-2 text-sm text-gray-900">
+                  <li>
+                    <a @click="dropdownStatus = false; $wire.updateStatusKelas({{ $kelas->id }}, 'AKTIF')"
+                      class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Aktif</a>
+                  </li>
+                  <li>
+                    <a @click="dropdownStatus = false; $wire.updateStatusKelas({{ $kelas->id }}, 'TIDAK AKTIF')"
+                      class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Tidak Aktif</a>
+                  </li>
+                </ul>
+              </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex space-x-2">
@@ -161,9 +190,6 @@
               </div>
             </td>
           </tr>
-          @endforeach
-
-
           <!-- Delete Confirmation Modal -->
           <div x-show="showDeleteModal === 'modal-delete-kelas_{{ $kelas->id }}'"
             @close-modal-delete-kelas.window="showDeleteModal = false" class="fixed inset-0 z-50 overflow-y-auto"
@@ -204,6 +230,7 @@
               </div>
             </div>
           </div>
+          @endforeach
         </tbody>
       </table>
     </div>
