@@ -11,6 +11,12 @@ use Livewire\Component;
 #[On('management-kelas')]
 class ManajemenKelas extends Component
 {
+    // Edit kelas
+    public function editKelas($id)
+    {
+        $this->dispatch('editKelas', $id)->to(ModalManajemenKelas::class);
+    }
+    // End edit kelas
 
     // Delete Kelas
     public function deleteKelas($id)

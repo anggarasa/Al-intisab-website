@@ -20,7 +20,7 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-semibold text-gray-900">
-                        Form Tambah Kelas
+                        {{ $isEdit == true ? 'Update' : 'Tambah Kelas' }}
                     </h3>
                     <button wire:click="resetInput" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
                 </div>
 
                 <!-- Form -->
-                <form wire:submit="createKelas" class="space-y-4">
+                <form wire:submit="{{ $isEdit == true ? 'updateKelas' : 'createKelas' }}" class="space-y-4">
                     <!-- Input Nama Kelas -->
                     <div>
                         <x-input name="nama_kelas" label="Nama Kelas" wire="nama_kelas"
@@ -60,7 +60,7 @@
                         </button>
                         <button type="submit"
                             class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition duration-300">
-                            Simpan
+                            {{ $isEdit == true ? 'Update' : 'Simpan' }}
                         </button>
                     </div>
                 </form>
