@@ -95,11 +95,8 @@
         <x-sidebar-menu-item href="{{ route('tata-usaha.dashboard') }}" label="Dashboard" icon="fas fa-home"
           :active="request()->routeIs('tata-usaha.dashboard')" />
 
-        <li class="mb-2">
-          <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">
-            Paket Wedding
-          </a>
-        </li>
+          <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-kelas.manajemen') }}" label="Dashboard" icon="fas fa-school"
+          :active="request()->routeIs('tata-usaha.dashboard')" />
         <!-- Booking Dropdown -->
         <li class="mb-2">
           <div @click="bookingDropdown = !bookingDropdown"
