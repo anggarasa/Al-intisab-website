@@ -95,30 +95,13 @@
         <x-sidebar-menu-item href="{{ route('tata-usaha.dashboard') }}" label="Dashboard" icon="fas fa-home"
           :active="request()->routeIs('tata-usaha.dashboard')" />
 
-          <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-kelas.manajemen') }}" label="Dashboard" icon="fas fa-school"
-          :active="request()->routeIs('tata-usaha.dashboard')" />
-        <!-- Booking Dropdown -->
-        <li class="mb-2">
-          <div @click="bookingDropdown = !bookingDropdown"
-            class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100 cursor-pointer flex justify-between items-center">
-            <span>da</span>
-            <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': bookingDropdown}" fill="none"
-              stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </div>
-          <ul x-show="bookingDropdown" class="pl-6">
-            <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Pending</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Confirmed</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Completed</a>
-            </li>
-          </ul>
-        </li>
+          <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-kelas.manajemen') }}" label="Kelas" icon="fas fa-school"
+          :active="request()->routeIs('tata-usaha.manajemen-kelas.manajemen')" />
+        <!-- Siswa & Guru -->
+        <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-gift" :links="[
+            ['label' => 'Manajemen Siswa', 'url' => '/admin/layanan/sewa-baju/management'],
+            ['label' => 'Manajemen Guru', 'url' => '/management-sewa-dekorasi'],
+        ]" />
         <li class="mb-2">
           <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">
             Gallery
