@@ -16,14 +16,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('kelas_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('jurusan_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('jenis_kelamin_id')->constrained()->onDelete('set null');
-            $table->foreignId('agama_id')->constrained()->onDelete('set null');
+            $table->foreignId('jenis_kelamin_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('agama_id')->nullable()->constrained()->onDelete('set null');
             $table->string('name');
-            $table->integer('nisn')->unique();
+            $table->string('nisn')->unique();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->text('alamat');
-            $table->integer('nik');
+            $table->string('nik');
             $table->string('no_hp');
             $table->string('foto');
             $table->string('nama_ayah');
