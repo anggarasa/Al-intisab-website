@@ -22,6 +22,15 @@ class SiswaSeeder extends Seeder
 
         $siswa = new Siswa([
             'name' => 'Siswa 1',
+            'nisn' => '123456432',
+            'tempat_lahir' => 'subang',
+            'tanggal_lahir' => '2012-01-23',
+            'alamat' => 'Jl. Raya Jl. Raya,Patok Besi,Subang No.20, Ciberes, Kec. Patokbeusi, Kabupaten Subang, Jawa Barat 41263',
+            'nik' => '627167826871',
+            'no_hp' => '084632563246',
+            'foto' => 'siswa/image.jpg',
+            'nama_ayah' => 'nandang',
+            'nama_ibu' => 'kurnia',
         ]);
 
         $user->siswa()->save($siswa);
