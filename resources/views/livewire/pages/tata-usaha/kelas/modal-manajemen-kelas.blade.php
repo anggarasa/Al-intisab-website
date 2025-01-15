@@ -34,12 +34,6 @@
                 <form wire:submit="createKelas" class="space-y-4">
                     <!-- Input Nama Kelas -->
                     <div>
-                        {{-- <label for="nama_kelas" class="block text-sm font-medium text-gray-700 mb-1">
-                            Nama Kelas
-                        </label>
-                        <input type="text" id="nama_kelas"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                            placeholder="Masukkan nama kelas" /> --}}
                         <x-input name="nama_kelas" label="Nama Kelas" wire="nama_kelas"
                             placeholder="Masukkan nama kelas" required="true" />
                     </div>
@@ -55,14 +49,12 @@
                             @foreach ($jurusans as $jurusan)
                             <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
                             @endforeach
-                            {{-- <option value="tkj">Teknik Komputer Jaringan</option>
-                            <option value="mm">Multimedia</option> --}}
                         </select>
                     </div>
 
                     <!-- Buttons -->
                     <div class="flex justify-end space-x-3 pt-4">
-                        <button type="button" @click="showModal = false"
+                        <button type="button" wire:click="resetInput"
                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition duration-300">
                             Batal
                         </button>
