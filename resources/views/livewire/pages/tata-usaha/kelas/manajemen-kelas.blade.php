@@ -21,7 +21,10 @@
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Kelas Aktif</h3>
-          <p class="text-lg font-semibold text-gray-800">{{ $kelases->where('status', 'AKTIF')->count() }}</p>
+          @php
+          $totalKelasAktif = \App\Models\Kelas::where('status', 'AKTIF')->count();
+          @endphp
+          <p class="text-lg font-semibold text-gray-800">{{ $totalKelasAktif }}</p>
         </div>
       </div>
     </div>
@@ -33,7 +36,10 @@
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Kelas Tidak Aktif</h3>
-          <p class="text-lg font-semibold text-gray-800">{{ $kelases->where('status', 'TIDAK AKTIF')->count() }}</p>
+          @php
+          $totalKelasNonAktif = \App\Models\Kelas::where('status', 'TIDAK AKTIF')->count();
+          @endphp
+          <p class="text-lg font-semibold text-gray-800">{{ $totalKelasNonAktif }}</p>
         </div>
       </div>
     </div>
@@ -47,7 +53,10 @@
           <h3 class="text-sm font-medium text-gray-500">
             Jumlah Kelas
           </h3>
-          <p class="text-lg BGPI font-semibold text-gray-800">{{ $kelases->count() }}</p>
+          @php
+          $totalKelas = \App\Models\Kelas::all()->count();
+          @endphp
+          <p class="text-lg BGPI font-semibold text-gray-800">{{ $totalKelas }}</p>
         </div>
       </div>
     </div>
@@ -105,6 +114,9 @@
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              No
+            </th>
+            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Nama Kelas
             </th>
             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -119,8 +131,11 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          @foreach ($kelases as $kelas)
+          @foreach ($kelases as $index => $kelas)
           <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              {{ $kelases->firstItem() + $index }}
+            </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm font-medium text-gray-900">
                 {{ $kelas->nama_kelas }}
@@ -236,34 +251,8 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-between px-6 py-4 bg-white border-t">
-      <div class="flex items-center text-sm text-gray-500">
-        <span>Showing</span>
-        <select class="mx-2 border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
-          <option>10</option>
-          <option>25</option>
-          <option>50</option>
-        </select>
-        <span>of 100 entries</span>
-      </div>
-      <div class="flex space-x-2">
-        <button
-          class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100 disabled:opacity-50">
-          Previous
-        </button>
-        <button class="px-3 py-1 text-sm text-white bg-violet-600 rounded-lg hover:bg-violet-700">
-          1
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          2
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          3
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          Next
-        </button>
-      </div>
+    <div class=" px-6 py-4 bg-white border-t">
+      {{ $kelases->links() }}
     </div>
   </div>
 </main>

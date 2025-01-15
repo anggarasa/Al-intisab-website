@@ -6,12 +6,14 @@ use App\Models\Kelas;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Symfony\Component\CssSelector\Node\FunctionNode;
+use Livewire\WithPagination;
 
 #[Layout('layouts.tatausaha-layout', ['title' => 'Manajemen Kelas'])]
 #[On('management-kelas')]
 class ManajemenKelas extends Component
 {
+    use WithPagination;
+    
     // Edit kelas
     public function editKelas($id)
     {
@@ -74,7 +76,7 @@ class ManajemenKelas extends Component
     public function render()
     {
         return view('livewire.pages.tata-usaha.kelas.manajemen-kelas', [
-            'kelases' => Kelas::with('jurusan')->latest()->get()
+            'kelases' => Kelas::with('jurusan')->latest()->paginate(5)
         ]);
     }
 }
