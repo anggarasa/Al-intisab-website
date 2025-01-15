@@ -102,6 +102,8 @@
             ['label' => 'Manajemen Siswa', 'url' => '/admin/layanan/sewa-baju/management'],
             ['label' => 'Manajemen Guru', 'url' => '/management-sewa-dekorasi'],
         ]" />
+
+
         <li class="mb-2">
           <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">
             Gallery
