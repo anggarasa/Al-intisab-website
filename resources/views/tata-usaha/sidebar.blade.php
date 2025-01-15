@@ -101,7 +101,7 @@
         <li class="mb-2">
           <div @click="bookingDropdown = !bookingDropdown"
             class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100 cursor-pointer flex justify-between items-center">
-            <span>Booking</span>
+            <span>da</span>
             <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': bookingDropdown}" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
