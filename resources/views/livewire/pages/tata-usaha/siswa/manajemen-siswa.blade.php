@@ -38,7 +38,7 @@
                 <div class="flex items-center">
                     <div class="p-3 bg-green-100 rounded-lg">
                         {{-- <i class="fa-solid fa-user-check text-2xl text-green-600"></i> --}}
-                        <i class="text-2xl text-green-600 fa-solid fa-school-circle-check"></i>
+                        <i class="text-2xl text-green-600 fa-solid fa-person"></i>
                     </div>
                     <div class="ml-4">
                         <h3 class="text-sm font-medium text-gray-500">Siswa Laki-Laki</h3>
@@ -49,8 +49,8 @@
 
             <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                 <div class="flex items-center">
-                    <div class="p-3 bg-red-100 rounded-lg">
-                        <i class="text-2xl text-red-600 fa-solid fa-school-circle-xmark"></i>
+                    <div class="p-3 bg-violet-100 rounded-lg">
+                        <i class="text-2xl text-violet-600 fa-solid fa-person-dress"> </i></i>
                     </div>
                     <div class="ml-4">
                         <h3 class="text-sm font-medium text-gray-500">Siswa Perempuan</h3>
@@ -62,7 +62,7 @@
             <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                 <div class="flex items-center">
                     <div class="p-3 bg-yellow-100 rounded-lg">
-                        <i class="text-2xl text-yellow-600 fa-solid fa-school"></i>
+                        <i class="text-2xl text-yellow-600 fa-solid fa-users"></i>
                     </div>
                     <div class="ml-4">
                         <h3 class="text-sm font-medium text-gray-500">
