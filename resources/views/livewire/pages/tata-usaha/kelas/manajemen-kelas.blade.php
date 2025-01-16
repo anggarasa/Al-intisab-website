@@ -64,45 +64,37 @@
 
   <!-- Filters Section -->
   <div class="p-6 mb-8 bg-white rounded-xl shadow-sm border border-gray-100">
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <form>
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700">Search</label>
+          <div class="relative">
+            <input type="search" wire:model.live="search" placeholder="Cari Kelas..."
+              class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
+            <div class="absolute top-1/2 left-3 transform -translate-y-1/2">
+              <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </form>
       <div>
-        <label class="block mb-2 text-sm font-medium text-gray-700">Kategori</label>
-        <select
+        <label class="block mb-2 text-sm font-medium text-gray-700">Jurusan</label>
+        <select wire:model.live="searchJurusan"
           class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
-          <option value="">Semua Kategori</option>
-          <template x-for="kategori in kategoriOptions">
-            <option :value="kategori" x-text="kategori"></option>
-          </template>
+          <option value="">Semua Jurusan</option>
+          @foreach ($jurusans as $id => $jurusan)
+          <option value="{{ $id }}">{{ $jurusan }}</option>
+          @endforeach
         </select>
       </div>
       <div>
-        <label class="block mb-2 text-sm font-medium text-gray-700">Status</label>
-        <select
+        <label class="block mb-2 text-sm font-medium text-gray-700">Stataus</label>
+        <select wire:model.live="searchStatus"
           class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
           <option value="">Semua Status</option>
-          <option value="Tersedia">Tersedia</option>
-          <option value="Disewa">Disewa</option>
-          <option value="Maintenance">Maintenance</option>
+          <option value="AKTIF">AKTIF</option>
+          <option value="TIDAK AKTIF">TIDAK AKTIF</option>
         </select>
-      </div>
-      <div>
-        <label class="block mb-2 text-sm font-medium text-gray-700">Ukuran</label>
-        <select
-          class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
-          <option value="">Semua Ukuran</option>
-          <template x-for="ukuran in ukuranOptions">
-            <option :value="ukuran" x-text="ukuran"></option>
-          </template>
-        </select>
-      </div>
-      <div>
-        <label class="block mb-2 text-sm font-medium text-gray-700">Rentang Harga</label>
-        <div class="flex gap-2">
-          <input type="number" placeholder="Min"
-            class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500" />
-          <input type="number" placeholder="Max"
-            class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500" />
-        </div>
       </div>
     </div>
   </div>

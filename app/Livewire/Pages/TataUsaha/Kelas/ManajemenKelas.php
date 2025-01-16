@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Pages\TataUsaha\Kelas;
 
+use App\Models\Jurusan;
 use App\Models\Kelas;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 #[Layout('layouts.tatausaha-layout', ['title' => 'Manajemen Kelas'])]
 #[On('management-kelas')]
@@ -72,11 +76,29 @@ class ManajemenKelas extends Component
         }
     }
     // End update status kelas
+
+    // Fitur search realtime
+    public $search = '';
+    public $searchJurusan = 0;
+    public $searchStatus = '';
+
+    public Collection $jurusans;
+
+    public function mount()
+    {
+        $this->jurusans = Jurusan::pluck('nama_jurusan', 'id');
+    }
+    // End fitur seach realtime
     
     public function render()
     {
-        return view('livewire.pages.tata-usaha.kelas.manajemen-kelas', [
-            'kelases' => Kelas::with('jurusan')->latest()->paginate(5)
-        ]);
+        $kelases = Kelas::with('jurusan')
+        ->when($this->search !== '', fn(Builder $query) => $query->where('nama_kelas', 'like', '%'. $this->search .'%')) 
+        ->when($this->searchStatus !== '', fn(Builder $query) => $query->where('status', 'like', '%'. $this->searchStatus .'%')) 
+        ->when($this->searchJurusan > 0, fn(Builder $query) => $query->where('jurusan_id', $this->searchJurusan))
+            ->latest()
+            ->paginate(5);
+
+        return view('livewire.pages.tata-usaha.kelas.manajemen-kelas', compact('kelases'));
     }
 }
