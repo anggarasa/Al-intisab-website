@@ -99,7 +99,7 @@
           :active="request()->routeIs('tata-usaha.manajemen-kelas.manajemen')" />
         <!-- Siswa & Guru -->
         <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-gift" :links="[
-            ['label' => 'Manajemen Siswa', 'url' => '/admin/layanan/sewa-baju/management'],
+            ['label' => 'Manajemen Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
             ['label' => 'Manajemen Guru', 'url' => '/management-sewa-dekorasi'],
         ]" />
 
