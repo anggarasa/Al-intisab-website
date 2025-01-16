@@ -70,7 +70,7 @@
           <label class="block mb-2 text-sm font-medium text-gray-700">Search</label>
           <div class="relative">
             <input type="search" wire:model.live="search" placeholder="Cari Kelas..."
-              class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
+              class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
             <div class="absolute top-1/2 left-3 transform -translate-y-1/2">
               <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
             </div>
@@ -80,7 +80,7 @@
       <div>
         <label class="block mb-2 text-sm font-medium text-gray-700">Jurusan</label>
         <select wire:model.live="searchJurusan"
-          class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
+          class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
           <option value="">Semua Jurusan</option>
           @foreach ($jurusans as $id => $jurusan)
           <option value="{{ $id }}">{{ $jurusan }}</option>
@@ -88,9 +88,9 @@
         </select>
       </div>
       <div>
-        <label class="block mb-2 text-sm font-medium text-gray-700">Stataus</label>
+        <label class="block mb-2 text-sm font-medium text-gray-700">Status</label>
         <select wire:model.live="searchStatus"
-          class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
+          class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
           <option value="">Semua Status</option>
           <option value="AKTIF">AKTIF</option>
           <option value="TIDAK AKTIF">TIDAK AKTIF</option>
@@ -177,7 +177,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex space-x-2">
                 <button type="button" wire:click="editKelas({{ $kelas->id }})"
-                  class="inline-flex items-center px-3 py-1 text-sm text-violet-600 bg-violet-100 rounded-lg hover:bg-violet-200">
+                  class="inline-flex items-center px-3 py-1 text-sm text-green-600 bg-green-100 rounded-lg hover:bg-green-200">
                   <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">

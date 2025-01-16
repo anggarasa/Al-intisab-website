@@ -94,7 +94,7 @@ class ManajemenKelas extends Component
     {
         $kelases = Kelas::with('jurusan')
         ->when($this->search !== '', fn(Builder $query) => $query->where('nama_kelas', 'like', '%'. $this->search .'%')) 
-        ->when($this->searchStatus !== '', fn(Builder $query) => $query->where('status', 'like', '%'. $this->searchStatus .'%')) 
+        ->when($this->searchStatus !== '', fn(Builder $query) => $query->where('status', $this->searchStatus))
         ->when($this->searchJurusan > 0, fn(Builder $query) => $query->where('jurusan_id', $this->searchJurusan))
             ->latest()
             ->paginate(5);
