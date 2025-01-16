@@ -100,7 +100,7 @@
         <!-- Siswa & Guru -->
         <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-gift" :links="[
             ['label' => 'Manajemen Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
-            ['label' => 'Manajemen Guru', 'url' => '/management-sewa-dekorasi'],
+            ['label' => 'Manajemen Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
         ]" />
 
 
