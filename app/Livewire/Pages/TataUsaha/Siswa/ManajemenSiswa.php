@@ -21,6 +21,13 @@ class ManajemenSiswa extends Component
         $this->jurusans = Jurusan::pluck('nama_jurusan', 'id');
         $this->kelases = Kelas::pluck('nama_kelas', 'id');
     }
+
+    // Hapus Data Siswa
+    public function hapusSiswa($id)
+    {
+        $this->dispatch('hapusSiswa', $id)->to(ModalManajemenSiswa::class);
+    }
+    // End Hapus Data Siswa
     
     public function render()
     {

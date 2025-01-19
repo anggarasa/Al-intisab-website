@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Pages\TataUsaha\Siswa;
 
+use App\Models\User;
 use App\Models\Agama;
-use App\Models\JenisKelamin;
-use App\Models\Jurusan;
 use App\Models\Kelas;
 use App\Models\Siswa;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Jurusan;
 use Livewire\Component;
+use Livewire\Attributes\On;
+use App\Models\JenisKelamin;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ModalManajemenSiswa extends Component
 {
@@ -18,6 +20,8 @@ class ModalManajemenSiswa extends Component
     public $name, $email, $password, $password_confirmation, $kelas, $jurusan, $jenisKelamin, $agama, $nisn, $tempatLahir, $tanggalLahir, $nik, $noHp, $foto, $namaAyah, $namaIbu, $namaWali, $alamat;
 
     public $jurusans, $kelases, $kelamins, $agamass;
+
+    public $siswaId, $isEdit = false;
 
     public function mount() {
         $this->jurusans = Jurusan::all();
@@ -103,6 +107,57 @@ class ModalManajemenSiswa extends Component
         }
     }
     // End Tambah Siswa
+
+    // Delete Data Siswa
+    #[On('hapusSiswa')]
+    public function hapusSiswa($id)
+    {
+        $siswa = Siswa::find($id);
+        $this->siswaId = $siswa->id;
+        $this->name = $siswa->name;
+
+        // open modal delete
+        $this->dispatch('modal-delete-siswa');
+    }
+
+    public function deleteSiswa()
+    {
+        try {
+            $siswa = Siswa::find($this->siswaId);
+
+            // Hapus foto siswa dari storage
+            if ($siswa->foto && Storage::exists($siswa->foto)) {
+                Storage::delete($siswa->foto);
+            }
+
+            // Hapus data user yang berelasi
+            $siswa->user()->delete();
+
+            // Hapus data siswa
+            $siswa->delete();
+
+            // Menampilkan data real-time
+            $this->dispatch('manajemen-siswa')->to(ManajemenSiswa::class);
+            
+            // reset input
+            $this->resetInput();
+
+            // Kirim notifikasi success
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'success',
+                'message' => 'Berhasil menghapus data siswa',
+                'title' => 'Berhasil!'
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => 'Gagal menghapus data siswa',
+                'title' => 'Gagal!'
+            ]);
+        }
+    }
+    // End Delete Data Siswa
     
     public function render()
     {
@@ -129,11 +184,13 @@ class ModalManajemenSiswa extends Component
             'namaIbu',
             'namaWali',
             'alamat',
-            'noHp'
+            'noHp',
+            'siswaId',
         ]);
 
         // close Modal
         $this->dispatch('close-modal-crud-siswa');
+        $this->dispatch('close-modal-delete-siswa');
     }
 
     // Message custom livewire
