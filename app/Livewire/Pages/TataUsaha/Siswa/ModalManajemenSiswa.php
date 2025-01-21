@@ -36,18 +36,18 @@ class ModalManajemenSiswa extends Component
         try {
             $validated = $this->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|lowercase|email:dns,rfc,strict|max:255|unique:users',
+                'email' => 'required|lowercase|email:dns,rfc,strict|max:255|unique:users,email',
                 'password' => 'required|string|confirmed|min:6',
                 'kelas' => 'required|integer',
                 'jurusan' => 'required|integer',
                 'jenisKelamin' => 'required|integer',
                 'agama' => 'required|integer',
-                'nisn' => 'required|string|max:255',
+                'nisn' => 'required|string|max:255|unique:siswas,nisn',
                 'tempatLahir' => 'required|string|max:255',
                 'tanggalLahir' => 'required|date',
-                'nik' => 'required|string|max:255',
-                'noHp' => 'required|string|min:9|max:13',
-                'foto' => 'required|image|mimes:jpg,jpeg,png|max:2024',
+                'nik' => 'required|string|max:255|unique:siswas,nik',
+                'noHp' => 'required|string|min:9|max:13|unique:siswas,no_hp',
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2024',
                 'namaAyah' => 'required|string|max:255',
                 'namaIbu' => 'required|string|max:255',
                 'namaWali' => 'nullable|string|max:255',
@@ -61,11 +61,14 @@ class ModalManajemenSiswa extends Component
             ]);
             $user->assignRole('siswa');
 
-            // Simpan data foto ke storage
-            $namaFoto = time().'.'.$this->foto->getClientOriginalExtension();
-            $fotoUrl = $this->foto->storeAs('tata-usaha/siswa/foto', $namaFoto, 'public');
+            // Simpan data foto ke storage jika ada
+            $fotoUrl = null; // Inisialisasi fotoUrl
+            if ($this->foto) {
+                $namaFoto = time() . '.' . $this->foto->getClientOriginalExtension();
+                $fotoUrl = $this->foto->storeAs('tata-usaha/siswa/foto', $namaFoto, 'public');
+            }
 
-            // Siswan data siswa
+            // Simpan data siswa
             Siswa::create([
                 'name' => $this->name,
                 'kelas_id' => $this->kelas,
@@ -173,6 +176,7 @@ class ModalManajemenSiswa extends Component
             'jenisKelamin',
             'agama',
             'nisn',
+            'nik',
             'tempatLahir',
             'tanggalLahir',
             'email',
@@ -187,6 +191,9 @@ class ModalManajemenSiswa extends Component
             'noHp',
             'siswaId',
         ]);
+
+        // reset upload foto
+        $this->dispatch('resetFileUpload');
 
         // close Modal
         $this->dispatch('close-modal-crud-siswa');
@@ -207,13 +214,15 @@ class ModalManajemenSiswa extends Component
         'jenisKelamin.required' => 'Jenis kelamin harus diisi.',
         'agama.required' => 'Agama harus diisi.',
         'nisn.required' => 'NISN harus diisi.',
+        'nisn.unique' => 'NISN sudah digunakan.',
         'tempatLahir.required' => 'Tempat lahir harus diisi.',
         'tanggalLahir.required' => 'Tanggal lahir harus diisi.',
         'nik.required' => 'NIK harus diisi.',
+        'nik.unique' => 'NIK sudah digunakan.',
         'noHp.required' => 'No HP harus diisi.',
         'noHp.min' => 'No HP minimal 9 karakter.',
         'noHp.max' => 'No HP maksimal 13 karakter.',
-        'foto.required' => 'Foto harus diisi.',
+        'noHp.unique' => 'No HP sudah digunakan.',
         'foto.image' => 'Foto harus berupa gambar.',
         'foto.mimes' => 'Foto harus berupa jpg, jpeg, atau png.',
         'foto.max' => 'Foto maksimal 2MB.',

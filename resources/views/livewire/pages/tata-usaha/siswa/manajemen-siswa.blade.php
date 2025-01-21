@@ -138,7 +138,12 @@
           @foreach ($siswas as $siswa)
           <tr class="hover:bg-gray-50">
             <td class="px-6 py-4 whitespace-nowrap">
+              @if ($siswa->foto)
               <img src="{{ asset('storage/'. $siswa->foto) }}" class="w-12 h-12 rounded-lg object-cover" />
+              @else
+              <img src="{{ asset('imgs/component/profile/avatar-man.jpg') }}"
+                class="w-12 h-12 rounded-lg object-cover" />
+              @endif
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm font-medium text-gray-900">

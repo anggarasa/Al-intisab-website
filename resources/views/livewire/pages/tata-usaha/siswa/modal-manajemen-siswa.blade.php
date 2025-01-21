@@ -1,24 +1,6 @@
 <div x-data="{
     showModal: false,
     showDeleteModal: false,
-    imagePreview: null,
-    formData: {foto: null},
-    previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                this.formData.foto = file;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.imagePreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        },
-        clearImage() {
-            this.imagePreview = null;
-            this.formData.foto = null;
-            document.getElementById('fotoInput').value = '';
-        }
 }">
     <button @click="showModal = true"
         class="flex items-center px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-200">
@@ -39,7 +21,7 @@
             <div class="relative bg-white rounded-lg w-full max-w-4xl p-6 shadow-xl">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-green-500">Tambah Data Siswa</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">Tambah Data Siswa</h2>
                     <button type="button" wire:click="resetInput" class="text-gray-500 hover:text-gray-700">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,18 +45,21 @@
 
                         <!-- Password -->
                         <div>
+
+                            <x-password-input name="password" label="Password" wireModel="password" />
                             {{--
-                            <x-password-input name="password" label="Password" wireModel="password" /> --}}
                             <x-input type="password" name="password" label="Password" wire="password" required="true" />
+                            --}}
                         </div>
 
                         <!-- Confirmasi Password -->
                         <div>
+
+                            <x-password-input name="password_confirmation" label="Konfirmasi Passowrd"
+                                wireModel="password_confirmation" />
                             {{--
-                            <x-password-input name="confirmPassword" label="Konfirmasi Passowrd"
-                                wireModel="confirmPassword" /> --}}
                             <x-input type="password" name="password_confirmation" label="Konfirmasi Password"
-                                wire="password_confirmation" required="true" />
+                                wire="password_confirmation" required="true" /> --}}
                         </div>
 
                         <!-- Kelas -->
@@ -130,6 +115,11 @@
                             <x-input type="number" name="nisn" label="NISN" wire="nisn" required="true" />
                         </div>
 
+                        <!-- NIK -->
+                        <div>
+                            <x-input type="number" name="nik" label="NIK" wire="nik" required="true" />
+                        </div>
+
                         <!-- Tempat Lahir -->
                         <div>
                             <x-input type="text" name="tempatLahir" label="Tempat Lahir" wire="tempatLahir"
@@ -142,11 +132,6 @@
                                 required="true" />
                         </div>
 
-                        <!-- NIK -->
-                        <div>
-                            <x-input type="number" name="nik" label="NIK" wire="nik" required="true" />
-                        </div>
-
                         <!-- No HP -->
                         <div>
                             <x-input type="tel" name="noHp" label="No. Handphone" wire="noHp" required="true" />
@@ -154,26 +139,7 @@
 
                         <!-- Foto dengan Preview -->
                         <div class="col-span-2">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Foto</label>
-                            <div class="flex items-start space-x-4">
-                                <div class="flex-1">
-                                    <input type="file" wire:model="foto" id="fotoInput" accept="image/*"
-                                        @change="previewImage"
-                                        class="w-full px-4 py-3 border-2 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50" />
-                                </div>
-                                <!-- Preview Container -->
-                                <div x-show="imagePreview" class="relative">
-                                    <img :src="imagePreview"
-                                        class="h-32 w-32 object-cover rounded-lg border-2 border-green-500" />
-                                    <button type="button" @click="clearImage"
-                                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
+                            <x-input-upload-image name="foto" id="foto" label="Upload Foto" />
                         </div>
 
                         <!-- Nama Ayah -->
