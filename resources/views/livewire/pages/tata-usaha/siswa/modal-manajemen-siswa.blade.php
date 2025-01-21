@@ -46,22 +46,14 @@
 
                         <!-- Password -->
                         <div>
-
                             <x-password-input name="password" label="Password" wireModel="password"
                                 required="{{ $isEdit == true ? 'false' : 'true' }}" />
-                            {{--
-                            <x-input type="password" name="password" label="Password" wire="password" required="true" />
-                            --}}
                         </div>
 
                         <!-- Confirmasi Password -->
                         <div>
-
                             <x-password-input name="password_confirmation" label="Konfirmasi Passowrd"
                                 wireModel="password_confirmation" required="{{ $isEdit == true ? 'false' : 'true' }}" />
-                            {{--
-                            <x-input type="password" name="password_confirmation" label="Konfirmasi Password"
-                                wire="password_confirmation" required="true" /> --}}
                         </div>
 
                         <!-- Kelas -->

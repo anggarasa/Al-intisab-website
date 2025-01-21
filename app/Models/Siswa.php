@@ -49,7 +49,7 @@ class Siswa extends Model
 
     public function kelamin()
     {
-        return $this->belongsTo(JenisKelamin::class);
+        return $this->belongsTo(JenisKelamin::class, 'jenis_kelamin_id');
     }
     // Belongs to
 }

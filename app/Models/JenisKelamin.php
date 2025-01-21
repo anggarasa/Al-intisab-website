@@ -14,7 +14,7 @@ class JenisKelamin extends Model
     // Hash many
     public function siswas()
     {
-        return $this->hasMany(Siswa::class);
+        return $this->hasMany(Siswa::class, 'jenis_kelamin_id');
     }
     // Hash many
 }

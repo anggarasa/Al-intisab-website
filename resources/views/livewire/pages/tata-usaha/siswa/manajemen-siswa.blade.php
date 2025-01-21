@@ -21,7 +21,7 @@
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Siswa Laki-Laki</h3>
-          <p class="text-lg font-semibold text-gray-800">{{ $siswas->where('kelamin.kelamin', 'laki-laki')->count() }}
+          <p class="text-lg font-semibold text-gray-800">{{ $siswaL }}
           </p>
         </div>
       </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Siswa Perempuan</h3>
-          <p class="text-lg font-semibold text-gray-800">{{ $siswas->where('kelamin.kelamin', 'perempuan')->count() }}
+          <p class="text-lg font-semibold text-gray-800">{{ $siswaP }}
           </p>
         </div>
       </div>

@@ -39,7 +39,13 @@ class ManajemenSiswa extends Component
     public function render()
     {
         $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin'])->latest()->get();
+        $siswaL = Siswa::whereHas('kelamin', function ($query) {
+            $query->where('kelamin', 'laki-laki');
+        })->count();
+        $siswaP = Siswa::whereHas('kelamin', function ($query) {
+            $query->where('kelamin', 'perempuan');
+        })->count();
         
-        return view('livewire.pages.tata-usaha.siswa.manajemen-siswa', compact('siswas'));
+        return view('livewire.pages.tata-usaha.siswa.manajemen-siswa', compact(['siswas', 'siswaL', 'siswaP']));
     }
 }
