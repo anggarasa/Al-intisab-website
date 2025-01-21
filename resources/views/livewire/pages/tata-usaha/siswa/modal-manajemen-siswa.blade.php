@@ -21,7 +21,8 @@
             <div class="relative bg-white rounded-lg w-full max-w-4xl p-6 shadow-xl">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">Tambah Data Siswa</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">{{ $isEdit == true ? 'Update' : 'Tambah' }} Data Siswa
+                    </h2>
                     <button type="button" wire:click="resetInput" class="text-gray-500 hover:text-gray-700">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,7 +32,7 @@
                 </div>
 
                 <!-- Form -->
-                <form wire:submit="tambahSiswa" class="space-y-4">
+                <form wire:submit="{{ $isEdit == true ? 'updateSiswa' : 'tambahSiswa' }}" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Nama -->
                         <div>
@@ -46,7 +47,8 @@
                         <!-- Password -->
                         <div>
 
-                            <x-password-input name="password" label="Password" wireModel="password" />
+                            <x-password-input name="password" label="Password" wireModel="password"
+                                required="{{ $isEdit == true ? 'false' : 'true' }}" />
                             {{--
                             <x-input type="password" name="password" label="Password" wire="password" required="true" />
                             --}}
@@ -56,7 +58,7 @@
                         <div>
 
                             <x-password-input name="password_confirmation" label="Konfirmasi Passowrd"
-                                wireModel="password_confirmation" />
+                                wireModel="password_confirmation" required="{{ $isEdit == true ? 'false' : 'true' }}" />
                             {{--
                             <x-input type="password" name="password_confirmation" label="Konfirmasi Password"
                                 wire="password_confirmation" required="true" /> --}}
@@ -173,7 +175,7 @@
                         </button>
                         <button type="submit"
                             class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                            Simpan
+                            {{ $isEdit == true ? 'Update' : 'Simpan' }}
                         </button>
                     </div>
                 </form>

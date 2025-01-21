@@ -22,6 +22,13 @@ class ManajemenSiswa extends Component
         $this->kelases = Kelas::pluck('nama_kelas', 'id');
     }
 
+    // Edit data siswa
+    public function editSiswa($id)
+    {
+        $this->dispatch('editSiswa', $id)->to(ModalManajemenSiswa::class);
+    }
+    // End Edit data siswa
+
     // Hapus Data Siswa
     public function hapusSiswa($id)
     {

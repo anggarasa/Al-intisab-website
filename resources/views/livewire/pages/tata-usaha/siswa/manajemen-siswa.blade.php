@@ -178,7 +178,7 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex space-x-2">
-                <button @click="showModal = true; modalType = 'edit'"
+                <button type="button" wire:click="editSiswa({{ $siswa->id }})"
                   class="inline-flex items-center px-3 py-1 text-sm text-violet-600 bg-violet-100 rounded-lg hover:bg-violet-200">
                   <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

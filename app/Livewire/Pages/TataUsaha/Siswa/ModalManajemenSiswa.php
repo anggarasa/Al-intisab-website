@@ -11,6 +11,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\JenisKelamin;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -111,6 +112,146 @@ class ModalManajemenSiswa extends Component
     }
     // End Tambah Siswa
 
+    // Update Siswa
+    #[On('editSiswa')]
+    public function editSiswa($id)
+    {
+        // Ambil data siswa
+        $siswa = Siswa::find($id);
+        $this->isEdit = true;
+        $this->siswaId = $siswa->id;
+        $this->name = $siswa->name;
+        $this->kelas = $siswa->kelas_id;
+        $this->jurusan = $siswa->jurusan_id;
+        $this->jenisKelamin = $siswa->jenis_kelamin_id;
+        $this->agama = $siswa->agama_id;
+        $this->nisn = $siswa->nisn;
+        $this->tempatLahir = $siswa->tempat_lahir;
+        $this->tanggalLahir = $siswa->tanggal_lahir;
+        $this->nik = $siswa->nik;
+        $this->noHp = $siswa->no_hp;
+        $this->namaAyah = $siswa->nama_ayah;
+        $this->namaIbu = $siswa->nama_ibu;
+        $this->namaWali = $siswa->nama_wali;
+        $this->alamat = $siswa->alamat;
+        $this->email = $siswa->user->email;
+
+        $imageUrls = $siswa->foto ? asset('storage/' . $siswa->foto) : null;
+
+        $this->dispatch('setOldImages', [$imageUrls]);
+
+        $this->dispatch('modal-curd-siswa');
+    }
+    
+    public function updateSiswa()
+    {
+        try {
+            $siswa = Siswa::find($this->siswaId);
+            
+            $validated = $this->validate([
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required',
+                    'lowercase',
+                    'email:dns,rfc,strict',
+                    'max:255',
+                    Rule::unique('users', 'email')->ignore($siswa->user_id)
+                ],
+                'password' => 'nullable|string|confirmed|min:6',
+                'kelas' => 'required|integer',
+                'jurusan' => 'required|integer',
+                'jenisKelamin' => 'required|integer',
+                'agama' => 'required|integer',
+                'nisn' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('siswas', 'nisn')->ignore($siswa->id)
+                ],
+                'tempatLahir' => 'required|string|max:255',
+                'tanggalLahir' => 'required|date',
+                'nik' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('siswas', 'nik')->ignore($siswa->id)
+                ],
+                'noHp' => [
+                    'required',
+                    'string',
+                    'min:9',
+                    'max:13',
+                    Rule::unique('siswas', 'no_hp')->ignore($siswa->id)
+                ],
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2024',
+                'namaAyah' => 'required|string|max:255',
+                'namaIbu' => 'required|string|max:255',
+                'namaWali' => 'nullable|string|max:255',
+                'alamat' => 'required',
+            ]);
+
+            // Update data user email dan password
+            $user = User::find($siswa->user_id);
+            $user->update([
+                'email' => $validated['email'],
+                'password' => $validated['password'] ? Hash::make($validated['password']) : $user->password,
+            ]);
+
+            // Tangani penghapusan foto lama jika ada foto baru
+            $fotoUrl = $siswa->foto;
+            if ($this->foto) {
+                // Hapus foto lama jika ada
+                if ($fotoUrl && Storage::disk('public')->exists($fotoUrl)) {
+                    Storage::disk('public')->delete($fotoUrl);
+                }
+
+                // Simpan foto baru
+                $namaFoto = time() . '.' . $this->foto->getClientOriginalExtension();
+                $fotoUrl = $this->foto->storeAs('tata-usaha/siswa/foto', $namaFoto, 'public');
+            }
+
+            // Update data siswa
+            $siswa->update([
+                'name' => $this->name,
+                'kelas_id' => $this->kelas,
+                'jurusan_id' => $this->jurusan,
+                'jenis_kelamin_id' => $this->jenisKelamin,
+                'agama_id' => $this->agama,
+                'nisn' => $this->nisn,
+                'tempat_lahir' => $this->tempatLahir,
+                'tanggal_lahir' => $this->tanggalLahir,
+                'nik' => $this->nik,
+                'no_hp' => $this->noHp,
+                'foto' => $fotoUrl,
+                'nama_ayah' => $this->namaAyah,
+                'nama_ibu' => $this->namaIbu,
+                'nama_wali' => $this->namaWali,
+                'alamat' => $this->alamat,
+            ]);
+
+            // Menampilkan data real-time
+            $this->dispatch('manajemen-siswa')->to(ManajemenSiswa::class);
+
+            // Reset form
+            $this->resetInput();
+
+            // Kirim notifikasi success
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'success',
+                'message' => 'Data siswa berhasil diperbarui!',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End Update Siswa
+
     // Delete Data Siswa
     #[On('hapusSiswa')]
     public function hapusSiswa($id)
@@ -126,7 +267,7 @@ class ModalManajemenSiswa extends Component
     public function deleteSiswa()
     {
         try {
-            $siswa = Siswa::find($this->siswaId);
+            $siswa = Siswa::find($this->siswa);
 
             // Hapus foto siswa dari storage
             if ($siswa->foto && Storage::exists($siswa->foto)) {
@@ -191,6 +332,8 @@ class ModalManajemenSiswa extends Component
             'noHp',
             'siswaId',
         ]);
+
+        $this->isEdit = false;
 
         // reset upload foto
         $this->dispatch('resetFileUpload');

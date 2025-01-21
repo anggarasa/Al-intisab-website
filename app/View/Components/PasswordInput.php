@@ -12,6 +12,7 @@ class PasswordInput extends Component
     public $name;
     public $label;
     public $wireModel;
+    public $required;
 
     /**
      * Create a new component instance.
@@ -19,12 +20,14 @@ class PasswordInput extends Component
     public function __construct(
         $name = 'password', 
         $label = 'Password',
+        $required = false,
         $wireModel
     )
     {
         $this->name = $name;
         $this->label = $label;
         $this->wireModel = $wireModel;
+        $this->required = $required;
     }
 
     /**
