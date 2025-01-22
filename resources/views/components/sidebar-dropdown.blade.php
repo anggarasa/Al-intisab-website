@@ -1,6 +1,6 @@
 <li class="mb-2" x-data="{ dropdownOpen: false }">
     <div @click="dropdownOpen = !dropdownOpen"
-        class="block px-4 py-2 text-gray-800 rounded hover:bg-violet-100 cursor-pointer flex justify-between items-center">
+        class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white cursor-pointer flex justify-between items-center">
         <div class="flex items-center gap-2">
             @if ($icon)
             <i class="{{ $icon }}"></i>
@@ -15,7 +15,8 @@
     <ul x-show="dropdownOpen" class="pl-6">
         @foreach ($links as $link)
         <li>
-            <a href="{{ $link['url'] }}" class="block px-4 py-2 text-gray-800 rounded hover:bg-violet-100">{{
+            <a href="{{ $link['url'] }}"
+                class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white">{{
                 $link['label'] }}</a>
         </li>
         @endforeach

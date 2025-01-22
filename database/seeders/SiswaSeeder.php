@@ -21,6 +21,10 @@ class SiswaSeeder extends Seeder
         $user->assignRole('siswa');
 
         $siswa = new Siswa([
+            'jenis_kelamin_id' => 1,
+            'kelas_id' => 1,
+            'jurusan_id' => 1,
+            'agama_id' => 1,
             'name' => 'Siswa 1',
             'nisn' => '123456432',
             'tempat_lahir' => 'subang',

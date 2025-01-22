@@ -8,8 +8,22 @@ use Symfony\Component\CssSelector\Node\FunctionNode;
 class Siswa extends Model
 {
     protected $fillable = [
+        'user_id',
+        'kelas_id',
+        'jurusan_id',
+        'jenis_kelamin_id',
+        'agama_id',
         'name',
-        'user_id'
+        'nisn',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'alamat',
+        'nik',
+        'no_hp',
+        'foto',
+        'nama_ayah',
+        'nama_ibu',
+        'nama_wali',
     ];
 
     // Belongs to
@@ -35,7 +49,7 @@ class Siswa extends Model
 
     public function kelamin()
     {
-        return $this->belongsTo(JenisKelamin::class);
+        return $this->belongsTo(JenisKelamin::class, 'jenis_kelamin_id');
     }
     // Belongs to
 }

@@ -24,8 +24,8 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->text('alamat');
             $table->string('nik');
-            $table->string('no_hp');
-            $table->string('foto');
+            $table->string('no_hp')->unique();
+            $table->string('foto')->nullable();
             $table->string('nama_ayah');
             $table->string('nama_ibu');
             $table->string('nama_wali')->nullable();
