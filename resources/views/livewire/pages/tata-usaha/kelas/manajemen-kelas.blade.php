@@ -244,7 +244,7 @@
 
     <!-- Pagination -->
     <div class=" px-6 py-4 bg-white border-t">
-      {{ $kelases->links() }}
+      {{ $kelases->links('vendor.pagination.tailwind') }}
     </div>
   </div>
 </main>

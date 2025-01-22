@@ -16,5 +16,20 @@ class AgamaSeeder extends Seeder
         Agama::create([
             'agama' => 'Islam'
         ]);
+        Agama::create([
+            'agama' => 'Kristen'
+        ]);
+        Agama::create([
+            'agama' => 'Katolik'
+        ]);
+        Agama::create([
+            'agama' => 'Hindu'
+        ]);
+        Agama::create([
+            'agama' => 'Buddha'
+        ]);
+        Agama::create([
+            'agama' => 'Konghucu'
+        ]);
     }
 }

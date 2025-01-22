@@ -8,11 +8,14 @@ use App\Models\Siswa;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('layouts.tatausaha-layout',['title'=>'manajemen siswa'])]
 #[On('manajemen-siswa')]
 class ManajemenSiswa extends Component
 {
+    use WithPagination;
+    
     public $jurusans;
     public $kelases;
     
@@ -38,7 +41,7 @@ class ManajemenSiswa extends Component
     
     public function render()
     {
-        $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin'])->latest()->get();
+        $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin'])->latest()->paginate(5);
         $siswaL = Siswa::whereHas('kelamin', function ($query) {
             $query->where('kelamin', 'laki-laki');
         })->count();

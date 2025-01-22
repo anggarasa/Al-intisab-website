@@ -99,39 +99,42 @@
       <table class="w-full">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Gambar
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Nama Siswa
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Nisn
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Nik
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Tempat Lahir
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Tanggal Lahir
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Alamat
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Nama Ibu
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Nama Ayah
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Nama Wali
-            </th>
-            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Aksi
-            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Gambar</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Nama Siswa</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Nisn</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Nik</th>
+            <th <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Email</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Tempat Lahir</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Tanggal Lahir</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Alamat</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Nama Ibu</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Nama Ayah</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Nama Wali</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -159,6 +162,9 @@
               <div class="text-sm text-gray-900">{{ $siswa->nik }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->tempat_lahir }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
@@ -174,7 +180,7 @@
               <div class="text-sm text-gray-900">{{ $siswa->nama_ayah }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $siswa->nama_wali }}</div>
+              <div class="text-sm text-gray-900">{{ $siswa->nama_wali !== null ? $siswa->nama_wali : '-' }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex space-x-2">
@@ -205,34 +211,6 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-between px-6 py-4 bg-white border-t">
-      <div class="flex items-center text-sm text-gray-500">
-        <span>Showing</span>
-        <select class="mx-2 border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
-          <option>10</option>
-          <option>25</option>
-          <option>50</option>
-        </select>
-        <span>of 100 entries</span>
-      </div>
-      <div class="flex space-x-2">
-        <button
-          class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100 disabled:opacity-50">
-          Previous
-        </button>
-        <button class="px-3 py-1 text-sm text-white bg-violet-600 rounded-lg hover:bg-violet-700">
-          1
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          2
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          3
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          Next
-        </button>
-      </div>
-    </div>
+    {{ $siswas->links('vendor.pagination.tailwind') }}
   </div>
 </main>
