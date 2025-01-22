@@ -111,7 +111,13 @@
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
               Nik</th>
-            <th <th
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Kelas</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Jurusan</th>
+            <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
               Email</th>
             <th
@@ -120,6 +126,12 @@
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
               Tanggal Lahir</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Gender</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Agama</th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
               Alamat</th>
@@ -162,6 +174,12 @@
               <div class="text-sm text-gray-900">{{ $siswa->nik }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ $siswa->kelas->nama_kelas }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ $siswa->jurusan->nama_jurusan }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
@@ -169,6 +187,12 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->tanggal_lahir }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ $siswa->kelamin->kelamin }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ $siswa->agama->agama }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ Str::limit($siswa->alamat, 20, '...') }}</div>

@@ -5,10 +5,14 @@ namespace App\Livewire\Pages\TataUsaha\Siswa;
 use App\Models\Jurusan;
 use App\Models\Kelas;
 use App\Models\Siswa;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
+
+use function Laravel\Prompts\search;
 
 #[Layout('layouts.tatausaha-layout',['title'=>'manajemen siswa'])]
 #[On('manajemen-siswa')]
@@ -16,8 +20,12 @@ class ManajemenSiswa extends Component
 {
     use WithPagination;
     
-    public $jurusans;
-    public $kelases;
+    public $search = '';
+    public $searchJurusan = 0;
+    public $searchKelas = 0;
+    
+    public Collection $jurusans;
+    public Collection $kelases;
     
     public function mount()
     {
@@ -41,7 +49,11 @@ class ManajemenSiswa extends Component
     
     public function render()
     {
-        $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin'])->latest()->paginate(5);
+        $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin'])
+            ->when($this->search !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->search . '%'))
+            ->when($this->searchJurusan > 0, fn(Builder $query) => $query->where('jurusan_id', $this->searchJurusan))
+            ->when($this->searchKelas > 0, fn(Builder $query) => $query->where('kelas_id', $this->searchKelas))
+            ->latest()->paginate(5);
         $siswaL = Siswa::whereHas('kelamin', function ($query) {
             $query->where('kelamin', 'laki-laki');
         })->count();
