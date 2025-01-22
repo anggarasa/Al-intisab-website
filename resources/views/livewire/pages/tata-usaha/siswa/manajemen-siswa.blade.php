@@ -1,4 +1,4 @@
-<main class="p-4 lg:p-8" x-data="{showDeleteModal: null}">
+<main class="p-4 lg:p-8" x-data="{showDeleteModal: null, modalShowSiswa: null}">
 
   <!-- Header Section -->
   <div class="flex flex-col gap-4 mb-8 md:flex-row md:items-center md:justify-between">
@@ -152,7 +152,8 @@
         <tbody class="divide-y divide-gray-200">
           @foreach ($siswas as $siswa)
           <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-6 py-4 whitespace-nowrap cursor-pointer"
+              @click="modalShowSiswa = 'modal-show-siswa_{{ $siswa->id }}'">
               @if ($siswa->foto)
               <img src="{{ asset('storage/'. $siswa->foto) }}" class="w-12 h-12 rounded-lg object-cover" />
               @else
@@ -161,7 +162,8 @@
               @endif
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm font-medium text-gray-900">
+              <div @click="modalShowSiswa = 'modal-show-siswa_{{ $siswa->id }}'"
+                class="text-sm font-medium text-gray-900 hover:font-bold hover:underline cursor-pointer">
                 {{ $siswa->name }}
               </div>
             </td>
@@ -229,7 +231,202 @@
               </div>
             </td>
           </tr>
-          @endforeach
+
+          {{-- Modal Show siswa --}}
+          <div x-show="modalShowSiswa === 'modal-show-siswa_{{ $siswa->id }}'"
+            class="fixed inset-0 z-50 overflow-y-auto" style="display: none">
+            <div class="flex items-center justify-center min-h-screen px-4">
+              <!-- Backdrop -->
+              <div class="fixed inset-0 bg-black/50"></div>
+
+              <!-- Modal Content -->
+              <div class="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div
+                  class="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-8 py-5 flex justify-between items-center rounded-t-2xl">
+                  <h3 class="text-2xl font-semibold text-gray-800">
+                    Detail Informasi Siswa
+                  </h3>
+                  <button @click="modalShowSiswa = null"
+                    class="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-lg transition-colors">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-8">
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Foto Siswa -->
+                    <div class="md:col-span-1">
+                      <div class="rounded-2xl bg-gradient-to-br from-green-50 to-green-100 p-2 shadow-lg">
+                        <div class="aspect-square rounded-xl overflow-hidden ring-4 ring-white shadow-inner">
+                          @if ($siswa->foto)
+                          <img src="{{ asset('storage/'. $siswa->foto) }}" alt="{{ $siswa->name }}"
+                            class="w-full h-full object-cover" />
+                          @else
+                          <img src="{{ asset('imgs/component/profile/avatar-man.jpg') }}" alt="{{ $siswa->name }}"
+                            class="w-full h-full object-cover" />
+                          @endif
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Detail Siswa -->
+                    <div class="md:col-span-2 space-y-8">
+                      <!-- Informasi Dasar -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                          </svg>
+                          Informasi Dasar
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nama Lengkap</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->name }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">NISN</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->nisn }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">NIK</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->nik }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Jenis Kelamin</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->kelamin->kelamin }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Agama</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->agama->agama }}</p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Email</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->user->email }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Informasi Akademik -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                            </path>
+                          </svg>
+                          Informasi Akademik
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Kelas</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->kelas->nama_kelas }}</p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Jurusan</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->jurusan->nama_jurusan }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Informasi Personal -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                          </svg>
+                          Informasi Personal
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Tempat Lahir</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->tempat_lahir }}</p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Tanggal Lahir</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ date('d F Y', strtotime($siswa->tanggal_lahir)) }}
+                            </p>
+                          </div>
+                          <div class="sm:col-span-2">
+                            <label class="block text-sm font-medium text-gray-500">Alamat</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->alamat }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nomor HP</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->no_hp }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Informasi Orang Tua/Wali -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                          </svg>
+                          Informasi Orang Tua/Wali
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nama Ayah</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->nama_ayah }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nama Ibu</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $siswa->nama_ibu }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nama Wali</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->nama_wali !== null ? $siswa->nama_wali
+                              : '-' }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="sticky bottom-0 bg-gray-50 px-6 py-4 rounded-b-xl border-t border-gray-200">
+                  <button @click="modalShowSiswa = null"
+                    class="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+            @endforeach
         </tbody>
       </table>
     </div>
