@@ -31,7 +31,17 @@
 
 <body class="bg-gray-100">
 
-    {{ $slot }}
+    <div x-data="{ sidebarOpen: false }">
+        @include('master.sidebar')
+
+        <!-- Main Content -->
+        <div class="lg:ml-64">
+            <livewire:layout.master.navbar />
+
+            <!-- Content -->
+            {{ $slot }}
+        </div>
+    </div>
 
     @livewireScripts
 </body>
