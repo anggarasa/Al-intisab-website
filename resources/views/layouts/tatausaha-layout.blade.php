@@ -34,7 +34,8 @@
     <!-- Rest of the content remains the same -->
     <div class="lg:pl-64">
         <livewire:layout.tata-usaha.navbar />
-        {{ $slot }}
+        <livewire:layout.tata-usaha.notification.popup-notification-tata-usaha>
+            {{ $slot }}
     </div>
 
     @livewireScripts

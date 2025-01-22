@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('jurusan_id')->nullable()->constrained('jurusans')->onDelete('set null');
             $table->string('nama_kelas');
+            $table->enum('status', ['AKTIF', 'TIDAK AKTIF'])->default('AKTIF');
             $table->timestamps();
         });
     }
