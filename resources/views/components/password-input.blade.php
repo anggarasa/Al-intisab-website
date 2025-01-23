@@ -10,8 +10,7 @@
     <div class="relative">
         <input :type="showPassword ? 'text' : 'password'" id="{{ $name }}" name="{{ $name }}" {{ $wireModel
             ? 'wire:model=' . $wireModel : '' }}
-            class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50"
-            {{ $required ? 'required' : '' }} />
+            class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50" />
 
         <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 
                text-gray-500 focus:outline-none">

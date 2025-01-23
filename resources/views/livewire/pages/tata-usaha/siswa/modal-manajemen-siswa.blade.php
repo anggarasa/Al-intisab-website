@@ -53,7 +53,7 @@
                         <!-- Confirmasi Password -->
                         <div>
                             <x-password-input name="password_confirmation" label="Konfirmasi Passowrd"
-                                wireModel="password_confirmation" required="{{ $isEdit == true ? 'false' : 'true' }}" />
+                                wireModel="password_confirmation" />
                         </div>
 
                         <!-- Kelas -->

@@ -267,7 +267,7 @@ class ModalManajemenSiswa extends Component
     public function deleteSiswa()
     {
         try {
-            $siswa = Siswa::find($this->siswa);
+            $siswa = Siswa::find($this->siswaId);
 
             // Hapus foto siswa dari storage
             if ($siswa->foto && Storage::exists($siswa->foto)) {
@@ -294,11 +294,12 @@ class ModalManajemenSiswa extends Component
             ]);
         } catch (\Exception $e) {
             // Kirim notifikasi error
-            $this->dispatch('notificationTataUsaha', [
-                'type' => 'error',
-                'message' => 'Gagal menghapus data siswa',
-                'title' => 'Gagal!'
-            ]);
+            // $this->dispatch('notificationTataUsaha', [
+            //     'type' => 'error',
+            //     'message' => 'Gagal menghapus data siswa',
+            //     'title' => 'Gagal!'
+            // ]);
+            dd($e->getMessage());
         }
     }
     // End Delete Data Siswa
