@@ -12,6 +12,12 @@ use Livewire\Attributes\On;
 #[On('manajemen-guru')]
 class ManajemenGuru extends Component
 {
+    // Edit Guru
+    public function editGuru($id)
+    {
+        $this->dispatch('editGuru', $id)->to(ModalManajemenGuru::class);
+    }
+    // End Edit Guru
 
     // Hapus Guru
     public function hapusGuru($id)

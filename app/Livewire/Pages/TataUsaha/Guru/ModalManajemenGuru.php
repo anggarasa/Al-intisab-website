@@ -10,6 +10,7 @@ use Livewire\Attributes\On;
 use App\Models\JenisKelamin;
 use App\Models\Guru\JenisPtk;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Livewire\Pages\Tatausaha\Guru\ManajemenGuru;
@@ -100,10 +101,135 @@ class ModalManajemenGuru extends Component
                 'message' => $e->getMessage(),
                 'title' => 'Gagal!',
             ]);
-            // dd($e->getMessage());
         }
     }
     // End Tambah data Guru
+
+    // Update guru
+    #[On('editGuru')]
+    public function editGuru($id)
+    {
+        $this->isEdit = true;
+        $guru = Guru::find($id);
+        $this->guruId = $guru->id;
+        $this->name = $guru->name;
+        $this->email = $guru->user->email;
+        $this->ptk = $guru->jenis_ptk_id;
+        $this->gender = $guru->jenis_kelamin_id;
+        $this->agama = $guru->agama_id;
+        $this->nip = $guru->nip;
+        $this->nik  = $guru->nik;
+        $this->tempatLahir = $guru->tempat_lahir;
+        $this->tanggalLahir = $guru->tanggal_lahir;
+        $this->noHp = $guru->no_hp;
+        $this->alamat = $guru->alamat;
+
+        $imageUrls = $guru->foto ? asset('storage/' . $guru->foto) : null;
+
+        $this->dispatch('setOldImages', [$imageUrls]);
+
+        $this->dispatch('modal-curd-guru');
+    }
+
+    public function updateGuru()
+    {
+        try {
+            $guru = Guru::find($this->guruId);
+            
+            $validated = $this->validate([
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required',
+                    'lowercase',
+                    'email:dns,rfc,strict',
+                    'max:255',
+                    Rule::unique('users', 'email')->ignore($guru->user_id)
+                ],
+                'password' => 'nullable|string|confirmed|min:6',
+                'gender' => 'required|integer',
+                'ptk' => 'required|integer',
+                'agama' => 'required|integer',
+                'nip' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('gurus', 'nip')->ignore($guru->id)
+                ],
+                'tempatLahir' => 'required|string|max:255',
+                'tanggalLahir' => 'required|date',
+                'nik' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('gurus', 'nik')->ignore($guru->id)
+                ],
+                'noHp' => [
+                    'required',
+                    'string',
+                    'min:9',
+                    'max:13',
+                    Rule::unique('gurus', 'no_hp')->ignore($guru->id)
+                ],
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2024',
+                'alamat' => 'required',
+            ]);
+
+            // Update data user email dan password
+            $user = User::find($guru->user_id);
+            $user->update([
+                'email' => $validated['email'],
+                'password' => $validated['password'] ? Hash::make($validated['password']) : $user->password,
+            ]);
+
+            // Tangani penghapusan foto lama jika ada foto baru
+            $fotoUrl = $guru->foto;
+            if ($this->foto) {
+                // Hapus foto lama jika ada
+                if ($fotoUrl && Storage::disk('public')->exists($fotoUrl)) {
+                    Storage::disk('public')->delete($fotoUrl);
+                }
+
+                // Simpan foto baru
+                $namaFoto = time() . '.' . $this->foto->getClientOriginalExtension();
+                $fotoUrl = $this->foto->storeAs('tata-usaha/guru/foto', $namaFoto, 'public');
+            }
+
+            $guru->update([
+                'name' => $this->name,
+                'nip' => $this->nip,
+                'nik' => $this->nik,
+                'jenis_kelamin_id' => $this->gender,
+                'agama_id' => $this->agama,
+                'jenis_ptk_id' => $this->ptk,
+                'tempat_lahir' => $this->tempatLahir,
+                'tanggal_lahir' => $this->tanggalLahir,
+                'alamat' => $this->alamat,
+                'no_hp' => $this->noHp,
+                'foto' => $fotoUrl,
+            ]);
+
+            // menampilkan data real-time
+            $this->dispatch('manajemen-guru')->to(ManajemenGuru::class);
+
+            // reset input
+            $this->resetInput();
+
+            // Kirim notifikasi success
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'success',
+                'message' => 'Berhasil memperbaharui data guru',
+                'title' => 'Berhasil!'
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!'
+            ]);
+        }
+    }
+    // End Update guru
 
     // Delete Guru
     #[On('hapusGuru')]
