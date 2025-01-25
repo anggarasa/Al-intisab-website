@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Tatausaha\Guru;
 
+use App\Livewire\Pages\TataUsaha\Guru\ModalManajemenGuru;
 use Livewire\Component;
 use App\Models\Guru\Guru;
 use Livewire\Attributes\Layout;
@@ -11,6 +12,13 @@ use Livewire\Attributes\On;
 #[On('manajemen-guru')]
 class ManajemenGuru extends Component
 {
+
+    // Hapus Guru
+    public function hapusGuru($id)
+    {
+        $this->dispatch('hapusGuru', $id)->to(ModalManajemenGuru::class);
+    }
+    // End Hapus Guru
 
     // Update Status Kepegawaian Guru
     public function updateStatusGuru($id, $status)

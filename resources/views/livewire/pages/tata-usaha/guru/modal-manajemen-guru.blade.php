@@ -178,7 +178,7 @@
                         class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                         Batal
                     </button>
-                    <button type="button" wire:click="deleteSiswa"
+                    <button type="button" wire:click="deleteGuru"
                         class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
                         Hapus
                     </button>

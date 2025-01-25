@@ -221,7 +221,7 @@
                   </svg>
                   Edit
                 </button>
-                <button @click="showDeleteModal = true; selectedItem = 'Gaun Pengantin Modern Luxury'"
+                <button type="button" wire:click="hapusGuru({{ $guru->id }})"
                   class="inline-flex items-center px-3 py-1 text-sm text-red-600 bg-red-100 rounded-lg hover:bg-red-200">
                   <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

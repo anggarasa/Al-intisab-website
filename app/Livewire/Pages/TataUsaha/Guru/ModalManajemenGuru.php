@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Pages\TataUsaha\Guru;
 
-use App\Livewire\Pages\Tatausaha\Guru\ManajemenGuru;
-use App\Models\Agama;
 use App\Models\User;
+use App\Models\Agama;
 use Livewire\Component;
 use App\Models\Guru\Guru;
-use App\Models\Guru\JenisPtk;
+use Livewire\Attributes\On;
 use App\Models\JenisKelamin;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Guru\JenisPtk;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Livewire\Pages\Tatausaha\Guru\ManajemenGuru;
 
 class ModalManajemenGuru extends Component
 {
@@ -93,15 +95,65 @@ class ModalManajemenGuru extends Component
             ]);
         } catch (\Exception $e) {
             // kirim notifikasi error
-            // $this->dispatch('notificationTataUsaha', [
-            //     'type' => 'error',
-            //     'message' => $e->getMessage(),
-            //     'title' => 'Gagal!',
-            // ]);
-            dd($e->getMessage());
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+            // dd($e->getMessage());
         }
     }
     // End Tambah data Guru
+
+    // Delete Guru
+    #[On('hapusGuru')]
+    public function hapusGuru($id)
+    {
+        $guru = Guru::find($id);
+        $this->guruId = $guru->id;
+        $this->name = $guru->name;
+        
+        $this->dispatch('modal-delete-siswa');
+    }
+
+    public function deleteGuru()
+    {
+        try {
+            $guru = Guru::find($this->guruId);
+
+            // Hapus gambar dari storage
+            if($guru->foto && Storage::exists($guru->foto)) {
+                Storage::delete($guru->foto);
+            }
+            
+            // Delete data user guru
+            $guru->user->delete();
+
+            // Delete data guru
+            $guru->delete();
+
+            // Menampilkan data real-time
+            $this->dispatch('manajemen-guru')->to(ManajemenGuru::class);
+
+            // Reset Input
+            $this->resetInput();
+
+            // Kirim notifikasi success
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'success',
+                'message' => 'Data Guru Berhasil Dihapus',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => 'Data Guru Gagal Dihapus',
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End Delete Guru
     
     public function render()
     {
@@ -133,6 +185,7 @@ class ModalManajemenGuru extends Component
 
         // close Modal
         $this->dispatch('close-modal-crud-guru');
+        $this->dispatch('close-modal-delete-siswa');
     }
 
     // Message custom
