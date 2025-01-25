@@ -172,8 +172,8 @@
               <div class="px-6 py-3">
                 <div class="relative inline-flex items-center group">
                   <span @click="dropdownStatus = !dropdownStatus"
-                    class="px-3 py-1 inline-flex items-center gap-2 text-xs leading-5 font-semibold rounded-full hover:underline cursor-pointer {{ $guru->kepegawaian->status === 'AKTIF' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                    {{ $guru->kepegawaian->status }}
+                    class="px-3 py-1 inline-flex items-center gap-2 text-xs leading-5 font-semibold rounded-full hover:underline cursor-pointer {{ $guru->status_kepegawaian === 'AKTIF' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ $guru->status_kepegawaian }}
                     <i class="fa-solid fa-angle-down text-xs transition-transform duration-200"
                       :class="{'rotate-180': dropdownStatus}"></i>
                   </span>
@@ -185,11 +185,11 @@
                 style="display: none;">
                 <ul class="py-2 text-sm text-gray-900">
                   <li>
-                    <a @click="dropdownStatus = false; $wire.updateStatusguru({{ $guru->id }}, 'AKTIF')"
+                    <a @click="dropdownStatus = false; $wire.updateStatusGuru({{ $guru->id }}, 'AKTIF')"
                       class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Aktif</a>
                   </li>
                   <li>
-                    <a @click="dropdownStatus = false; $wire.updateStatusguru({{ $guru->id }}, 'TIDAK AKTIF')"
+                    <a @click="dropdownStatus = false; $wire.updateStatusGuru({{ $guru->id }}, 'TIDAK AKTIF')"
                       class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Tidak Aktif</a>
                   </li>
                 </ul>

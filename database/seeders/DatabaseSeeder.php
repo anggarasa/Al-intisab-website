@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
             KelasSeeder::class,
             SiswaSeeder::class,
             JenisPtkSeeder::class,
-            StatusKepegawaianSedeer::class,
             GuruSeeder::class,
         ]);
 

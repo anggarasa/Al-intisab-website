@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('jenis_kelamin_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('status_kepegawaian_id')->nullable()->constrained('status_kepegawaians')->onDelete('set null');
             $table->foreignId('jenis_ptk_id')->nullable()->constrained('jenis_ptks')->onDelete('set null');
             $table->foreignId('agama_id')->nullable()->constrained('agamas')->onDelete('set null');
             $table->string('name');
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->text('alamat');
             $table->string('no_hp')->unique();
             $table->string('foto')->nullable();
+            $table->enum('status_kepegawaian', ['AKTIF', 'TIDAK AKTIF'])->default('AKTIF');
             $table->timestamps();
         });
     }

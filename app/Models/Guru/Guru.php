@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Agama;
 use App\Models\JenisKelamin;
 use App\Models\Guru\JenisPtk;
-use App\Models\Guru\StatusKepegawaian;
 use Illuminate\Database\Eloquent\Model;
 
 class Guru extends Model
@@ -14,7 +13,6 @@ class Guru extends Model
     protected $fillable = [
         'user_id',
         'jenis_kelamin_id',
-        'status_kepegawaian_id',
         'jenis_ptk_id',
         'agama_id',
         'name',
@@ -25,6 +23,7 @@ class Guru extends Model
         'alamat',
         'no_hp',
         'foto',
+        'status_kepegawaian',
     ];
 
     // Belongs To
@@ -36,11 +35,6 @@ class Guru extends Model
     public function kelamin()
     {
         return $this->belongsTo(JenisKelamin::class, 'jenis_kelamin_id');
-    }
-
-    public function kepegawaian()
-    {
-        return $this->belongsTo(StatusKepegawaian::class, 'status_kepegawaian_id');
     }
 
     public function ptk()

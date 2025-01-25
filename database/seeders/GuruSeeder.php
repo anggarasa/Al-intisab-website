@@ -27,7 +27,6 @@ class GuruSeeder extends Seeder
             $guru = new Guru([
                 'jenis_kelamin_id' => rand(1, 2),
                 'agama_id' => rand(1, 6),
-                'status_kepegawaian_id' => rand(1, 2),
                 'jenis_ptk_id' => rand(1, 2),
                 'name' => 'Guru ' . $i,
                 'nip' => rand(100000000, 999999999),
