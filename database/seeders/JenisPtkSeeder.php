@@ -14,8 +14,8 @@ class JenisPtkSeeder extends Seeder
     public function run(): void
     {
         $ptks = [
-            ['name' => 'GTY (Guru Tetap Yayasan'],
-            ['name' => 'GTTY (Guru Tidak Tetap Yayasan'],
+            ['name' => 'GTY (Guru Tetap Yayasan)'],
+            ['name' => 'GTTY (Guru Tidak Tetap Yayasan)'],
         ];
 
         foreach($ptks as $ptk) {

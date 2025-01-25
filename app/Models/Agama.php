@@ -20,7 +20,7 @@ class Agama extends Model
 
     public function guru()
     {
-        return $this->hasMany(Guru::class);
+        return $this->hasMany(Guru::class, 'agama_id');
     }
     // Hash many
 }

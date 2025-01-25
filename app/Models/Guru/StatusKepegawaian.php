@@ -14,7 +14,7 @@ class StatusKepegawaian extends Model
     // Hash Many
     public function guru()
     {
-        return $this->hasMany(Guru::class);
+        return $this->hasMany(Guru::class, 'status_kepegawaian_id');
     }
     // End Hash Many
 }

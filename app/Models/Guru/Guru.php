@@ -40,17 +40,17 @@ class Guru extends Model
 
     public function kepegawaian()
     {
-        return $this->belongsTo(StatusKepegawaian::class);
+        return $this->belongsTo(StatusKepegawaian::class, 'status_kepegawaian_id');
     }
 
     public function ptk()
     {
-        return $this->belongsTo(JenisPtk::class);
+        return $this->belongsTo(JenisPtk::class, 'jenis_ptk_id');
     }
 
     public function agama()
     {
-        return $this->belongsTo(Agama::class);
+        return $this->belongsTo(Agama::class, 'agama_id');
     }
     // End Belongs To
 }

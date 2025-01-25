@@ -14,7 +14,7 @@ class JenisPtk extends Model
     // Hash Many
     public function guru()
     {
-        return $this->hasMany(Guru::class);
+        return $this->hasMany(Guru::class, 'jenis_ptk_id');
     }
     // End Hash Many
 }
