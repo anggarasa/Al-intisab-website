@@ -5,9 +5,10 @@ namespace App\Livewire\Pages\Tatausaha\Guru;
 use Livewire\Component;
 use App\Models\Guru\Guru;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.tatausaha-layout',['title'=>'manajemen Guru'])]
-
+#[On('manajemen-guru')]
 class ManajemenGuru extends Component
 {
 
@@ -40,6 +41,6 @@ class ManajemenGuru extends Component
     {
         $gurus = Guru::with(['user', 'kelamin', 'ptk', 'agama'])->latest()->get();
         
-        return view('livewire.pages.tatausaha.guru.manajemen-guru', compact('gurus'));
+        return view('livewire.pages.tata-usaha.guru.manajemen-guru', compact('gurus'));
     }
 }
