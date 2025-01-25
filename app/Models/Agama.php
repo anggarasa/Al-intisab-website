@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Siswa;
+use App\Models\Guru\Guru;
 use Illuminate\Database\Eloquent\Model;
 
 class Agama extends Model
@@ -14,6 +16,11 @@ class Agama extends Model
     public function siswas()
     {
         return $this->hasMany(Siswa::class);
+    }
+
+    public function guru()
+    {
+        return $this->hasMany(Guru::class);
     }
     // Hash many
 }
