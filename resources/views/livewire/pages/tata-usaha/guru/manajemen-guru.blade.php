@@ -16,25 +16,24 @@
   <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
     <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
       <div class="flex items-center">
-        <div class="p-3 bg-green-100 rounded-lg">
-          {{-- <i class="fa-solid fa-user-check text-2xl text-green-600"></i> --}}
+        <div class="px-4 py-2 bg-green-100 rounded-lg">
           <i class="text-2xl text-green-600 fa-solid fa-person"></i>
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Guru Laki-Laki</h3>
-          <p class="text-lg font-semibold text-gray-800">156</p>
+          <p class="text-lg font-semibold text-gray-800">{{ $guruL }}</p>
         </div>
       </div>
     </div>
 
     <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
       <div class="flex items-center">
-        <div class="p-3 bg-violet-100 rounded-lg">
+        <div class="px-4 py-2 bg-violet-100 rounded-lg">
           <i class="text-2xl text-violet-600 fa-solid fa-person-dress"> </i></i>
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Guru Perempuan</h3>
-          <p class="text-lg font-semibold text-gray-800">89</p>
+          <p class="text-lg font-semibold text-gray-800">{{ $guruP }}</p>
         </div>
       </div>
     </div>
@@ -48,7 +47,7 @@
           <h3 class="text-sm font-medium text-gray-500">
             Jumlah Guru
           </h3>
-          <p class="text-lg BGPI font-semibold text-gray-800">67</p>
+          <p class="text-lg BGPI font-semibold text-gray-800">{{ $gurus->count() }}</p>
         </div>
       </div>
     </div>
@@ -240,34 +239,6 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-between px-6 py-4 bg-white border-t">
-      <div class="flex items-center text-sm text-gray-500">
-        <span>Showing</span>
-        <select class="mx-2 border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500">
-          <option>10</option>
-          <option>25</option>
-          <option>50</option>
-        </select>
-        <span>of 100 entries</span>
-      </div>
-      <div class="flex space-x-2">
-        <button
-          class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100 disabled:opacity-50">
-          Previous
-        </button>
-        <button class="px-3 py-1 text-sm text-white bg-violet-600 rounded-lg hover:bg-violet-700">
-          1
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          2
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          3
-        </button>
-        <button class="px-3 py-1 text-sm text-gray-500 bg-white border rounded-lg hover:bg-gray-100">
-          Next
-        </button>
-      </div>
-    </div>
+    {{ $gurus->links('vendor.pagination.tailwind') }}
   </div>
 </main>

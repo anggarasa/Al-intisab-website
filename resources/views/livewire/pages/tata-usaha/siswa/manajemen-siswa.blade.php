@@ -16,8 +16,8 @@
   <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
     <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
       <div class="flex items-center">
-        <div class="px-5 py-3 bg-green-100 rounded-lg">
-          <i class="text-2xl text-green-600 fa-solid fa-person"></i>
+        <div class="px-5 py-3 bg-blue-100 rounded-lg">
+          <i class="text-2xl text-blue-600 fa-solid fa-person"></i>
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Siswa Laki-Laki</h3>
@@ -29,8 +29,8 @@
 
     <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
       <div class="flex items-center">
-        <div class="px-5 py-3 bg-violet-100 rounded-lg">
-          <i class="text-2xl text-violet-600 fa-solid fa-person-dress"> </i></i>
+        <div class="px-5 py-3 bg-pink-100 rounded-lg">
+          <i class="text-2xl text-pink-600 fa-solid fa-person-dress"> </i></i>
         </div>
         <div class="ml-4">
           <h3 class="text-sm font-medium text-gray-500">Siswa Perempuan</h3>

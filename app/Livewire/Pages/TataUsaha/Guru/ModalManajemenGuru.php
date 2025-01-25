@@ -309,6 +309,9 @@ class ModalManajemenGuru extends Component
 
         $this->isEdit = false;
 
+        // reset upload foto
+        $this->dispatch('resetFileUpload');
+
         // close Modal
         $this->dispatch('close-modal-crud-guru');
         $this->dispatch('close-modal-delete-siswa');

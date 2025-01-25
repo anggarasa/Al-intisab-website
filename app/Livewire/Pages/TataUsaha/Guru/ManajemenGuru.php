@@ -7,11 +7,14 @@ use Livewire\Component;
 use App\Models\Guru\Guru;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 #[Layout('layouts.tatausaha-layout',['title'=>'manajemen Guru'])]
 #[On('manajemen-guru')]
 class ManajemenGuru extends Component
 {
+    use WithPagination;
+    
     // Edit Guru
     public function editGuru($id)
     {
@@ -53,8 +56,14 @@ class ManajemenGuru extends Component
     
     public function render()
     {
-        $gurus = Guru::with(['user', 'kelamin', 'ptk', 'agama'])->latest()->get();
+        $gurus = Guru::with(['user', 'kelamin', 'ptk', 'agama'])->latest()->paginate(5);
+        $guruL = Guru::whereHas('kelamin', function ($query) {
+            $query->where('kelamin', 'laki-laki');
+        })->count();
+        $guruP = Guru::whereHas('kelamin', function ($query) {
+            $query->where('kelamin', 'perempuan');
+        })->count();
         
-        return view('livewire.pages.tata-usaha.guru.manajemen-guru', compact('gurus'));
+        return view('livewire.pages.tata-usaha.guru.manajemen-guru', compact(['gurus', 'guruL', 'guruP']));
     }
 }
