@@ -190,7 +190,11 @@
               </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
+              @if ($guru->ptk)
               <div class="text-sm text-gray-900">{{ $guru->ptk->jenis_ptk }}</div>
+              @else
+              <div class="text-sm text-gray-900">-</div>
+              @endif
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $guru->user->email }}</div>
@@ -338,9 +342,15 @@
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">PTK</label>
+                            @if ($guru->ptk)
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ $guru->ptk->jenis_ptk }}
                             </p>
+                            @else
+                            <p class="mt-1 text-gray-900 font-medium">
+                              Belum Memeiliki Jenis PTK
+                            </p>
+                            @endif
                           </div>
                         </div>
                       </div>
