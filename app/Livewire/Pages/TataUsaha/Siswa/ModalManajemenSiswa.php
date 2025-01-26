@@ -294,12 +294,11 @@ class ModalManajemenSiswa extends Component
             ]);
         } catch (\Exception $e) {
             // Kirim notifikasi error
-            // $this->dispatch('notificationTataUsaha', [
-            //     'type' => 'error',
-            //     'message' => 'Gagal menghapus data siswa',
-            //     'title' => 'Gagal!'
-            // ]);
-            dd($e->getMessage());
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => 'Gagal menghapus data siswa',
+                'title' => 'Gagal!'
+            ]);
         }
     }
     // End Delete Data Siswa
