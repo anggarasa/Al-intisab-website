@@ -60,7 +60,7 @@
         <div>
           <label class="block mb-2 text-sm font-medium text-gray-700">Search</label>
           <div class="relative">
-            <input type="search" wire:model.live="search" placeholder="Cari Kelas..."
+            <input type="search" wire:model.live="search" placeholder="Cari Guru..."
               class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
             <div class="absolute top-1/2 left-3 transform -translate-y-1/2">
               <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
@@ -69,21 +69,22 @@
         </div>
       </form>
       <div>
-        <label class="block mb-2 text-sm font-medium text-gray-700">Mata Pelajaran</label>
-        <select wire:model.live="searchJurusan"
+        <label class="block mb-2 text-sm font-medium text-gray-700">Status Kepegawaian</label>
+        <select wire:model.live="searchStatus"
           class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
-          <option value="">Semua Mata Pelajaran</option>
-          <option value="">B.Indonesia</option>
-          <option value="">B.Inggris</option>
+          <option value="">Pilih Status</option>
+          <option value="AKTIF">AKTIF</option>
+          <option value="TIDAK AKTIF">TIDAK AKTIF</option>
         </select>
       </div>
       <div>
         <label class="block mb-2 text-sm font-medium text-gray-700">Jenis PTK</label>
-        <select wire:model.live="searchStatus"
+        <select wire:model.live="searchPtk"
           class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
           <option value="">Semua PTK</option>
-          <option value="AKTIF">AKTIF</option>
-          <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+          @foreach ($ptks as $id => $ptk)
+          <option value="{{ $id }}">{{ $ptk }}</option>
+          @endforeach
         </select>
       </div>
     </div>
