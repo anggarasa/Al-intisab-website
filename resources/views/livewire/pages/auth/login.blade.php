@@ -31,6 +31,8 @@ new #[Layout('layouts.guest', ['title' => 'Login'])] class extends Component
             $this->redirect(route('tata-usaha.dashboard'));
         } elseif ($user->hasRole('keuangan')) {
             $this->redirect('/keuangan');
+        }elseif ($user->hasRole('master')) {
+            $this->redirect('/master/dashboard-master');
         }
     }
 }; ?>
