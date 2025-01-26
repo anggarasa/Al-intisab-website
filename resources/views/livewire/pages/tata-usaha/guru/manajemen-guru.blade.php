@@ -1,4 +1,4 @@
-<main class="p-4 lg:p-8">
+<main class="p-4 lg:p-8" x-data="{ modalShowGuru: null }">
 
   <!-- Header Section -->
   <div class="flex flex-col gap-4 mb-8 md:flex-row md:items-center md:justify-between">
@@ -137,9 +137,9 @@
               Aksi</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-300">
           @foreach ($gurus as $guru)
-          <tr class="hover:bg-gray-50">
+          <tr class="hover:bg-gray-50" @click="modalShowGuru = 'modal-show-guru_{{ $guru->id }}'">
             <td class="px-6 py-4 whitespace-nowrap">
               @if ($guru->foto)
               <img src="{{ asset('storage/'. $guru->foto) }}" alt="{{ $guru->name }}"
@@ -165,7 +165,7 @@
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ dropdownStatus: false }">
               <div class="px-6 py-3">
                 <div class="relative inline-flex items-center group">
-                  <span @click="dropdownStatus = !dropdownStatus"
+                  <span @click="dropdownStatus = !dropdownStatus" @click.stop
                     class="px-3 py-1 inline-flex items-center gap-2 text-xs leading-5 font-semibold rounded-full hover:underline cursor-pointer {{ $guru->status_kepegawaian === 'AKTIF' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $guru->status_kepegawaian }}
                     <i class="fa-solid fa-angle-down text-xs transition-transform duration-200"
@@ -179,12 +179,12 @@
                 style="display: none;">
                 <ul class="py-2 text-sm text-gray-900">
                   <li>
-                    <a @click="dropdownStatus = false; $wire.updateStatusGuru({{ $guru->id }}, 'AKTIF')"
+                    <a @click="dropdownStatus = false; $wire.updateStatusGuru({{ $guru->id }}, 'AKTIF')" @click.stop
                       class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Aktif</a>
                   </li>
                   <li>
                     <a @click="dropdownStatus = false; $wire.updateStatusGuru({{ $guru->id }}, 'TIDAK AKTIF')"
-                      class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Tidak Aktif</a>
+                      @click.stop class="block px-4 py-2 cursor-pointer hover:bg-gray-300">Tidak Aktif</a>
                   </li>
                 </ul>
               </div>
@@ -199,7 +199,7 @@
               <div class="text-sm text-gray-900">{{ $guru->tempat_lahir }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $guru->tanggal_lahir }}</div>
+              <div class="text-sm text-gray-900">{{ date('d F Y', strtotime($guru->tanggal_lahir)) }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $guru->kelamin->kelamin }}</div>
@@ -212,7 +212,7 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex space-x-2">
-                <button type="button" wire:click="editGuru({{ $guru->id }})"
+                <button type="button" wire:click="editGuru({{ $guru->id }})" @click.stop
                   class="inline-flex items-center px-3 py-1 text-sm text-violet-600 bg-violet-100 rounded-lg hover:bg-violet-200">
                   <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -221,7 +221,7 @@
                   </svg>
                   Edit
                 </button>
-                <button type="button" wire:click="hapusGuru({{ $guru->id }})"
+                <button type="button" wire:click="hapusGuru({{ $guru->id }})" @click.stop
                   class="inline-flex items-center px-3 py-1 text-sm text-red-600 bg-red-100 rounded-lg hover:bg-red-200">
                   <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -233,6 +233,167 @@
               </div>
             </td>
           </tr>
+
+          {{-- Modal show guru --}}
+          <div x-show="modalShowGuru === 'modal-show-guru_{{ $guru->id }}'" class="fixed inset-0 z-50 overflow-y-auto"
+            style="display: none">
+            <div class="flex items-center justify-center min-h-screen px-4">
+              <!-- Backdrop -->
+              <div class="fixed inset-0 bg-black/50"></div>
+
+              <!-- Modal Content -->
+              <div class="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div
+                  class="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-8 py-5 flex justify-between items-center rounded-t-2xl">
+                  <h3 class="text-2xl font-semibold text-gray-800">
+                    Detail Informasi Guru
+                  </h3>
+                  <button @click="modalShowGuru = null"
+                    class="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-lg transition-colors">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-8">
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Foto Guru -->
+                    <div class="md:col-span-1">
+                      <div class="rounded-2xl bg-gradient-to-br from-green-50 to-green-100 p-2 shadow-lg">
+                        <div class="aspect-square rounded-xl overflow-hidden ring-4 ring-white shadow-inner">
+                          @if ($guru->foto)
+                          <img src="{{ asset('storage/'. $guru->foto) }}" alt="{{ $guru->name }}"
+                            class="w-full h-full object-cover" />
+                          @else
+                          <img src="{{ asset('imgs/component/profile/avatar-man.jpg') }}" alt="{{ $guru->name }}"
+                            class="w-full h-full object-cover" />
+                          @endif
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Detail Guru -->
+                    <div class="md:col-span-2 space-y-8">
+                      <!-- Informasi Dasar -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                          </svg>
+                          Informasi Dasar
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nama Lengkap</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->name }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">NIP</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->nip }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">NIK</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->nik }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Jenis Kelamin</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->kelamin->kelamin }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Agama</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $guru->agama->agama }}</p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Email</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->user->email }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Informasi Akademik -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <i class="fa-solid fa-briefcase text-xl"></i>
+                          Status Kepegawaian dan Jenis PTK
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Status Kepegawaian</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $guru->status_kepegawaian }}</p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">PTK</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->ptk->jenis_ptk }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Informasi Personal -->
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                          </svg>
+                          Informasi Personal
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Tempat Lahir</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $guru->tempat_lahir }}</p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Tanggal Lahir</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ date('d F Y', strtotime($guru->tanggal_lahir)) }}
+                            </p>
+                          </div>
+                          <div class="sm:col-span-2">
+                            <label class="block text-sm font-medium text-gray-500">Alamat</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->alamat }}
+                            </p>
+                          </div>
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">Nomor HP</label>
+                            <p class="mt-1 text-gray-900 font-medium">
+                              {{ $guru->no_hp }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="sticky bottom-0 bg-gray-50 px-6 py-4 rounded-b-xl border-t border-gray-200">
+                  <button @click="modalShowGuru = null"
+                    class="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           @endforeach
           <!-- Add more rows as needed -->
         </tbody>
