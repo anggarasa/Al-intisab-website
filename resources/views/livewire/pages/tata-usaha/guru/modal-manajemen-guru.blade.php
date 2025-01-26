@@ -7,12 +7,12 @@
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        Tambah Siswa
+        Tambah Guru
     </button>
 
     {{-- Modal Crud siswa --}}
-    <div x-show="showModal" class="fixed inset-0 z-30 overflow-y-auto" @modal-curd-siswa.window="showModal = true"
-        @close-modal-crud-siswa.window="showModal = false" x-cloak>
+    <div x-show="showModal" class="fixed inset-0 z-30 overflow-y-auto" @modal-curd-guru.window="showModal = true"
+        @close-modal-crud-guru.window="showModal = false" x-cloak>
         <div class="flex items-center justify-center min-h-screen px-4">
             <!-- Overlay -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
@@ -21,7 +21,7 @@
             <div class="relative bg-white rounded-lg w-full max-w-4xl p-6 shadow-xl">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">{{ $isEdit == true ? 'Update' : 'Tambah' }} Data Siswa
+                    <h2 class="text-2xl font-bold text-gray-800">{{ $isEdit == true ? 'Update' : 'Tambah' }} Guru
                     </h2>
                     <button type="button" wire:click="resetInput" class="text-gray-500 hover:text-gray-700">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- Form -->
-                <form wire:submit="{{ $isEdit == true ? 'updateSiswa' : 'tambahSiswa' }}" class="space-y-4">
+                <form wire:submit="{{ $isEdit == true ? 'updateGuru' : 'tambahGuru' }}" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Nama -->
                         <div>
@@ -57,36 +57,24 @@
 
                         <!-- Kelas -->
                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Kelas</label>
-                            <select wire:model="kelas"
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Jenis PTK</label>
+                            <select wire:model="ptk"
                                 class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50">
-                                <option value="">Pilih Kelas</option>
-                                @foreach ($kelases as $kelas)
-                                <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Jurusan -->
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Jurusan</label>
-                            <select wire:model="jurusan"
-                                class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50">
-                                <option value="">Pilih Jurusan</option>
-                                @foreach ($jurusans as $keahlian)
-                                <option value="{{ $keahlian->id }}">{{ $keahlian->nama_jurusan }}</option>
+                                <option value="">Pilih PTK</option>
+                                @foreach ($ptks as $ptk)
+                                <option value="{{ $ptk->id }}">{{ $ptk->jenis_ptk }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <!-- Jenis Kelamin -->
                         <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Jenis Kelamin</label>
-                            <select wire:model="jenisKelamin"
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Gender</label>
+                            <select wire:model="gender"
                                 class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50">
-                                <option value="">Pilih Jenis Kelamin</option>
-                                @foreach ($kelamins as $kelamin)
-                                <option value="{{ $kelamin->id }}">{{ $kelamin->kelamin }}</option>
+                                <option value="">Pilih Gender</option>
+                                @foreach ($genders as $gender)
+                                <option value="{{ $gender->id }}">{{ $gender->kelamin }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -97,7 +85,7 @@
                             <select wire:model="agama"
                                 class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50">
                                 <option value="">Pilih Agama</option>
-                                @foreach ($agamass as $kepercayaan)
+                                @foreach ($agamas as $kepercayaan)
                                 <option value="{{ $kepercayaan->id }}">{{ $kepercayaan->agama }}</option>
                                 @endforeach
                             </select>
@@ -105,7 +93,7 @@
 
                         <!-- NISN -->
                         <div>
-                            <x-input type="number" name="nisn" label="NISN" wire="nisn" required="true" />
+                            <x-input type="number" name="nip" label="NIP" wire="nip" required="true" />
                         </div>
 
                         <!-- NIK -->
@@ -133,21 +121,6 @@
                         <!-- Foto dengan Preview -->
                         <div class="col-span-2">
                             <x-input-upload-image name="foto" id="foto" label="Upload Foto" />
-                        </div>
-
-                        <!-- Nama Ayah -->
-                        <div>
-                            <x-input type="text" name="namaAyah" label="Nama Ayah" wire="namaAyah" required="true" />
-                        </div>
-
-                        <!-- Nama Ibu -->
-                        <div>
-                            <x-input type="text" name="namaIbu" label="Nama Ibu" wire="namaIbu" required="true" />
-                        </div>
-
-                        <!-- Nama Wali -->
-                        <div>
-                            <x-input type="text" name="namaWali" label="Nama Wali (Opsional)" wire="namaWali" />
                         </div>
                     </div>
 
@@ -205,7 +178,7 @@
                         class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                         Batal
                     </button>
-                    <button type="button" wire:click="deleteSiswa"
+                    <button type="button" wire:click="deleteGuru"
                         class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
                         Hapus
                     </button>

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Guru\StatusKepegawaian;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,11 +20,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AgamaSeeder::class,
             JenisKelaminSeeder::class,
-            GuruSeeder::class,
             IdentitasSekolahSeeder::class,
             JurusanSeeder::class,
             KelasSeeder::class,
             SiswaSeeder::class,
+            JenisPtkSeeder::class,
+            GuruSeeder::class,
         ]);
 
         // User::factory()->create([
