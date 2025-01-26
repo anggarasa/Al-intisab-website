@@ -25,33 +25,12 @@ class ManajemenKelas extends Component
     }
     // End edit kelas
 
-    // Delete Kelas
-    public function deleteKelas($id)
+    // Hapus Kelas
+    public function hapusKelas($id)
     {
-        try {
-            $kelas = Kelas::findOrFail($id);
-
-            $kelas->delete();
-
-            // close modal delete
-            $this->dispatch('close-modal-delete-kelas');
-
-            // Kirim Notification Success
-            $this->dispatch('notificationTataUsaha', [
-                'type' => 'success',
-                'message' => 'Berhasil menghapus kelas',
-                'title' => 'Sukses',
-            ]);
-        } catch (\Exception $e) {
-            // Kirim Notification Error
-            $this->dispatch('notificationTataUsaha', [
-                'type' => 'error',
-                'message' => 'Gagal menghapus kelas',
-                'title' => 'Gagal',
-            ]); 
-        }
+        $this->dispatch('hapusKelas', $id)->to(ModalManajemenKelas::class);
     }
-    // End Delete Kelas
+    // End Hapus Kelas
 
     // Update status kelas
     public function updateStatusKelas($id, $status)
