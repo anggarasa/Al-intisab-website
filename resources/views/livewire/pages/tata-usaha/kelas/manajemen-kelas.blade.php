@@ -123,6 +123,17 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
+          @if ($kelases->isEmpty())
+          <tr>
+            <td colspan="5" class="px-6 py-4 text-center">
+              <div class="flex flex-col items-center space-y-2 text-gray-500">
+                <i class="fa-solid fa-school-circle-exclamation text-4xl text-red-500"></i>
+                <p class="text-lg font-semibold">Data kelas tidak ditemukan</p>
+                <p class="text-sm">Pastikan kata kunci pencarian Anda benar atau coba lagi.</p>
+              </div>
+            </td>
+          </tr>
+          @else
           @foreach ($kelases as $index => $kelas)
           <tr class="hover:bg-gray-50">
             <td class="px-6 py-4 whitespace-nowrap">
@@ -141,17 +152,8 @@
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ dropdownStatus: false }">
               <div class="px-6 py-3">
                 <div class="relative inline-flex items-center group">
-                  <span @click="dropdownStatus = !dropdownStatus" class="px-3 py-1 inline-flex items-center gap-2 text-xs leading-5 font-semibold rounded-full hover:underline cursor-pointer
-                            @switch($kelas->status)
-                                @case('AKTIF')
-                                    bg-green-100 text-green-800
-                                @break
-                                @case('TIDAK AKTIF')
-                                    bg-red-100 text-red-800
-                                @break
-                                @default
-                                    bg-yellow-100 text-yellow-800
-                            @endswitch">
+                  <span @click="dropdownStatus = !dropdownStatus"
+                    class="px-3 py-1 inline-flex items-center gap-2 text-xs leading-5 font-semibold rounded-full hover:underline cursor-pointer {{ $kelas->status === 'AKTIF' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                     {{ $kelas->status }}
                     <i class="fa-solid fa-angle-down text-xs transition-transform duration-200"
                       :class="{'rotate-180': dropdownStatus}"></i>
@@ -198,6 +200,7 @@
             </td>
           </tr>
           @endforeach
+          @endif
         </tbody>
       </table>
     </div>

@@ -150,6 +150,17 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
+          @if ($siswas->isEmpty())
+          <tr>
+            <td colspan="11" class="px-6 py-4 text-center">
+              <div class="flex flex-col items-center space-y-2 text-gray-500">
+                <i class="fa-solid fa-user-xmark text-4xl text-red-500"></i>
+                <p class="text-lg font-semibold">Data siswa tidak ditemukan</p>
+                <p class="text-sm">Pastikan kata kunci pencarian Anda benar atau coba lagi.</p>
+              </div>
+            </td>
+          </tr>
+          @else
           @foreach ($siswas as $siswa)
           <tr class="hover:bg-gray-50">
             <td class="px-6 py-4 whitespace-nowrap cursor-pointer"
@@ -446,6 +457,7 @@
             </div>
           </div>
           @endforeach
+          @endif
         </tbody>
       </table>
     </div>

@@ -138,6 +138,17 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-300">
+          @if ($gurus->isEmpty())
+          <tr>
+            <td colspan="11" class="px-6 py-4 text-center">
+              <div class="flex flex-col items-center space-y-2 text-gray-500">
+                <i class="fa-solid fa-user-xmark text-4xl text-red-500"></i>
+                <p class="text-lg font-semibold">Data guru tidak ditemukan</p>
+                <p class="text-sm">Pastikan kata kunci pencarian Anda benar atau coba lagi.</p>
+              </div>
+            </td>
+          </tr>
+          @else
           @foreach ($gurus as $guru)
           <tr class="hover:bg-gray-50" @click="modalShowGuru = 'modal-show-guru_{{ $guru->id }}'">
             <td class="px-6 py-4 whitespace-nowrap">
@@ -405,6 +416,7 @@
             </div>
           </div>
           @endforeach
+          @endif
           <!-- Add more rows as needed -->
         </tbody>
       </table>
