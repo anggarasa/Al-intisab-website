@@ -54,9 +54,11 @@ class ManajemenSiswa extends Component
             ->when($this->searchJurusan > 0, fn(Builder $query) => $query->where('jurusan_id', $this->searchJurusan))
             ->when($this->searchKelas > 0, fn(Builder $query) => $query->where('kelas_id', $this->searchKelas))
             ->latest()->paginate(5);
+
         $siswaL = Siswa::whereHas('kelamin', function ($query) {
             $query->where('kelamin', 'laki-laki');
         })->count();
+        
         $siswaP = Siswa::whereHas('kelamin', function ($query) {
             $query->where('kelamin', 'perempuan');
         })->count();

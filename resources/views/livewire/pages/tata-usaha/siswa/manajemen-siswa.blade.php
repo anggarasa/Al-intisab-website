@@ -176,10 +176,18 @@
               <div class="text-sm text-gray-900">{{ $siswa->nik }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
+              @if ($siswa->kelas)
               <div class="text-sm text-gray-900">{{ $siswa->kelas->nama_kelas }}</div>
+              @else
+              <div class="text-sm text-gray-900">-</div>
+              @endif
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
+              @if ($siswa->jurusan)
               <div class="text-sm text-gray-900">{{ $siswa->jurusan->nama_jurusan }}</div>
+              @else
+              <div class="text-sm text-gray-900">-</div>
+              @endif
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
@@ -336,13 +344,23 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Kelas</label>
+                            @if ($siswa->kelas)
                             <p class="mt-1 text-gray-900 font-medium">{{ $siswa->kelas->nama_kelas }}</p>
+                            @else
+                            <p class="mt-1 text-gray-900 font-medium">Belum Memiliki Kelas</p>
+                            @endif
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Jurusan</label>
+                            @if ($siswa->jurusan)
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ $siswa->jurusan->nama_jurusan }}
                             </p>
+                            @else
+                            <p class="mt-1 text-gray-900 font-medium">
+                              Belum Memiliki Jurusan
+                            </p>
+                            @endif
                           </div>
                         </div>
                       </div>
@@ -426,7 +444,8 @@
                 </div>
               </div>
             </div>
-            @endforeach
+          </div>
+          @endforeach
         </tbody>
       </table>
     </div>
