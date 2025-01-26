@@ -104,6 +104,47 @@ class ModalManajemenKelas extends Component
         }
     }
     // End update kelas
+
+    // Delete Kelas
+    #[On('hapusKelas')]
+    public function hapusKelas($id)
+    {
+        $kelas = Kelas::find($id);
+        $this->kelasId = $kelas->id;
+        $this->nama_kelas = $kelas->nama_kelas;
+
+        $this->dispatch('modal-delete-kelas');
+    }
+
+    public function deleteKelas()
+    {
+        try {
+            $kelas = Kelas::findOrFail($this->kelasId);
+
+            $kelas->delete();
+
+            // menampilkan data real-time
+            $this->dispatch('management-kelas')->to(ManajemenKelas::class);
+
+            // Reset input
+            $this->resetInput();
+            
+            // Kirim Notification Success
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'success',
+                'message' => 'Berhasil menghapus kelas',
+                'title' => 'Sukses',
+            ]);
+        } catch (\Exception $e) {
+            // Kirim Notification Error
+            $this->dispatch('notificationTataUsaha', [
+                'type' => 'error',
+                'message' => 'Gagal menghapus kelas',
+                'title' => 'Gagal',
+            ]); 
+        }
+    }
+    // End Delete Kelas
     
     public function render()
     {
@@ -117,8 +158,10 @@ class ModalManajemenKelas extends Component
     {
         $this->reset(['nama_kelas', 'jurusan', 'kelasId']);
         $this->isEdit = false;
-
+        
         $this->dispatch('close-modal-kelas');
+        // close modal delete
+        $this->dispatch('close-modal-delete-kelas');
     }
 
     protected $messages = [
