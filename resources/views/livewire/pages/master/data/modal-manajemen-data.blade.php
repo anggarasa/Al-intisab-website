@@ -64,13 +64,13 @@
         </div>
     </div>
 
-    <div x-data="{ showModal: false }" x-show="showModal" @modal-crud-data.window="showModal = true"
-        @close-modal-crud-data.window="showModal = false"
+    <div x-data="{ showModal: false }" x-show="showModal" @modal-crud-ptk.window="showModal = true"
+        @close-modal-crud-ptk.window="showModal = false"
         class="fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center p-4" x-transition>
         <div class="bg-white rounded-xl max-w-md w-full p-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800" x-text="modalTitle"></h3>
-                <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                <h3 class="text-xl font-bold text-gray-800">{{ $isEdit == true ? 'Update' : 'Tambah' }} Jenis PTK</h3>
+                <button type="button" wire:click="resetInput" class="text-gray-500 hover:text-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                         </path>
@@ -78,103 +78,24 @@
                 </button>
             </div>
 
-            <!-- Gender Forms -->
-            <template x-if="modalType === 'add-gender' || modalType === 'edit-gender'">
-                <div>
-                    <input type="text" wire:model="gender" placeholder="Masukkan gender"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
-                    <div class="flex justify-end gap-2">
-                        <button @click="showModal = false" class="px-4 py-2 text-gray-600 hover:text-gray-800">
-                            Batal
-                        </button>
-                        <button type="button" wire:click="tambahGender"
-                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            Simpan
-                        </button>
-                    </div>
-                </div>
-            </template>
-
-            <!-- Religion Forms -->
-            <template x-if="modalType === 'add-religion' || modalType === 'edit-religion'">
-                <div>
-                    <input type="text" x-model="newReligion" placeholder="Masukkan agama"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
-                    <div class="flex justify-end gap-2">
-                        <button @click="showModal = false" class="px-4 py-2 text-gray-600 hover:text-gray-800">
-                            Batal
-                        </button>
-                        <button @click="showModal = false"
-                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            Simpan
-                        </button>
-                    </div>
-                </div>
-            </template>
-
             <!-- PTK Forms -->
-            <template x-if="modalType === 'add-ptk' || modalType === 'edit-ptk'">
-                <div>
-                    <input type="text" x-model="newPtk.name" placeholder="Nama PTK"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
-                    <input type="text" x-model="newPtk.position" placeholder="Jabatan"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
-                    <select x-model="newPtk.status"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500">
-                        <option value="">Pilih Status</option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
-                    </select>
-                    <div class="flex justify-end gap-2">
-                        <button @click="showModal = false" class="px-4 py-2 text-gray-600 hover:text-gray-800">
-                            Batal
-                        </button>
-                        <button @click="showModal = false"
-                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            Simpan
-                        </button>
-                    </div>
-                </div>
-            </template>
+            <form wire:submit="{{ $isEdit == true ? 'updatePtk' : 'tambahPtk' }}">
+                <input type="text" wire:model="ptk" placeholder="Nama PTK"
+                    class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring-green-500 focus:border-green-500" />
 
-            <!-- Major Forms -->
-            <template x-if="modalType === 'add-major' || modalType === 'edit-major'">
-                <div>
-                    <input type="text" x-model="newMajor.code" placeholder="Kode Jurusan"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
-                    <input type="text" x-model="newMajor.name" placeholder="Nama Jurusan"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
-                    <textarea x-model="newMajor.description" placeholder="Deskripsi"
-                        class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500"></textarea>
-                    <div class="flex justify-end gap-2">
-                        <button @click="showModal = false" class="px-4 py-2 text-gray-600 hover:text-gray-800">
-                            Batal
-                        </button>
-                        <button @click="showModal = false"
-                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                            Simpan
-                        </button>
-                    </div>
-                </div>
-            </template>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
+                <textarea wire:model="ptkKet" rows="3"
+                    class="w-full px-3 py-2 mb-4 border-2 rounded-lg focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50"></textarea>
 
-            <!-- Delete Confirmation -->
-            <template x-if="modalType.startsWith('delete-')">
-                <div>
-                    <p class="text-gray-600 mb-4">
-                        Apakah Anda yakin ingin menghapus item ini?
-                    </p>
-                    <div class="flex justify-end gap-2">
-                        <button @click="showModal = false" class="px-4 py-2 text-gray-600 hover:text-gray-800">
-                            Batal
-                        </button>
-                        <button @click="showModal = false"
-                            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                            Hapus
-                        </button>
-                    </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" wire:click="resetInput" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        {{ $isEdit == true ? 'Update' : 'Simpan' }}
+                    </button>
                 </div>
-            </template>
+            </form>
         </div>
     </div>
 

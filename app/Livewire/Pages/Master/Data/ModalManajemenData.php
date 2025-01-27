@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Master\Data;
 
 use App\Models\Agama;
+use App\Models\Guru\JenisPtk;
 use App\Models\JenisKelamin;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -13,6 +14,8 @@ class ModalManajemenData extends Component
     public $gender, $genderId;
 
     public $agama, $agamaId;
+
+    public $ptk, $ptkKet, $ptkId;
 
     public $isEdit = false, $deleteName, $deleteType;
 
@@ -173,6 +176,97 @@ class ModalManajemenData extends Component
     }
     // End Update agama
 
+    // Tambah Ptk
+    public function tambahPtk()
+    {
+        try {
+            $this->validate([
+                'ptk' => 'required|string|max:255',
+                'ptkKet' => 'nullable|string',
+            ]);
+
+            // Simpan Ptk
+            JenisPtk::create([
+                'jenis_ptk' => $this->ptk,
+                'keterangan' => $this->ptkKet,
+            ]);
+
+            // Menampilkan data real-time
+            $this->dispatch('manajemen-data')->to(ManajemenData::class);
+
+            // reset input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Berhasil menambahkan data PTK.',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End Tambah Ptk
+
+    // Update Ptk
+    #[On('editPtk')]
+    public function editPtk($id)
+    {
+        $this->isEdit = true;
+        $ptk = JenisPtk::find($id);
+        $this->ptkId = $ptk->id;
+        $this->ptk = $ptk->jenis_ptk;
+        $this->ptkKet = $ptk->keterangan;
+
+        // open modal ptk
+        $this->dispatch('modal-crud-ptk');
+    }
+
+    public function updatePtk()
+    {
+        try {
+            $this->validate([
+                'ptk' => 'required|string|max:255',
+                'ptkKet' => 'nullable|string'
+            ]);
+
+            $ptk = JenisPtk::find($this->ptkId);
+            // update ptk
+            $ptk->update([
+                'jenis_ptk' => $this->ptk,
+                'keterangan' => $this->ptkKet,
+            ]);
+
+            // menapilkan data real-time
+            $this->dispatch('manajemen-data')->to(ManajemenData::class);
+
+            // Reset Input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => ' Jenis PTK berhasil diupdate!',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // kirim notifikasi error
+            // $this->dispatch('notificationMaster', [
+            //     'type' => 'error',
+            //     'message' => $e->getMessage(),
+            //     'title' => 'Gagal!',
+            // ]);
+            dd($e->getMessage());
+        }
+    }
+    // End Update Ptk
+
     // Delete Data
     #[On('hapusData')]
     public function hapusData($id, $deleteType)
@@ -186,6 +280,10 @@ class ModalManajemenData extends Component
             $agama = Agama::find($id);
             $this->agamaId = $agama->id;
             $this->deleteName = $agama->agama;
+        } elseif ($deleteType === "ptk") {
+            $ptk = JenisPtk::find($id);
+            $this->ptkId = $ptk->id;
+            $this->deleteName = $ptk->jenis_ptk;
         }
 
         // Open modal delete
@@ -201,20 +299,23 @@ class ModalManajemenData extends Component
             } elseif ($this->deleteType === "agama") {
                 $agama = Agama::find($this->agamaId);
                 $agama->delete();
+            } elseif ($this->deleteType === "ptk") {
+                $ptk = JenisPtk::find($this->ptkId);
+                $ptk->delete();
             }
 
             // menampilkan data real-time
             $this->dispatch('manajemen-data')->to(ManajemenData::class);
 
-            // Reset Input
-            $this->resetInput();
-
             // Kirim notifikasi success
             $this->dispatch('notificationMaster', [
                 'type' => 'success',
-                'message' => 'Berhail menghapus Data Gender!',
+                'message' => 'Berhail menghapus data '. $this->deleteType,
                 'title' => 'Berhasil!'
             ]);
+
+            // Reset Input
+            $this->resetInput();
         } catch (\Exception $e) {
             // Kirim notifikasi error
             $this->dispatch('notificationMaster', [
@@ -234,7 +335,7 @@ class ModalManajemenData extends Component
     // Reset Input
     public function resetInput()
     {
-        $this->reset(['gender', 'genderId', 'agama', 'agamaId', 'deleteName', 'deleteType']);
+        $this->reset(['gender', 'genderId', 'agama', 'agamaId', 'ptk', 'ptkKet', 'ptkId', 'deleteName', 'deleteType']);
         $this->isEdit = false;
 
         // Close Modal gender
@@ -243,6 +344,9 @@ class ModalManajemenData extends Component
         // Close modal agama
         $this->dispatch('close-modal-crud-agama');
 
+        // Close modal ptk
+        $this->dispatch('close-modal-crud-ptk');
+
         // Colse modal delete data
         $this->dispatch('close-modal-delete-data');
     }
@@ -250,5 +354,7 @@ class ModalManajemenData extends Component
     // Message custom
     protected $messages = [
         'gemder.required' => 'Jenis Kelamin tidak boleh kosong',
+        'agama.required' => 'Agama tidak boleh kosong',
+        'ptk.required' => 'Jenis PTK tidak boleh kosong',
     ];
 }

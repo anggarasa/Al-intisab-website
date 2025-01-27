@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Master\Data;
 
 use App\Models\Agama;
+use App\Models\Guru\JenisPtk;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\JenisKelamin;
@@ -29,6 +30,13 @@ class ManajemenData extends Component
     }
     // End Edit Agama
 
+    // Edit Ptk
+    public function editPtk($id)
+    {
+        $this->dispatch('editPtk', $id)->to(ModalManajemenData::class);
+    }
+    // End Edit Ptk
+
     // hapus gender
     public function hapusData($id, $deleteType)
     {
@@ -40,6 +48,7 @@ class ManajemenData extends Component
     {
         $genderes = JenisKelamin::latest()->paginate(5);
         $agamas = Agama::latest()->paginate(5);
-        return view('livewire.pages.master.data.manajemen-data', compact(['genderes', 'agamas']));
+        $ptks = JenisPtk::latest()->paginate(5);
+        return view('livewire.pages.master.data.manajemen-data', compact(['genderes', 'agamas', 'ptks']));
     }
 }

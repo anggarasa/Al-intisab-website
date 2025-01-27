@@ -134,7 +134,7 @@
             <div x-show="activeTab === 'ptk'">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Daftar PTK</h2>
-                    <button @click="showModal = true; modalType = 'add-ptk'; modalTitle = 'Tambah PTK'"
+                    <button type="button" @click="$dispatch('modal-crud-ptk')"
                         class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                         Tambah PTK
                     </button>
@@ -149,15 +149,11 @@
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Nama
+                                    Jenis PTK
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Jabatan
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status
+                                    Keterangan
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -166,28 +162,30 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <template x-for="(ptk, index) in ptks" :key="index">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap" x-text="index + 1"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap" x-text="ptk.name"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap" x-text="ptk.position"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap" x-text="ptk.status"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button
-                                            @click="currentItem = ptk; showModal = true; modalType = 'edit-ptk'; modalTitle = 'Edit PTK'"
-                                            class="text-blue-600 hover:text-blue-900 mr-3">
-                                            Edit
-                                        </button>
-                                        <button
-                                            @click="currentItem = ptk; showModal = true; modalType = 'delete-ptk'; modalTitle = 'Hapus PTK'"
-                                            class="text-red-600 hover:text-red-900">
-                                            Hapus
-                                        </button>
-                                    </td>
-                                </tr>
-                            </template>
+                            @foreach ($ptks as $index => $ptk)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $ptks->firstItem() + $index }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $ptk->jenis_ptk }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $ptk->keterangan !== null ?
+                                    Str::limit($ptk->keterangan, 50, '...') : '(Kosong)' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button type="button" wire:click="editPtk({{ $ptk->id }})"
+                                        class="text-blue-600 hover:text-blue-900 mr-3">
+                                        Edit
+                                    </button>
+                                    <button type="button" wire:click="hapusData({{ $ptk->id }}, 'ptk')"
+                                        class="text-red-600 hover:text-red-900">
+                                        Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
+
+                    {{-- Pagination --}}
+                    {{ $ptks->links('vendor.pagination.tailwind') }}
                 </div>
             </div>
 
