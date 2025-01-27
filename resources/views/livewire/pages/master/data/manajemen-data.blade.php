@@ -1,20 +1,4 @@
-<div x-data="{ 
-    activeTab: 'gender',
-    modalType: '',
-    modalTitle: '',
-    
-    genders: [],
-    religions: [
-    { id: 1, name: 'Islam' },
-    ],
-    ptks: [],
-    majors: [],
-    
-    newGender: '',
-    newReligion: '',
-    newPtk: { name: '', position: '', status: '' },
-    newMajor: { name: '', code: '', description: '' }
-}">
+<div x-data="{ activeTab: 'gender' }">
     {{-- Main Content --}}
     <div class="p-4 mt-16">
         <!-- Tabs -->
@@ -80,7 +64,7 @@
                                         class="text-blue-600 hover:text-blue-900 mr-3">
                                         Edit
                                     </button>
-                                    <button type="button" wire:click="hapusGender({{ $gender->id }})"
+                                    <button type="button" wire:click="hapusData({{ $gender->id }}, 'gender')"
                                         class="text-red-600 hover:text-red-900">
                                         Hapus
                                     </button>
@@ -98,7 +82,7 @@
             <div x-show="activeTab === 'religion'">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Daftar Agama</h2>
-                    <button @click="showModal = true; modalType = 'add-religion'; modalTitle = 'Tambah Agama'"
+                    <button type="button" @click="$dispatch('modal-crud-agama')"
                         class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                         Tambah Agama
                     </button>
@@ -122,26 +106,27 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <template x-for="(religion, index) in religions" :key="index">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap" x-text="index + 1"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap" x-text="religion"></td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button
-                                            @click="currentItem = religion; $dispatch('modal-crud-data'); modalType = 'edit-religion'; modalTitle = 'Edit Agama'"
-                                            class="text-blue-600 hover:text-blue-900 mr-3">
-                                            Edit
-                                        </button>
-                                        <button
-                                            @click="currentItem = religion; showModal = true; modalType = 'delete-religion'; modalTitle = 'Hapus Agama'"
-                                            class="text-red-600 hover:text-red-900">
-                                            Hapus
-                                        </button>
-                                    </td>
-                                </tr>
-                            </template>
+                            @foreach ($agamas as $index => $agama)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $agamas->firstItem() + $index }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $agama->agama }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button type="button" wire:click="editAgama({{ $agama->id }})"
+                                        class="text-blue-600 hover:text-blue-900 mr-3">
+                                        Edit
+                                    </button>
+                                    <button type="button" wire:click="hapusData({{ $agama->id }}, 'agama')"
+                                        class="text-red-600 hover:text-red-900">
+                                        Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
+
+                    {{-- Pagenation --}}
+                    {{ $agamas->links('vendor.pagination.tailwind') }}
                 </div>
             </div>
 

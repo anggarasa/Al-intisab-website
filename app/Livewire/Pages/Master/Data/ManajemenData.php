@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Master\Data;
 
+use App\Models\Agama;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\JenisKelamin;
@@ -21,16 +22,24 @@ class ManajemenData extends Component
     }
     // End Edit Gender
 
-    // hapus gender
-    public function hapusGender($id)
+    // Edit Agama
+    public function editAgama($id)
     {
-        $this->dispatch('hapusGender', $id)->to(ModalManajemenData::class);
+        $this->dispatch('editAgama', $id)->to(ModalManajemenData::class);
+    }
+    // End Edit Agama
+
+    // hapus gender
+    public function hapusData($id, $deleteType)
+    {
+        $this->dispatch('hapusData', $id, $deleteType)->to(ModalManajemenData::class);
     }
     // End hapus gender
     
     public function render()
     {
         $genderes = JenisKelamin::latest()->paginate(5);
-        return view('livewire.pages.master.data.manajemen-data', compact(['genderes']));
+        $agamas = Agama::latest()->paginate(5);
+        return view('livewire.pages.master.data.manajemen-data', compact(['genderes', 'agamas']));
     }
 }

@@ -28,7 +28,7 @@
                     </button>
 
                     <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                        Simpan
+                        {{ $isEdit == true ? 'Update' : 'Simpan' }}
                     </button>
                 </div>
             </form>
@@ -36,12 +36,12 @@
     </div>
 
     {{-- Modal crud agama --}}
-    <div x-data="{ showModal: false }" x-show="showModal" @modal-crud-data.window="showModal = true"
-        @close-modal-crud-data.window="showModal = false"
+    <div x-data="{ showModal: false }" x-show="showModal" @modal-crud-agama.window="showModal = true"
+        @close-modal-crud-agama.window="showModal = false"
         class="fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center p-4" x-transition>
         <div class="bg-white rounded-xl max-w-md w-full p-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800">Tambah Agama</h3>
+                <h3 class="text-xl font-bold text-gray-800">{{ $isEdit == true ? 'Update' : 'Tambah' }} Agama</h3>
                 <button type="button" wire:click="resetInput" class="text-gray-500 hover:text-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
@@ -49,15 +49,15 @@
                     </svg>
                 </button>
             </div>
-            <form wire:submit="tambahAgama">
-                <input type="text" x-model="newReligion" placeholder="Masukkan agama"
-                    class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:border-green-500" />
+            <form wire:submit="{{ $isEdit == true ? 'updateAgama' : 'tambahAgama' }}">
+                <input type="text" wire:model="agama" placeholder="Masukkan agama"
+                    class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring-green-500 focus:border-green-500" />
                 <div class="flex justify-end gap-2">
                     <button type="button" wire:click="resetInput" class="px-4 py-2 text-gray-600 hover:text-gray-800">
                         Batal
                     </button>
                     <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                        Simpan
+                        {{ $isEdit == true ? 'Update' : 'Simpan' }}
                     </button>
                 </div>
             </form>
@@ -210,7 +210,7 @@
                         class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                         Batal
                     </button>
-                    <button type="button" wire:click="deleteData('{{ $deleteType }}')"
+                    <button type="button" wire:click="deleteData"
                         class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
                         Hapus
                     </button>
