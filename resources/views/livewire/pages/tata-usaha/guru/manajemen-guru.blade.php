@@ -217,10 +217,10 @@
               <div class="text-sm text-gray-900">{{ date('d F Y', strtotime($guru->tanggal_lahir)) }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $guru->kelamin->kelamin }}</div>
+              <div class="text-sm text-gray-900">{{ $guru->kelamin ? $guru->kelamin->kelamin : '-' }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $guru->agama->agama }}</div>
+              <div class="text-sm text-gray-900">{{ $guru->agama ? $guru->agama->agama : '-' }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ Str::limit($guru->alamat, 20, '...') }}</div>
@@ -324,12 +324,13 @@
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Jenis Kelamin</label>
                             <p class="mt-1 text-gray-900 font-medium">
-                              {{ $guru->kelamin->kelamin }}
+                              {{ $guru->kelamin ? $guru->kelamin->kelamin : '(Kosong)' }}
                             </p>
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Agama</label>
-                            <p class="mt-1 text-gray-900 font-medium">{{ $guru->agama->agama }}</p>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $guru->agama ? $guru->agama->agama : '(Kosong)'
+                              }}</p>
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Email</label>
