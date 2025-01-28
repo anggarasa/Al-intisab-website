@@ -19,7 +19,7 @@
         </button>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    <!-- Logout Confirmation Modal -->
     <div x-data="{ modalLogout: false }" x-show="modalLogout" @modal-logout.window="modalLogout = true"
         class="fixed inset-0 z-50 overflow-y-auto" style="display: none">
         <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
