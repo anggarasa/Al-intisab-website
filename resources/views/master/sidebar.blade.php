@@ -23,42 +23,27 @@
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
           :active="request()->routeIs('master.manajemen.data')" />
 
-        <!-- Booking Dropdown -->
-        <li class="mb-2">
-          <div @click="bookingDropdown = !bookingDropdown"
-            class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100 cursor-pointer flex justify-between items-center">
-            <span>Booking</span>
-            <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': bookingDropdown}" fill="none"
-              stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </div>
-          <ul x-show="bookingDropdown" class="pl-6">
-            <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Pending</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Confirmed</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Completed</a>
-            </li>
-          </ul>
-        </li>
-        <li class="mb-2">
-          <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">
-            Gallery
-          </a>
-        </li>
-        <li class="mb-2">
-          <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">
-            Testimonial
-          </a>
-        </li>
+        <!-- Manajemen User -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
+          :active="request()->routeIs('master.manajemen.user')" />
+
+        <!-- Pembayaran -->
+        <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
+            ['label' => 'SPP', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
+            ['label' => 'Baju', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
+            ['label' => 'PKL', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
+        ]" />
+
+        <!-- Absensi -->
+        <x-sidebar-dropdown title="Absensi" icon="fas fa-clock" :links="[
+            ['label' => 'Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
+            ['label' => 'Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
+        ]" />
+
         <!-- Settings Dropdown -->
         <li class="mb-2">
           <div @click="settingsDropdown = !settingsDropdown"
-            class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100 cursor-pointer flex justify-between items-center">
+            class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white cursor-pointer flex justify-between items-center">
             <span>Settings</span>
             <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': settingsDropdown}" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
@@ -67,13 +52,13 @@
           </div>
           <ul x-show="settingsDropdown" class="pl-6">
             <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Profile</a>
+              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white">Profile</a>
             </li>
             <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Account</a>
+              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white">Account</a>
             </li>
             <li>
-              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">Security</a>
+              <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white">Security</a>
             </li>
           </ul>
         </li>
@@ -98,6 +83,10 @@
         <!-- Manajemen Data -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
           :active="request()->routeIs('master.manajemen.data')" />
+
+        <!-- Manajemen User -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
+          :active="request()->routeIs('master.manajemen.user')" />
 
         <!-- Pembayaran -->
         <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
