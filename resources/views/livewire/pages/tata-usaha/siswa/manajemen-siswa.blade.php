@@ -210,10 +210,10 @@
               <div class="text-sm text-gray-900">{{ $siswa->tanggal_lahir }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $siswa->kelamin->kelamin }}</div>
+              <div class="text-sm text-gray-900">{{ $siswa->kelamin ? $siswa->kelas->nama_kelas : '-' }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $siswa->agama->agama }}</div>
+              <div class="text-sm text-gray-900">{{ $siswa->agama ? $siswa->agama->agama : '-' }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ Str::limit($siswa->alamat, 20, '...') }}</div>
@@ -326,12 +326,13 @@
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Jenis Kelamin</label>
                             <p class="mt-1 text-gray-900 font-medium">
-                              {{ $siswa->kelamin->kelamin }}
+                              {{ $siswa->kelamin ? $siswa->kelamin->kelamin : '(Kosong)' }}
                             </p>
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Agama</label>
-                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->agama->agama }}</p>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->agama ? $siswa->agama->agama :
+                              '(Kosong)' }}</p>
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Email</label>
