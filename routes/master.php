@@ -5,7 +5,7 @@ use App\Livewire\Pages\Master\Data\ManajemenData;
 use Illuminate\Support\Facades\Route;
 Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->group(function() {
     // Dasboard master
-    Route::get('/dashboard-master', Dashboard::class);
+    Route::get('/dashboard-master', Dashboard::class)->name('dashboard-master');
 
     // Manajemen
     Route::prefix('manajemen')->name('manajemen.')->group(function() {

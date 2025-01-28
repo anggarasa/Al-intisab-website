@@ -16,14 +16,13 @@
     <nav class="flex-1 overflow-y-auto">
       <ul class="p-4">
 
-        <x-sidebar-menu-item href="{{ route('tata-usaha.dashboard') }}" label="Dashboard" icon="fas fa-home"
-          :active="request()->routeIs('tata-usaha.dashboard')" />
+        <x-sidebar-menu-item href="{{ route('master.dashboard-master') }}" label="Dashboard" icon="fas fa-home"
+          :active="request()->routeIs('master.dashboard-master')" />
 
-        <li class="mb-2">
-          <a href="#" class="block px-4 py-2 text-gray-800 rounded hover:bg-pink-100">
-            Paket Wedding
-          </a>
-        </li>
+        <!-- Manajemen Data -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
+          :active="request()->routeIs('master.manajemen.data')" />
+
         <!-- Booking Dropdown -->
         <li class="mb-2">
           <div @click="bookingDropdown = !bookingDropdown"
@@ -92,8 +91,9 @@
     <nav class="flex-1 overflow-y-auto">
       <ul class="p-4">
 
-        <x-sidebar-menu-item href="{{ route('tata-usaha.dashboard') }}" label="Dashboard" icon="fas fa-home"
-          :active="request()->routeIs('tata-usaha.dashboard')" />
+        {{-- Dasboard Master --}}
+        <x-sidebar-menu-item href="{{ route('master.dashboard-master') }}" label="Dashboard" icon="fas fa-home"
+          :active="request()->routeIs('master.dashboard-master')" />
 
         <!-- Manajemen Data -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"

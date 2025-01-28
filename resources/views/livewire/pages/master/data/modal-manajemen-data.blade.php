@@ -18,7 +18,7 @@
                 <select wire:model="gender"
                     class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring-green-500 focus:border-green-500">
                     <option value="">Pilih Gender</option>
-                    <option value="laki-Laki">Laki-Laki</option>
+                    <option value="laki-laki">Laki-Laki</option>
                     <option value="perempuan">Perempuan</option>
                 </select>
 
@@ -64,6 +64,7 @@
         </div>
     </div>
 
+    {{-- Modal Ptk --}}
     <div x-data="{ showModal: false }" x-show="showModal" @modal-crud-ptk.window="showModal = true"
         @close-modal-crud-ptk.window="showModal = false"
         class="fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center p-4" x-transition>
@@ -87,6 +88,35 @@
                 <textarea wire:model="ptkKet" rows="3"
                     class="w-full px-3 py-2 mb-4 border-2 rounded-lg focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50"></textarea>
 
+                <div class="flex justify-end gap-2">
+                    <button type="button" wire:click="resetInput" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        {{ $isEdit == true ? 'Update' : 'Simpan' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- Modal Jurusan --}}
+    <div x-data="{ showModal: false }" x-show="showModal" @modal-crud-jurusan.window="showModal = true"
+        @close-modal-crud-jurusan.window="showModal = false"
+        class="fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center p-4" x-transition>
+        <div class="bg-white rounded-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">{{ $isEdit == true ? 'Update' : 'Tambah' }} Jurusan</h3>
+                <button type="button" wire:click="resetInput" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <form wire:submit="{{ $isEdit == true ? 'updateJurusan' : 'tambahJurusan' }}">
+                <input type="text" wire:model="jurusan" placeholder="Nama Jurusan"
+                    class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring-green-500 focus:border-green-500" />
                 <div class="flex justify-end gap-2">
                     <button type="button" wire:click="resetInput" class="px-4 py-2 text-gray-600 hover:text-gray-800">
                         Batal
