@@ -99,7 +99,7 @@
           icon="fas fa-school" :active="request()->routeIs('tata-usaha.manajemen-kelas.manajemen')" />
 
         <!-- Siswa & Guru -->
-        <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-gift" :links="[
+        <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-users" :links="[
             ['label' => 'Manajemen Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
             ['label' => 'Manajemen Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
         ]" />
