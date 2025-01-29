@@ -4,7 +4,9 @@ namespace App\Livewire\Pages\Master\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class ModalManajenemUser extends Component
 {
@@ -58,6 +60,77 @@ class ModalManajenemUser extends Component
         }
     }
     // End tambah user
+
+    // Update user
+    #[On('editUser')]
+    public function editUser($id)
+    {
+        $this->isEdit = true;
+        $user = User::find($id);
+        $this->userId = $user->id;
+        $this->email = $user->email;
+        $this->role = $user->getRoleNames()->first();
+
+        // open modal
+        $this->dispatch('modal-crud-user');
+    }
+
+    public function updateUser()
+    {
+        try {
+            // Validasi input
+            $validated = $this->validate([
+                'email' => 'required|string|email:dns,rfc,strict|unique:users,email,' . $this->userId,
+                'password' => 'nullable|confirmed|min:6',
+                'role' => 'required|string',
+            ]);
+
+            // Temukan user yang akan diupdate
+            $user = User::findOrFail($this->userId);
+
+            // Update email
+            $user->email = $validated['email'];
+
+            // Update password jika diisi
+            if (!empty($validated['password'])) {
+                $user->password = Hash::make($validated['password']);
+            }
+
+            // Simpan perubahan
+            $user->save();
+
+            // Update role
+            $user->syncRoles([]); // Hapus semua role yang ada
+            if ($validated['role'] === 'kurikulum') {
+                $user->assignRole('kurikulum');
+            } elseif ($validated['role'] === 'master') {
+                $user->assignRole('master');
+            } elseif ($validated['role'] === 'tu') {
+                $user->assignRole('tu');
+            }
+
+            // Menampilkan data real-time
+            $this->dispatch('manajemen-user')->to(ManajemenUser::class);
+
+            // Reset input
+            $this->resetInput();
+
+            // Kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Berhasil mengupdate data user.',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End Update user
     
     public function render()
     {

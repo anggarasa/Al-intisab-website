@@ -13,6 +13,13 @@ use Livewire\WithPagination;
 class ManajemenUser extends Component
 {
     use WithPagination;
+
+    // Edit user
+    public function editUser($id)
+    {
+        $this->dispatch('editUser', $id)->to(ModalManajenemUser::class);
+    }
+    // End Edit user
     
     public function render()
     {
