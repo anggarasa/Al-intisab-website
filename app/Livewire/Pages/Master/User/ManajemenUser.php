@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 #[Layout('layouts.master-layout', ['title' => 'Manajemen User'])]
 #[On('manajemen-user')]
@@ -20,6 +21,13 @@ class ManajemenUser extends Component
         $this->dispatch('editUser', $id)->to(ModalManajenemUser::class);
     }
     // End Edit user
+
+    // hapus user
+    public function hapusUser($id)
+    {
+        $this->dispatch('hapusUser', $id)->to(ModalManajenemUser::class);
+    }
+    // End hapus user
     
     public function render()
     {

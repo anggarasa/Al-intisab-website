@@ -131,6 +131,49 @@ class ModalManajenemUser extends Component
         }
     }
     // End Update user
+
+    // Delete user
+    #[On('hapusUser')]
+    public function hapusUser($id)
+    {
+        $user = User::find($id);
+        $this->userId = $user->id;
+        $this->email = $user->email;
+
+        // open modal
+        $this->dispatch('modal-delete-user');
+    }
+
+    public function deleteUser()
+    {
+        try {
+            $user = User::find($this->userId);
+
+            // hapus user
+            $user->delete();
+
+            // menampilkan data real-time
+            $this->dispatch('manajemen-user')->to(ManajemenUser::class);
+
+            // reset input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Berhasil menghapus data user.',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // Kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End Delete user
     
     public function render()
     {
@@ -145,6 +188,9 @@ class ModalManajenemUser extends Component
 
         // close modal
         $this->dispatch('close-modal-crud-user');
+
+        // close modal delete
+        $this->dispatch('close-modal-delete-user');
     }
 
     // custom message
