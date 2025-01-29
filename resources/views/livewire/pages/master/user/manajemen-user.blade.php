@@ -14,16 +14,16 @@
             <div class="mb-6">
                 <div class="flex flex-col sm:flex-row gap-4">
                     <div class="flex-1">
-                        <input type="text" placeholder="Cari email..."
+                        <input wire:model.live="search" type="text" placeholder="Cari email..."
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" />
                     </div>
                     <div class="w-full sm:w-48">
-                        <select
+                        <select wire:model.live="searchRole"
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                            <option value="">Semua Role</option>
-                            <template x-for="role in roles">
-                                <option :value="role" x-text="role"></option>
-                            </template>
+                            <option value="0">Semua Role</option>
+                            @foreach ($role as $id => $name)
+                            <option value="{{ $id }}">{{ ucfirst($name) }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -63,15 +63,27 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                                 @if ($user->hasRole('master'))
                                     bg-green-100 text-green-800
                                     @elseif ($user->hasRole('kurikulum'))
                                     bg-blue-100 text-blue-800
                                     @elseif ($user->hasRole('tu'))
-                                    bg-purple-100 text-purple-800
+                                    bg-orange-100 text-orange-800
                                 @endif">
-                                    {{ $user->getRoleNames()->first() ?? 'No Role Assigned' }}
+                                    @switch($user->getRoleNames()[0])
+                                    @case('master')
+                                    MASTER
+                                    @break
+                                    @case('tu')
+                                    TATA USAHA
+                                    @break
+                                    @case('kurikulum')
+                                    KURIKULUM
+                                    @break
+                                    @default
+                                    USER
+                                    @endswitch
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

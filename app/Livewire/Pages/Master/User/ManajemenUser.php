@@ -3,10 +3,13 @@
 namespace App\Livewire\Pages\Master\User;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
 #[Layout('layouts.master-layout', ['title' => 'Manajemen User'])]
@@ -14,6 +17,24 @@ use Symfony\Component\CssSelector\Node\FunctionNode;
 class ManajemenUser extends Component
 {
     use WithPagination;
+
+    public $search = '';
+    public $searchRole = 0;
+
+    public Collection $role;
+
+    public function mount()
+    {
+        $this->role = Role::whereIn('name', ['kurikulum', 'tu', 'master'])
+        ->get()
+        ->mapWithKeys(function ($role) {
+            return [$role->id => match ($role->name) {
+                'master' => 'MASTER',
+                'tu'     => 'TATA USAHA',
+                'kurikulum' => 'KURIKULUM'
+            }];
+        });
+    }
 
     // Edit user
     public function editUser($id)
@@ -33,7 +54,11 @@ class ManajemenUser extends Component
     {
         $users = User::whereHas('roles', function ($query) {
             $query->whereIn('name', ['kurikulum', 'master', 'tu']);
-        })->latest()->paginate(5);
+        })
+        ->when($this->search !== '', fn(Builder $query) => $query->where('email', 'like', '%'. $this->search. '%'))
+        ->when($this->searchRole > 0, fn(Builder $query) => 
+            $query->whereHas('roles', fn($q) => $q->where('id', $this->searchRole)))
+        ->latest()->paginate(5);
         return view('livewire.pages.master.user.manajemen-user', compact(['users']));
     }
 }
