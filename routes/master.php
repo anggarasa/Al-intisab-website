@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\Master\Dashboard;
 use App\Livewire\Pages\Master\Data\ManajemenData;
+use App\Livewire\Pages\Master\Kelas\ManajemenKelas;
 use App\Livewire\Pages\Master\User\Guru\ManajemenGuru;
 use App\Livewire\Pages\Master\User\ManajemenUser;
 use App\Livewire\Pages\Master\User\Siswa\ManajemenSiswa;
@@ -14,6 +15,9 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
     Route::prefix('manajemen')->name('manajemen.')->group(function() {
         // Manajemdn data
         Route::get('/data', ManajemenData::class)->name('data');
+
+        // manajemen kelas
+        Route::get('/kelas', ManajemenKelas::class)->name('kelas');
 
         // Manajemen user
         Route::get('/user', ManajemenUser::class)->name('user');

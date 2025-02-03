@@ -84,6 +84,10 @@
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
           :active="request()->routeIs('master.manajemen.data')" />
 
+        <!-- Manajemen Data -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.kelas') }}" label="Manajemen Kelas" icon="fas fa-school"
+          :active="request()->routeIs('master.manajemen.kelas')" />
+
         <!-- Manajemen User -->
         <x-sidebar-dropdown title="Users" icon="fas fa-users" :links="[
             ['label' => 'Manajemen User', 'url' => '/master/manajemen/user'],
