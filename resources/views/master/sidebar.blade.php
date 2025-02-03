@@ -85,8 +85,11 @@
           :active="request()->routeIs('master.manajemen.data')" />
 
         <!-- Manajemen User -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
-          :active="request()->routeIs('master.manajemen.user')" />
+        <x-sidebar-dropdown title="Users" icon="fas fa-users" :links="[
+            ['label' => 'Manajemen User', 'url' => '/master/manajemen/user'],
+            ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
+            ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
+        ]" />
 
         <!-- Pembayaran -->
         <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
