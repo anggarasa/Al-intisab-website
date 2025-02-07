@@ -1,7 +1,8 @@
-<?php 
+<?php
 
+use App\Livewire\Pages\Kurikulum\Dashboard;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/kurikulum', function() {
-  echo 'Halaman kurikulum';
-})->middleware(['auth', 'role:kurikulum']);
+Route::prefix('kurikulum')->name('kurikulum.')->middleware(['auth', 'verified', 'role:kurikulum'])->group(function () {
+  Route::get('/dashboard', Dashboard::class)->name('dashboard');
+});

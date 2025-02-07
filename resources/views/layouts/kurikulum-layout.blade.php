@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{--
-    <link rel="shortcut icon" href="/imgs/logo/logo-aplikasi-ym.svg" type="image/x-icon"> --}}
+    <link rel="shortcut icon" href="/imgs/logo/logo-intisab.svg" type="image/x-icon">
 
     <title>Smk Al-intisab Patokbeusi - {{ $title }}</title>
 
@@ -31,7 +30,16 @@
 
 <body class="bg-gray-100">
 
-    {{ $slot }}
+    <div x-data="{ sidebarOpen: false }">
+        @include('kurikulum.sidebar')
+        <!-- Main Content -->
+        <div class="lg:ml-64">
+            <livewire:layout.kurikulum.navbar />
+            <livewire:layout.kurikulum.notification.popup-notification-kurikulum />
+
+            {{ $slot }}
+        </div>
+    </div>
 
     @livewireScripts
 </body>

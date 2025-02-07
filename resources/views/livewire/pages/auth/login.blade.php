@@ -26,7 +26,7 @@ new #[Layout('layouts.guest', ['title' => 'Login'])] class extends Component
         } elseif ($user->hasRole('guru')) {
             $this->redirect('/guru');
         } elseif ($user->hasRole('kurikulum')) {
-            $this->redirect('/kurikulum');
+            $this->redirect(route('kurikulum.dashboard'));
         } elseif ($user->hasRole('tu')) {
             $this->redirect(route('tata-usaha.dashboard'));
         } elseif ($user->hasRole('keuangan')) {
