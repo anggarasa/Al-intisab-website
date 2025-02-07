@@ -95,6 +95,12 @@
             ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
         ]" />
 
+        <!-- Tahun Ajaran & Kurikulum -->
+        <x-sidebar-dropdown title="Tahun Ajaran & Kurikulum" icon="fas fa-book-open-reader" :links="[
+            ['label' => 'Manajemen Kurikulum', 'url' => '/master/manajemen/kurikulum'],
+            ['label' => 'Tahun Pelajaran', 'url' => '/master/manajemen/siswa'],
+        ]" />
+
         <!-- Pembayaran -->
         <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
             ['label' => 'SPP', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],

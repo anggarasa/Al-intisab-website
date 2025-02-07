@@ -5,7 +5,7 @@
             @if ($icon)
             <i class="{{ $icon }}"></i>
             @endif
-            <span>{{ $title }}</span>
+            <span>{{ Str::limit($title, 18, '...') }}</span>
         </div>
         <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': dropdownOpen}" fill="none"
             stroke="currentColor" viewBox="0 0 24 24">
@@ -17,7 +17,7 @@
         <li>
             <a href="{{ $link['url'] }}"
                 class="block px-4 py-2 text-gray-800 rounded hover:bg-green-500 hover:text-white">{{
-                $link['label'] }}</a>
+                Str::limit($link['label'], 18, '...') }}</a>
         </li>
         @endforeach
     </ul>
