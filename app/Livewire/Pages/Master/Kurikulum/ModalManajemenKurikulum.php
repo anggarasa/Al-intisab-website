@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class ModalManajemenKurikulum extends Component
 {
-    public $kurikulum;
+    public $kurikulum, $deskripsi;
 
     public $isEdit = false, $kurikulumId;
 
@@ -18,10 +18,14 @@ class ModalManajemenKurikulum extends Component
         try {
             $this->validate([
                 'kurikulum' => ['required', 'string', 'max:255'],
+                'deskripsi' => ['nullable', 'string'],
             ]);
 
             // Simpan kurikulum
-            Kurikulum::create(['nama_kurikulum' => $this->kurikulum]);
+            Kurikulum::create([
+                'nama_kurikulum' => $this->kurikulum,
+                'deskripsi' => $this->deskripsi,
+            ]);
 
             // menampilkan data real-time
             $this->dispatch('manajemen-kurikulum')->to(ManajemenKurikulum::class);
@@ -53,6 +57,7 @@ class ModalManajemenKurikulum extends Component
         $this->isEdit = true;
         $kurikulum = Kurikulum::find($id);
         $this->kurikulumId = $kurikulum->id;
+        $this->deskripsi = $kurikulum->deskripsi;
         $this->kurikulum = $kurikulum->nama_kurikulum;
 
         $this->dispatch('modal-crud-kurikulum');
@@ -61,11 +66,17 @@ class ModalManajemenKurikulum extends Component
     public function updateKurikulum()
     {
         try {
-            $this->validate(['kurikulum' => ['required', 'string', 'max:255']]);
+            $this->validate([
+                'kurikulum' => ['required', 'string', 'max:255'],
+                'deskripsi' => ['nullable', 'string'],
+            ]);
 
             $kurikulum = Kurikulum::find($this->kurikulumId);
 
-            $kurikulum->update(['nama_kurikulum' => $this->kurikulum]);
+            $kurikulum->update([
+                'nama_kurikulum' => $this->kurikulum,
+                'deskripsi' => $this->deskripsi,
+            ]);
 
             // menampilkan data real-time
             $this->dispatch('manajemen-kurikulum')->to(ManajemenKurikulum::class);
@@ -138,7 +149,7 @@ class ModalManajemenKurikulum extends Component
     // reset input
     public function resetInput()
     {
-        $this->reset(['kurikulum', 'kurikulumId']);
+        $this->reset(['kurikulum', 'deskripsi', 'kurikulumId']);
         $this->isEdit = false;
 
         $this->dispatch('close-modal-crud-kurikulum');

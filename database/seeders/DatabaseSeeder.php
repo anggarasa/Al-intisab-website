@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             SiswaSeeder::class,
             JenisPtkSeeder::class,
             GuruSeeder::class,
+            KurikulumSeeder::class,
         ]);
 
         // User::factory()->create([

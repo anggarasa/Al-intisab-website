@@ -8,5 +8,6 @@ class Kurikulum extends Model
 {
     protected $fillable = [
         'nama_kurikulum',
+        'deskripsi',
     ];
 }
