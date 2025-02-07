@@ -4,6 +4,6 @@
         @if($icon)
         <i class="{{ $icon }} mr-2"></i>
         @endif
-        {{ $label }}
+        {{ Str::limit($label, 18, '...') }}
     </a>
 </li>
