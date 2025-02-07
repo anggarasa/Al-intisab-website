@@ -20,8 +20,8 @@
           :active="request()->routeIs('kurikulum.dashboard')" />
 
         <!-- Manajemen Data -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
-          :active="request()->routeIs('master.manajemen.data')" />
+        <x-sidebar-menu-item href="{{ route('kurikulum.manajemen.kurikulum') }}" label="Kurikulum"
+          icon="fas fa-book-open-reader" :active="request()->routeIs('kurikulum.manajemen.kurikulum')" />
 
         <!-- Manajemen User -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
@@ -81,8 +81,8 @@
           :active="request()->routeIs('kurikulum.dashboard')" />
 
         <!-- Manajemen Data -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
-          :active="request()->routeIs('master.manajemen.data')" />
+        <x-sidebar-menu-item href="{{ route('kurikulum.manajemen.kurikulum') }}" label="Kurikulum"
+          icon="fas fa-book-open-reader" :active="request()->routeIs('kurikulum.manajemen.kurikulum')" />
 
         <!-- Manajemen Data -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.kelas') }}" label="Manajemen Kelas" icon="fas fa-school"
