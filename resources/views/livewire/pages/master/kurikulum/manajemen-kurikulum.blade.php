@@ -52,7 +52,7 @@
                     <td class="px-6 py-4 whitespace-nowrap">{{ $kurikulum->nama_kurikulum }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex space-x-2">
-                            <button type="button" wire:click="editAgama({{ $kurikulum->id }})"
+                            <button type="button" wire:click="editKurikulum({{ $kurikulum->id }})"
                                 class="inline-flex items-center px-3 py-1 text-sm text-violet-600 bg-violet-100 rounded-lg hover:bg-violet-200">
                                 <i class="fa-regular fa-pen-to-square text-base mr-1"></i>
                                 Edit

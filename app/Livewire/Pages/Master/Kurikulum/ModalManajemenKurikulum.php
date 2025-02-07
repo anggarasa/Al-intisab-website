@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Master\Kurikulum;
 
 use App\Models\Kurikulum\Kurikulum;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ModalManajemenKurikulum extends Component
@@ -43,6 +44,51 @@ class ModalManajemenKurikulum extends Component
             ]);
         }
     }
+    // End tambah kurikulum
+
+    // update kurikulum
+    #[On('editKurikulum')]
+    public function editKurikulum($id)
+    {
+        $this->isEdit = true;
+        $kurikulum = Kurikulum::find($id);
+        $this->kurikulumId = $kurikulum->id;
+        $this->kurikulum = $kurikulum->nama_kurikulum;
+
+        $this->dispatch('modal-crud-kurikulum');
+    }
+
+    public function updateKurikulum()
+    {
+        try {
+            $this->validate(['kurikulum' => ['required', 'string', 'max:255']]);
+
+            $kurikulum = Kurikulum::find($this->kurikulumId);
+
+            $kurikulum->update(['nama_kurikulum' => $this->kurikulum]);
+
+            // menampilkan data real-time
+            $this->dispatch('manajemen-kurikulum')->to(ManajemenKurikulum::class);
+
+            // reset input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Berhasil mengubah kurikulum',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal',
+            ]);
+        }
+    }
+    // End update kurikulum
     
     public function render()
     {

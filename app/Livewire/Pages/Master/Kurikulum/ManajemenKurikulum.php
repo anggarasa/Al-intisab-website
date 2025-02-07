@@ -13,6 +13,13 @@ use Livewire\WithPagination;
 class ManajemenKurikulum extends Component
 {
     use WithPagination;
+
+    // edit kurikulum
+    public function editKurikulum($id)
+    {
+        $this->dispatch('editKurikulum', $id)->to(ModalManajemenKurikulum::class);
+    }
+    // End edit kurikulum
     
     public function render()
     {
