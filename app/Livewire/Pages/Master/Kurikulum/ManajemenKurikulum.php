@@ -20,6 +20,13 @@ class ManajemenKurikulum extends Component
         $this->dispatch('editKurikulum', $id)->to(ModalManajemenKurikulum::class);
     }
     // End edit kurikulum
+
+    // hapus kurikulum
+    public function hapusKurikulum($id)
+    {
+        $this->dispatch('hapusKurikulum', $id)->to(ModalManajemenKurikulum::class);
+    }
+    // end hapus kurikulum
     
     public function render()
     {

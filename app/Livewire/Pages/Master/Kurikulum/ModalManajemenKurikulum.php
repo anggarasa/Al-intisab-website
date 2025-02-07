@@ -89,6 +89,46 @@ class ModalManajemenKurikulum extends Component
         }
     }
     // End update kurikulum
+
+    // delete kurikulum
+    #[On('hapusKurikulum')]
+    public function hapusKurikulum($id)
+    {
+        $kurikulum = Kurikulum::find($id);
+        $this->kurikulumId = $kurikulum->id;
+        $this->kurikulum = $kurikulum->nama_kurikulum;
+
+        $this->dispatch('modal-delete-kurikulum');
+    }
+
+    public function deleteKurikulum()
+    {
+        try {
+            $kurikulum = Kurikulum::find($this->kurikulumId);
+            $kurikulum->delete();
+            
+            // menampilkan data real-time
+            $this->dispatch('manajemen-kurikulum')->to(ManajemenKurikulum::class);
+
+            // reset input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Berhasil menghapus kurikulum',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End delete kurikulum
     
     public function render()
     {
@@ -102,6 +142,7 @@ class ModalManajemenKurikulum extends Component
         $this->isEdit = false;
 
         $this->dispatch('close-modal-crud-kurikulum');
+        $this->dispatch('close-modal-delete-kurikulum');
     }
 
     // custom messages
