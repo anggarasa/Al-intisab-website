@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\TataUsaha\Pembayaran\Tagihan;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
@@ -52,4 +53,11 @@ class Siswa extends Model
         return $this->belongsTo(JenisKelamin::class, 'jenis_kelamin_id');
     }
     // Belongs to
+
+    // one to one
+    public function tagihans()
+    {
+        return $this->hasOne(Tagihan::class);
+    }
+    // End one to one
 }

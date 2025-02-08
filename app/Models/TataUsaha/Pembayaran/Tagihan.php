@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models\TataUsaha\Pembayaran;
+
+use App\Models\Siswa;
+use Illuminate\Database\Eloquent\Model;
+
+class Tagihan extends Model
+{
+    protected $fillable = [
+        'siswa_id',
+        'total_tagihan',
+        'sisa_tagihan',
+    ];
+
+    // belongs to
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+    // End belongs to
+
+    // Many to many
+    public function jenisPembayarans()
+    {
+        return $this->belongsToMany(JenisPembayaran::class, 'tagihan_to_jenis_pembayaran');
+    }
+    // End Many to many
+}
