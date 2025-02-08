@@ -16,8 +16,12 @@
     <nav class="flex-1 overflow-y-auto">
       <ul class="p-4">
 
-        <x-sidebar-menu-item href="{{ route('master.dashboard-master') }}" label="Dashboard" icon="fas fa-home"
+        <x-sidebar-menu-item href="{{ route('master.dashboard-master') }}" label="Dashboard" icon="fas fa-address-card"
           :active="request()->routeIs('master.dashboard-master')" />
+
+        {{-- identitas sekolah --}}
+        <x-sidebar-menu-item href="{{ route('master.manajemen.identitas-sekolah') }}" label="Identitas Sekolah"
+          icon="fas fa-home" :active="request()->routeIs('master.manajemen.identitas-sekolah')" />
 
         <!-- Manajemen Data -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
@@ -79,6 +83,10 @@
         {{-- Dasboard Master --}}
         <x-sidebar-menu-item href="{{ route('master.dashboard-master') }}" label="Dashboard" icon="fas fa-home"
           :active="request()->routeIs('master.dashboard-master')" />
+
+        {{-- identitas sekolah --}}
+        <x-sidebar-menu-item href="{{ route('master.manajemen.identitas-sekolah') }}" label="Identitas Sekolah"
+          icon="fas fa-address-card" :active="request()->routeIs('master.manajemen.identitas-sekolah')" />
 
         <!-- Manajemen Data -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"

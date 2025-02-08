@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\Master\Dashboard;
 use App\Livewire\Pages\Master\Data\ManajemenData;
+use App\Livewire\Pages\Master\Identitas\ManajemenIdentitasSekolah;
 use App\Livewire\Pages\Master\Kelas\ManajemenKelas;
 use App\Livewire\Pages\Master\Kurikulum\ManajemenKurikulum;
 use App\Livewire\Pages\Master\User\Guru\ManajemenGuru;
@@ -31,5 +32,8 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
         // manajemen kurikulum
         Route::get('/kurikulum', ManajemenKurikulum::class)->name('kurikulum');
+
+        // identitas sekolah
+        Route::get('/identitas-sekolah', ManajemenIdentitasSekolah::class)->name('identitas-sekolah');
     });
 });
