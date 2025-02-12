@@ -13,6 +13,13 @@ use Livewire\WithPagination;
 class ManajemenJenisPembayaran extends Component
 {
     use WithPagination;
+
+    // edit jenis pembayaran
+    public function editJenisPembayaran($id)
+    {
+        $this->dispatch('editJenisPembayaran', $id)->to(ModalManajemenJenisPembayaran::class);
+    }
+    // End edit jenis pembayaran
     
     public function render()
     {
