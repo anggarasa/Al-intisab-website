@@ -16,6 +16,7 @@
     <nav class="flex-1 overflow-y-auto">
       <ul class="p-4">
 
+        {{-- Dasboard Master --}}
         <x-sidebar-menu-item href="{{ route('master.dashboard-master') }}" label="Dashboard" icon="fas fa-home"
           :active="request()->routeIs('master.dashboard-master')" />
 
@@ -23,16 +24,28 @@
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
           :active="request()->routeIs('master.manajemen.data')" />
 
-        <!-- Manajemen User -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
-          :active="request()->routeIs('master.manajemen.user')" />
+        <!-- Manajemen Kelas -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.kelas') }}" label="Manajemen Kelas" icon="fas fa-school"
+          :active="request()->routeIs('master.manajemen.kelas')" />
 
-        <!-- Pembayaran -->
-        <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
-            ['label' => 'SPP', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
-            ['label' => 'Baju', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
-            ['label' => 'PKL', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
-        ]" />
+
+        <!-- Manajemen User -->
+        <x-sidebar-dropdown title="Users" icon="fas fa-users" :links="[
+            ['label' => 'Manajemen User', 'url' => '/master/manajemen/user'],
+            ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
+            ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
+            ]" />
+
+
+        <!-- Tahun Ajaran & Kurikulum -->
+        <x-sidebar-dropdown title="Tahun Ajaran & Kurikulum" icon="fas fa-book-open-reader" :links="[
+            ['label' => 'Manajemen Kurikulum', 'url' => '/master/manajemen/kurikulum'],
+            ['label' => 'Tahun Pelajaran', 'url' => '/master/manajemen/siswa'],
+            ]" />
+
+        <!-- Manajemen jenis pembayaran -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.jenis-pembayaran') }}" label="Jenis Pembayaran"
+          icon="fas fa-money-check-dollar" :active="request()->routeIs('master.manajemen.jenis-pembayaran')" />
 
         <!-- Absensi -->
         <x-sidebar-dropdown title="Absensi" icon="fas fa-clock" :links="[
@@ -84,29 +97,28 @@
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
           :active="request()->routeIs('master.manajemen.data')" />
 
-        <!-- Manajemen Data -->
+        <!-- Manajemen Kelas -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.kelas') }}" label="Manajemen Kelas" icon="fas fa-school"
           :active="request()->routeIs('master.manajemen.kelas')" />
+
 
         <!-- Manajemen User -->
         <x-sidebar-dropdown title="Users" icon="fas fa-users" :links="[
             ['label' => 'Manajemen User', 'url' => '/master/manajemen/user'],
             ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
             ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
-        ]" />
+            ]" />
+
 
         <!-- Tahun Ajaran & Kurikulum -->
         <x-sidebar-dropdown title="Tahun Ajaran & Kurikulum" icon="fas fa-book-open-reader" :links="[
             ['label' => 'Manajemen Kurikulum', 'url' => '/master/manajemen/kurikulum'],
             ['label' => 'Tahun Pelajaran', 'url' => '/master/manajemen/siswa'],
-        ]" />
+            ]" />
 
-        <!-- Pembayaran -->
-        <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
-            ['label' => 'SPP', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
-            ['label' => 'Baju', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
-            ['label' => 'PKL', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
-        ]" />
+        <!-- Manajemen jenis pembayaran -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.jenis-pembayaran') }}" label="Jenis Pembayaran"
+          icon="fas fa-money-check-dollar" :active="request()->routeIs('master.manajemen.jenis-pembayaran')" />
 
         <!-- Absensi -->
         <x-sidebar-dropdown title="Absensi" icon="fas fa-clock" :links="[

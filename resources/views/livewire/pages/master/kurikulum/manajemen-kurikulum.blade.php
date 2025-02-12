@@ -108,10 +108,10 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    @endforeach
-    </tbody>
-    </table>
 
     {{-- Pagenation --}}
     {{ $kurikulums->links('vendor.pagination.tailwind') }}
