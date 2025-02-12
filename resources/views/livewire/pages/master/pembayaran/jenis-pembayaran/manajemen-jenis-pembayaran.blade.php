@@ -3,10 +3,10 @@
     <div class="flex flex-col gap-4 mb-8 md:flex-row md:items-center md:justify-between">
         <div>
             <h1 class="text-2xl font-semibold text-gray-800">
-                Management Kurikulum
+                Management Jenis Pembayaran
             </h1>
             <p class="mt-1 text-sm text-gray-600">
-                Kelola kurikulum Smk Al-Intisab
+                Kelola jenis pembayaran Smk Al-Intisab
             </p>
         </div>
         <livewire:pages.master.pembayaran.jenis-pembayaran.modal-manajemen-jenis-pembayaran />
@@ -59,4 +59,7 @@
             </tbody>
         </table>
     </div>
+
+    {{-- pagination --}}
+    {{ $jenisPembayarans->links('vendor.pagination.tailwind') }}
 </div>
