@@ -102,6 +102,49 @@ class ModalManajemenJenisPembayaran extends Component
         }
     }
     // End Update jenis pembayaran
+
+    // delete jenis pembayaran
+    #[On('hapusJenisPembayaran')]
+    public function hapusJenisPembayaran($id)
+    {
+        $jenisPembayaran = JenisPembayaran::find($id);
+        $this->jenisPembayaranId = $jenisPembayaran->id;
+        $this->jenisPembayaran = $jenisPembayaran->nama_pembayaran;
+
+        // open modal
+        $this->dispatch('modal-delete-jenis-pembayaran');
+    }
+
+    public function deleteJenisPembayaran()
+    {
+        try {
+            $jenisPembayaran = JenisPembayaran::find($this->jenisPembayaranId);
+
+            // hapus jenis pembayaran
+            $jenisPembayaran->delete();
+
+            // menampilkan data real-time
+            $this->dispatch('manajemen-jenis-pembayaran')->to(ManajemenJenisPembayaran::class);
+
+            // reset input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaset', [
+                'type' => 'success',
+                'message' => 'Berhasil menghapus data jenis pembayaran!',
+                'title' => 'Berhasil!',
+            ]);
+        } catch (\Exception $e) {
+            // kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal!',
+            ]);
+        }
+    }
+    // End delete jenis pembayaran
     
     public function render()
     {
@@ -116,6 +159,7 @@ class ModalManajemenJenisPembayaran extends Component
 
         // clos modal
         $this->dispatch('close-modal-crud-jenis-pembayaran');
+        $this->dispatch('close-modal-delete-jenis-pembayaran');
     }
 
     // custom message

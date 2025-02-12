@@ -20,6 +20,13 @@ class ManajemenJenisPembayaran extends Component
         $this->dispatch('editJenisPembayaran', $id)->to(ModalManajemenJenisPembayaran::class);
     }
     // End edit jenis pembayaran
+
+    // hapus jenis pembayaran
+    public function hapusJenisPembayaran($id)
+    {
+        $this->dispatch('hapusJenisPembayaran', $id)->to(ModalManajemenJenisPembayaran::class);
+    }
+    // End hapus jenis pembayaran
     
     public function render()
     {
