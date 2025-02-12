@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Livewire\Pages\Master\Pembayaran\JenisPembayaran;
+namespace App\Livewire\Pages\TataUsaha\Pembayaran\JenisPembayaran;
 
-use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
-use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\Attributes\On;
+use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
+use App\Livewire\Pages\TataUsaha\Pembayaran\JenisPembayaran\ManajemenJenisPembayaran;
 
 class ModalManajemenJenisPembayaran extends Component
 {
@@ -146,7 +147,7 @@ class ModalManajemenJenisPembayaran extends Component
     
     public function render()
     {
-        return view('livewire.pages.master.pembayaran.jenis-pembayaran.modal-manajemen-jenis-pembayaran');
+        return view('livewire.pages.tata-usaha.pembayaran.jenis-pembayaran.modal-manajemen-jenis-pembayaran');
     }
 
     // reset input
