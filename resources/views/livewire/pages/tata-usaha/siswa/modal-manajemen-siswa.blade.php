@@ -130,6 +130,52 @@
                             <x-input type="tel" name="noHp" label="No. Handphone" wire="noHp" required="true" />
                         </div>
 
+                        <div
+                            x-data="{ open: false, selectedJenisPembayarans: @entangle('selectedJenisPembayarans'), search: '' }">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Jenis Pembayaran</label>
+                            <div class="relative">
+                                <!-- Dropdown Trigger -->
+                                <button @click="open = !open" type="button"
+                                    class="w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50 text-left flex items-center justify-between">
+                                    <span
+                                        x-text="selectedJenisPembayarans.length > 0 ? selectedJenisPembayarans.length + ' jenis dipilih' : 'Pilih Jenis Pembayaran'"></span>
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <!-- Dropdown Menu -->
+                                <div x-show="open" @click.away="open = false"
+                                    class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                    <!-- Search Input -->
+                                    <input type="text" x-model="search" placeholder="Cari jenis pembayaran..."
+                                        class="w-full px-3 py-2 border-b border-gray-200 focus:outline-none focus:border-green-400">
+                                    <div class="space-y-2 p-2">
+                                        @foreach ($jenisPembayarans as $jenisPembayaran)
+                                        <label
+                                            x-show="!search || '{{ $jenisPembayaran->nama_pembayaran }}'.toLowerCase().includes(search.toLowerCase())"
+                                            class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg">
+                                            <input type="checkbox" value="{{ $jenisPembayaran->id }}"
+                                                x-model="selectedJenisPembayarans"
+                                                class="form-checkbox h-5 w-5 text-green-600 rounded focus:ring-green-500 border-gray-300">
+                                            <span class="text-gray-700">
+                                                {{ $jenisPembayaran->nama_pembayaran }} - Rp {{
+                                                number_format($jenisPembayaran->total, 0, ',', '.') }}
+                                            </span>
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hidden Input untuk Livewire -->
+                            <template x-for="(item, index) in selectedJenisPembayarans" :key="index">
+                                <input type="hidden" name="selectedJenisPembayarans[]" x-bind:value="item">
+                            </template>
+                        </div>
+
                         <!-- Foto dengan Preview -->
                         <div class="col-span-2">
                             <x-input-upload-image name="foto" id="foto" label="Upload Foto" />

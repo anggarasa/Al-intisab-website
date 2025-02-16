@@ -122,6 +122,9 @@
               Email</th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Bayaran</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
               Tempat Lahir</th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
@@ -202,6 +205,11 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ $siswa->tagihan ? number_format($siswa->tagihan->sisa_tagihan,
+                0,',','.') : '(Kosong)' }}
+              </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->tempat_lahir }}</div>

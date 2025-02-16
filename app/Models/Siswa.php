@@ -55,7 +55,7 @@ class Siswa extends Model
     // Belongs to
 
     // one to one
-    public function tagihans()
+    public function tagihan()
     {
         return $this->hasOne(Tagihan::class);
     }
