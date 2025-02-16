@@ -207,7 +207,7 @@
               <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $siswa->tagihan ? number_format($siswa->tagihan->sisa_tagihan,
+              <div class="text-sm text-gray-900">{{ $siswa->tagihan ? 'Rp'.number_format($siswa->tagihan->sisa_tagihan,
                 0,',','.') : '(Kosong)' }}
               </div>
             </td>
