@@ -9,9 +9,107 @@
                 Kelola identitas sekolah Smk Al-Intisab
             </p>
         </div>
+        @if (!$identitasSekolahs)
         <livewire:pages.master.identitas.modal-manajemen-identitas-sekolah />
+        @endif
     </div>
 
+    @if ($identitasSekolahs)
+    <!-- Main Content -->
+    <div class="pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+        @foreach ($identitasSekolahs as $identitas)
+        <div class="max-w-7xl mx-auto">
+            <!-- Header Card -->
+            <div
+                class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8 transform hover:scale-[1.01] transition-transform duration-300">
+                <div class="bg-gradient-to-r from-green-600 to-green-400 px-6 py-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h2 class="text-3xl font-bold text-white mb-2">{{ $identitas->nama_sekolah }}</h2>
+                            <p class="text-green-50">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>{{ $identitas->kabupaten_kota }}</span>, <span>{{ $identitas->provinsi }}</span>
+                            </p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <span class="bg-white px-4 py-2 rounded-full text-green-600 font-semibold shadow-md">
+                                <i class="fas fa-award mr-2"></i>Akreditasi <span>{{ $identitas->akreditasi }}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <!-- NPSN Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-id-card text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">NPSN</p>
+                            <p class="font-semibold text-lg">{{ $identitas->npsn }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kepala Sekolah Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-user-tie text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Kepala Sekolah</p>
+                            <p class="font-semibold text-lg">{{ $identitas->kepala_sekolah }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alamat Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-map-marked-alt text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm mb-2">Alamat Lengkap</p>
+                            <p class="text-gray-800">
+                                <span x-text="sekolah.alamat"></span><br>
+                                Kel. <span>{{ $identitas->kelurahan }}</span>,
+                                Kec. <span>{{ $identitas->kecamatan }}</span><br>
+                                <span>{{ $identitas->kota }}</span>,
+                                <span>{{ $identitas->provinsi }}</span><br>
+                                Kode Pos: <span>{{ $identitas->kode_pos }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kontak Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-address-book text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm mb-2">Kontak</p>
+                            <p class="text-gray-800">
+                                <i class="fas fa-phone-alt mr-2 text-green-600"></i><span>{{ $identitas->no_telpone
+                                    }}</span><br>
+                                <i class="fas fa-envelope mr-2 text-green-600"></i><span>{{ $identitas->email
+                                    }}</span><br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @else
     <div class="flex items-center justify-center p-6 rounded-xl bg-white">
         <div class="text-center">
             <div class="relative inline-block">
@@ -26,4 +124,5 @@
             </p>
         </div>
     </div>
+    @endif
 </div>
