@@ -13,43 +13,49 @@ class InputPembayaran extends Component
 {
     public $searchJurusan = '';
     public $searchKelas = '';
-    public $search = '';
-    public $filteredKelases = [];
-    public $siswaTerpilih;
+    public $searchSiswa = '';
+    public $jurusans;
+    public $kelases = [];
+    public $siswa = null;
 
-    public function handleSearchJurusan($value)
+    public function mount()
     {
-        // Filter kelas berdasarkan jurusan yang dipilih
-        $this->filteredKelases = Kelas::where('jurusan_id', $value)->get();
-        // Reset pencarian kelas dan siswa saat jurusan berubah
+        $this->jurusans = Jurusan::all();
+    }
+
+    public function updatedSearchJurusan($jurusanId)
+    {
+        $this->kelases = Kelas::where('jurusan_id', $jurusanId)->get();
         $this->searchKelas = '';
-        $this->search = '';
-        $this->siswaTerpilih = null;
+        $this->searchSiswa = '';
+        $this->siswa = null;
     }
 
-    public function handleSearchKelas($value)
+    public function search()
     {
-        // Reset pencarian siswa saat kelas berubah
-        $this->search = '';
-        $this->siswaTerpilih = null;
-    }
+        $query = Siswa::query();
 
-    public function searchSiswa()
-    {
-        if ($this->searchJurusan && $this->searchKelas && $this->search) {
-            $this->siswaTerpilih = Siswa::where('kelas_id', $this->searchKelas)
-                ->where(function ($query) {
-                    $query->where('name', 'like', '%' . $this->search . '%')
-                        ->orWhere('nisn', 'like', '%' . $this->search . '%');
-                })->first();
+        if (!empty($this->searchSiswa)) {
+            $query->where('nisn', 'like', '%' . $this->searchSiswa . '%')
+                ->orWhere('name', 'like', '%' . $this->searchSiswa . '%');
+        } else {
+            if (!empty($this->searchJurusan)) {
+                $query->whereHas('kelas', function ($q) {
+                    $q->where('jurusan_id', $this->searchJurusan);
+                });
+            }
+            if (!empty($this->searchKelas)) {
+                $query->where('kelas_id', $this->searchKelas);
+            }
         }
+
+        $this->siswa = $query->first();
     }
     
     public function render()
     {
         return view('livewire.pages.master.pembayaran.input-pembayaran.input-pembayaran', [
-            'jurusans' => Jurusan::all(),
-            'kelases' => $this->searchJurusan ? Kelas::where('jurusan_id', $this->searchJurusan)->get() : [],
+            'kelases' => $this->kelases,
         ]);
     }
 }

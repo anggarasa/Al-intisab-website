@@ -21,9 +21,9 @@ class Tagihan extends Model
     // End belongs to
 
     // Many to many
-    public function jenisPembayarans()
+    public function jenisPembayaran()
     {
-        return $this->belongsToMany(JenisPembayaran::class, 'tagihan_to_jenis_pembayaran');
+        return $this->belongsTo(JenisPembayaran::class);
     }
     // End Many to many
 }
