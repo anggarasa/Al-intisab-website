@@ -23,7 +23,7 @@ class Tagihan extends Model
     // Many to many
     public function jenisPembayaran()
     {
-        return $this->belongsTo(JenisPembayaran::class);
+        return $this->belongsTo(JenisPembayaran::class, 'jenis_pembayaran_id');
     }
     // End Many to many
 }

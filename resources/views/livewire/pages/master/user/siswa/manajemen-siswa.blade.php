@@ -208,9 +208,10 @@
                             <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $siswa->tagihan ?
+                            {{-- <div class="text-sm text-gray-900">{{ $siswa->tagihan ?
                                 'Rp'.number_format($siswa->tagihan->sisa_tagihan,0,',','.') :
-                                '(Kosong)' }}</div>
+                                '(Kosong)' }}</div> --}}
+                            <div class="text-sm text-gray-900">Kosong</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $siswa->tempat_lahir }}</div>
