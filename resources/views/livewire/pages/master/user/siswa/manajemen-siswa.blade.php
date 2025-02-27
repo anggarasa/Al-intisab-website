@@ -208,10 +208,11 @@
                             <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            {{-- <div class="text-sm text-gray-900">{{ $siswa->tagihan ?
-                                'Rp'.number_format($siswa->tagihan->sisa_tagihan,0,',','.') :
-                                '(Kosong)' }}</div> --}}
-                            <div class="text-sm text-gray-900">Kosong</div>
+                            @php
+                            $totalSisaTagihan = $siswa->tagihan->sum('sisa_tagihan');
+                            @endphp
+                            <div class="text-sm text-gray-900">Total Sisa Tagihan: Rp{{
+                                number_format($totalSisaTagihan,0,',','.') }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $siswa->tempat_lahir }}</div>
@@ -413,6 +414,28 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <!-- Informasi Tagihan -->
+                                            @if ($siswa->tagihan->count() > 0)
+                                            <div
+                                                class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                                                <h4
+                                                    class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                                                    <i class="fa-solid fa-cash-register text-sm"></i>
+                                                    Informasi Pembayaran Pertahun
+                                                </h4>
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    @foreach ($siswa->tagihan as $tagihan)
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-500">{{
+                                                            $tagihan->jenisPembayaran->nama_pembayaran }}</label>
+                                                        <p class="mt-1 text-gray-900 font-medium">{{
+                                                            number_format($tagihan->sisa_tagihan,0,',','.') }}</p>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            @endif
 
                                             <!-- Informasi Personal -->
                                             <div

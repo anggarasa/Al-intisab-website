@@ -106,7 +106,7 @@ class ModalManajemenSiswa extends Component
 
                     Tagihan::create([
                         'siswa_id' => $siswa->id,
-                        'jenis_pembayaran_id' => $jenisPembayaran->id,
+                        'jenis_pembayaran_id' => $jenisPembayaran->id, // Pastikan ini diisi
                         'total_tagihan' => $jenisPembayaran->total,
                         'sisa_tagihan' => $jenisPembayaran->total,
                     ]);

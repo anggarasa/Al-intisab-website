@@ -9,6 +9,7 @@ class Tagihan extends Model
 {
     protected $fillable = [
         'siswa_id',
+        'jenis_pembayaran_id',
         'total_tagihan',
         'sisa_tagihan',
     ];
