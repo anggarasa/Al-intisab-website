@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Master\Pembayaran\InputPembayaran;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Jurusan;
+use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
@@ -56,6 +57,7 @@ class InputPembayaran extends Component
     {
         return view('livewire.pages.master.pembayaran.input-pembayaran.input-pembayaran', [
             'kelases' => $this->kelases,
+            'jenisPembayarans' => JenisPembayaran::all(),
         ]);
     }
 }

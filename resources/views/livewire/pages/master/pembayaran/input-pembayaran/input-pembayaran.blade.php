@@ -46,7 +46,7 @@
                     </div>
                 </form>
                 <div>
-                    <button type="submit"
+                    <button type="button" wire:click="search"
                         class="h-[42px] px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 transition">
                         Cari
                     </button>
@@ -92,9 +92,9 @@
                         <select x-model="jenisPembayaran"
                             class="w-full md:w-2/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition">
                             <option value="">Pilih Jenis Pembayaran</option>
-                            <option value="SPP">SPP</option>
-                            <option value="Uang Gedung">Uang Gedung</option>
-                            <option value="Praktikum">Praktikum</option>
+                            @foreach ($jenisPembayarans as $id => $jenisPembayaran)
+                            <option value="{{ $id }}">{{ $jenisPembayaran->nama_pembayaran }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -163,13 +163,19 @@
                     </div>
 
                     <!-- Status Pembayaran -->
-                    <div class="bg-yellow-50 rounded-lg p-4">
+                    @foreach ($siswa->tagihan as $index => $tagihan)
+                    <div class="bg-{{ ['yellow', 'green', 'blue', 'red', 'purple'][$index % 5] }}-50 rounded-lg p-4">
                         <div class="flex items-center justify-between">
-                            <span class="text-yellow-600 font-medium">Sisa Pembayaran</span>
-                            <span class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm font-medium">{{
-                                number_format(optional($siswa->tagihan)->sisa_tagihan ?? 0, 0, ',', '.') }}</span>
+                            <span
+                                class="text-{{ ['yellow', 'green', 'blue', 'red', 'purple'][$index % 5] }}-600 font-medium">{{
+                                $tagihan->jenisPembayaran->nama_pembayaran }}</span>
+                            <span
+                                class="px-3 py-1 bg-{{ ['yellow', 'green', 'blue', 'red', 'purple'][$index % 5] }}-100 text-{{ ['yellow', 'green', 'blue', 'red', 'purple'][$index % 5] }}-600 rounded-full text-sm font-medium">
+                                {{ number_format($tagihan->sisa_tagihan,0,',','.') }}
+                            </span>
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
             @endif
