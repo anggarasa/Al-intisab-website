@@ -6,6 +6,7 @@ use App\Livewire\Pages\Master\Kelas\ManajemenKelas;
 use App\Livewire\Pages\Master\Kurikulum\ManajemenKurikulum;
 use App\Livewire\Pages\Master\Pembayaran\InputPembayaran\InputPembayaran;
 use App\Livewire\Pages\Master\Pembayaran\JenisPembayaran\ManajemenJenisPembayaran;
+use App\Livewire\Pages\Master\RiwayatPembayaran\RiwayatPembayaran;
 use App\Livewire\Pages\Master\User\Guru\ManajemenGuru;
 use App\Livewire\Pages\Master\User\ManajemenUser;
 use App\Livewire\Pages\Master\User\Siswa\ManajemenSiswa;
@@ -40,4 +41,7 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
     // input Pembayaran
     Route::get('/input-pembayaran', InputPembayaran::class)->name('input-pembayaran');
+
+    // Riwayat pembayaran
+    Route::get('/riwayat-pembayaran', RiwayatPembayaran::class)->name('riwayat-pembayaran');
 });

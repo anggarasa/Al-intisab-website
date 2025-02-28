@@ -43,6 +43,10 @@
         <x-sidebar-menu-item href="{{ route('master.input-pembayaran') }}" label="Input Pembayaran"
           icon="fas fa-cash-register" :active="request()->routeIs('master.input-pembayaran')" />
 
+        <!-- Riwayat pembayaran -->
+        <x-sidebar-menu-item href="{{ route('master.riwayat-pembayaran') }}" label="Riwayat Pembayaran"
+          icon="fas fa-file-invoice-dollar" :active="request()->routeIs('master.riwayat-pembayaran')" />
+
         <!-- Tahun Ajaran & Kurikulum -->
         <x-sidebar-dropdown title="Tahun Ajaran & Kurikulum" icon="fas fa-book-open-reader" :links="[
             ['label' => 'Manajemen Kurikulum', 'url' => '/master/manajemen/kurikulum'],
@@ -118,6 +122,10 @@
         <!-- Input pembayaran -->
         <x-sidebar-menu-item href="{{ route('master.input-pembayaran') }}" label="Input Pembayaran"
           icon="fas fa-cash-register" :active="request()->routeIs('master.input-pembayaran')" />
+
+        <!-- Riwayat pembayaran -->
+        <x-sidebar-menu-item href="{{ route('master.riwayat-pembayaran') }}" label="Riwayat Pembayaran"
+          icon="fas fa-file-invoice-dollar" :active="request()->routeIs('master.riwayat-pembayaran')" />
 
         <!-- Tahun Ajaran & Kurikulum -->
         <x-sidebar-dropdown title="Tahun Ajaran & Kurikulum" icon="fas fa-book-open-reader" :links="[
