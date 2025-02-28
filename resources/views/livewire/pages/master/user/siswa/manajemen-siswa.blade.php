@@ -430,7 +430,9 @@
                                                         <label class="block text-sm font-medium text-gray-500">{{
                                                             $tagihan->jenisPembayaran->nama_pembayaran }}</label>
                                                         <p class="mt-1 text-gray-900 font-medium">{{
-                                                            number_format($tagihan->sisa_tagihan,0,',','.') }}</p>
+                                                            $tagihan->sisa_tagihan == 0 ? 'Lunas' :
+                                                            'Rp '. number_format($tagihan->sisa_tagihan,0,',','.') }}
+                                                        </p>
                                                     </div>
                                                     @endforeach
                                                 </div>

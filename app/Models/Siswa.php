@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\TataUsaha\Pembayaran\Tagihan;
+use App\Models\TataUsaha\Transaksi;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class Siswa extends Model
 {
@@ -54,10 +54,15 @@ class Siswa extends Model
     }
     // Belongs to
 
-    // one to one
+    // has many
     public function tagihan()
     {
         return $this->hasMany(Tagihan::class);
     }
-    // End one to one
+    
+    public function transaksis()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
+    // End has many
 }

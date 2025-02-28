@@ -61,14 +61,7 @@
         <div class="bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Form Pembayaran</h2>
 
-            <form x-data="{
-                    nisn: '',
-                    kelas: '',
-                    jenisPembayaran: '',
-                    jumlahPembayaran: '',
-                    tanggalPembayaran: '',
-                    keterangan: ''
-                }">
+            <form wire:submit="inputPembayaran">
                 <div class="space-y-4">
                     <!-- NISN -->
                     <div class="flex flex-col md:flex-row md:items-center gap-4">
@@ -89,19 +82,24 @@
                     <!-- Jenis Pembayaran -->
                     <div class="flex flex-col md:flex-row md:items-center gap-4">
                         <label class="w-full md:w-1/3 text-gray-700 font-medium">Jenis Pembayaran</label>
-                        <select x-model="jenisPembayaran"
+                        <select wire:model="jenisPembayaran"
                             class="w-full md:w-2/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition">
                             <option value="">Pilih Jenis Pembayaran</option>
-                            @foreach ($jenisPembayarans as $id => $jenisPembayaran)
-                            <option value="{{ $id }}">{{ $jenisPembayaran->nama_pembayaran }}</option>
+                            @if ($siswa && $siswa->tagihan->isNotEmpty())
+                            @foreach ($siswa->tagihan as $tagihan)
+                            <option value="{{ $tagihan->id }}">{{
+                                $tagihan->jenisPembayaran->nama_pembayaran }}</option>
                             @endforeach
+                            @else
+                            <option value="">Tidak ada tagihan</option>
+                            @endif
                         </select>
                     </div>
 
                     <!-- Jumlah Pembayaran -->
                     <div class="flex flex-col md:flex-row md:items-center gap-4">
                         <label class="w-full md:w-1/3 text-gray-700 font-medium">Jumlah Pembayaran</label>
-                        <input type="number" x-model="jumlahPembayaran"
+                        <input type="number" wire:model="jumlahPembayaran"
                             class="w-full md:w-2/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
                             placeholder="Rp." />
                     </div>
@@ -109,14 +107,14 @@
                     <!-- Tanggal Pembayaran -->
                     <div class="flex flex-col md:flex-row md:items-center gap-4">
                         <label class="w-full md:w-1/3 text-gray-700 font-medium">Tanggal Pembayaran</label>
-                        <input type="date" x-model="tanggalPembayaran"
+                        <input type="date" wire:model="tglPembayaran"
                             class="w-full md:w-2/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition" />
                     </div>
 
                     <!-- Keterangan -->
                     <div class="flex flex-col md:flex-row md:items-start gap-4">
                         <label class="w-full md:w-1/3 text-gray-700 font-medium">Keterangan</label>
-                        <textarea x-model="keterangan" rows="3"
+                        <textarea wire:model="keterangan" rows="3"
                             class="w-full md:w-2/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
                             placeholder="Tambahkan keterangan..."></textarea>
                     </div>
@@ -171,7 +169,8 @@
                                 $tagihan->jenisPembayaran->nama_pembayaran }}</span>
                             <span
                                 class="px-3 py-1 bg-{{ ['yellow', 'green', 'blue', 'red', 'purple'][$index % 5] }}-100 text-{{ ['yellow', 'green', 'blue', 'red', 'purple'][$index % 5] }}-600 rounded-full text-sm font-medium">
-                                {{ number_format($tagihan->sisa_tagihan,0,',','.') }}
+                                {{ $tagihan->sisa_tagihan == 0 ? 'Lunas' :
+                                'Rp '.number_format($tagihan->sisa_tagihan,0,',','.') }}
                             </span>
                         </div>
                     </div>

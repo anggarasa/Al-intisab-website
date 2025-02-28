@@ -3,6 +3,7 @@
 namespace App\Models\TataUsaha\Pembayaran;
 
 use App\Models\Siswa;
+use App\Models\TataUsaha\Transaksi;
 use Illuminate\Database\Eloquent\Model;
 
 class Tagihan extends Model
@@ -19,12 +20,17 @@ class Tagihan extends Model
     {
         return $this->belongsTo(Siswa::class);
     }
-    // End belongs to
 
-    // Many to many
     public function jenisPembayaran()
     {
         return $this->belongsTo(JenisPembayaran::class, 'jenis_pembayaran_id');
     }
-    // End Many to many
+    // End belongs to
+
+    // has many
+    public function transaksis()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
+    // End has many
 }

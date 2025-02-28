@@ -2,6 +2,7 @@
 
 namespace App\Models\TataUsaha\Pembayaran;
 
+use App\Models\TataUsaha\Transaksi;
 use Illuminate\Database\Eloquent\Model;
 
 class JenisPembayaran extends Model
@@ -11,10 +12,10 @@ class JenisPembayaran extends Model
         'total',
     ];
 
-    // many to many
+    // Has many
     public function tagihans()
     {
         return $this->hasMany(Tagihan::class, 'jenis_pembayaran_id');
     }
-    // End many to many
+    // End Has many
 }
