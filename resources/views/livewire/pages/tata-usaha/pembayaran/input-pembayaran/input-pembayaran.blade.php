@@ -1,4 +1,4 @@
-<div class="p-4 mt-16">
+<div class="p-4 lg:p-8">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 mb-8 md:flex-row md:items-center md:justify-between">
         <div>

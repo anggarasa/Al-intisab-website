@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Livewire\Pages\Master\Pembayaran\InputPembayaran;
+namespace App\Livewire\Pages\TataUsaha\Pembayaran\InputPembayaran;
 
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Jurusan;
-use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
-use App\Models\TataUsaha\Pembayaran\Tagihan;
-use App\Models\TataUsaha\Transaksi;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use App\Models\TataUsaha\Transaksi;
+use App\Models\TataUsaha\Pembayaran\Tagihan;
+use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
 
-#[Layout('layouts.master-layout', ['title' => 'Input Pembayaran'])]
+#[Layout('layouts.tatausaha-layout', ['title' => 'Input Pembayaran'])]
 class InputPembayaran extends Component
 {
     public $searchJurusan = '';
@@ -63,7 +63,7 @@ class InputPembayaran extends Component
     public function inputPembayaran()
     {
         if (!$this->siswa) {
-            $this->dispatch('notificationMaster', [
+            $this->dispatch('notificationTataUsaha', [
                 'type' => 'error',
                 'message' => 'Silakan pilih siswa terlebih dahulu.',
                 'title' => 'Gagal',
@@ -100,14 +100,14 @@ class InputPembayaran extends Component
             ]);
 
             // kirim notifikasi success
-            $this->dispatch('notificationMaster', [
+            $this->dispatch('notificationTataUsaha', [
                 'type' => 'success',
                 'message' => $this->siswa->name .' Berhasil melakukan pembayaran '. $jenisTagihan->JenisPembayaran->nama_pembayaran,
                 'title' => 'Berhasil',
             ]);
         } catch (\Exception $e) {
             // kirim notifikasi error
-            $this->dispatch('notificationMaster', [
+            $this->dispatch('notificationTataUsaha', [
                 'type' => 'error',
                 'message' => $e->getMessage(),
                 'title' => 'Gagal',
@@ -118,7 +118,7 @@ class InputPembayaran extends Component
     
     public function render()
     {
-        return view('livewire.pages.master.pembayaran.input-pembayaran.input-pembayaran', [
+        return view('livewire.pages.tata-usaha.pembayaran.input-pembayaran.input-pembayaran', [
             'kelases' => $this->kelases,
             'jenisPembayarans' => JenisPembayaran::all(),
         ]);

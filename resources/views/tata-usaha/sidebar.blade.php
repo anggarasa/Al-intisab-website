@@ -22,16 +22,21 @@
         <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-kelas.manajemen') }}" label="Kelas"
           icon="fas fa-school" :active="request()->routeIs('tata-usaha.manajemen-kelas.manajemen')" />
 
+        <!-- Jenis pembayaran -->
+        <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-pembayaran.jenis-pembayaran') }}"
+          label="Jenis Pembayaran" icon="fas fa-money-check-dollar"
+          :active="request()->routeIs('tata-usaha.manajemen-pembayaran.jenis-pembayaran')" />
+
         <!-- Siswa & Guru -->
         <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-users" :links="[
             ['label' => 'Manajemen Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
             ['label' => 'Manajemen Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
         ]" />
 
-        <!-- Jenis pembayaran -->
-        <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-pembayaran.jenis-pembayaran') }}"
-          label="Jenis Pembayaran" icon="fas fa-money-check-dollar"
-          :active="request()->routeIs('tata-usaha.manajemen-pembayaran.jenis-pembayaran')" />
+        <!-- Input pembayaran -->
+        <x-sidebar-menu-item href="{{ route('tata-usaha.input-pembayaran') }}" label="Jenis Pembayaran"
+          icon="fas fa-money-check-dollar" :active="request()->routeIs('tata-usaha.input-pembayaran')" />
+
         <!-- Settings Dropdown -->
         <li class="mb-2">
           <div @click="settingsDropdown = !settingsDropdown"
@@ -74,23 +79,20 @@
         <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-kelas.manajemen') }}" label="Kelas"
           icon="fas fa-school" :active="request()->routeIs('tata-usaha.manajemen-kelas.manajemen')" />
 
+        <!-- Jenis pembayaran -->
+        <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-pembayaran.jenis-pembayaran') }}"
+          label="Jenis Pembayaran" icon="fas fa-money-check-dollar"
+          :active="request()->routeIs('tata-usaha.manajemen-pembayaran.jenis-pembayaran')" />
+
         <!-- Siswa & Guru -->
         <x-sidebar-dropdown title="Siswa & Guru" icon="fas fa-users" :links="[
             ['label' => 'Manajemen Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
             ['label' => 'Manajemen Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
         ]" />
 
-        <!-- Jenis pembayaran -->
-        <x-sidebar-menu-item href="{{ route('tata-usaha.manajemen-pembayaran.jenis-pembayaran') }}"
-          label="Jenis Pembayaran" icon="fas fa-money-check-dollar"
-          :active="request()->routeIs('tata-usaha.manajemen-pembayaran.jenis-pembayaran')" />
-
-        <!-- Pembayaran -->
-        <x-sidebar-dropdown title="Pembayaran" icon="fas fa-cash-register" :links="[
-            ['label' => 'SPP', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
-            ['label' => 'Baju', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
-            ['label' => 'PKL', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
-        ]" />
+        <!-- Input pembayaran -->
+        <x-sidebar-menu-item href="{{ route('tata-usaha.input-pembayaran') }}" label="Input Pembayaran"
+          icon="fas fa-cash-register" :active="request()->routeIs('tata-usaha.input-pembayaran')" />
 
         <!-- Absensi -->
         <x-sidebar-dropdown title="Absensi" icon="fas fa-clock" :links="[
