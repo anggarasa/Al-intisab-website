@@ -14,33 +14,32 @@
     <!-- Filters Section -->
     <div class="p-6 mb-8 bg-white rounded-xl shadow-sm border border-gray-100">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <form>
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-700">Search</label>
-                    <div class="relative">
-                        <input type="search" wire:model.live="search" placeholder="Cari Siswa..."
-                            class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
-                        <div class="absolute top-1/2 left-3 transform -translate-y-1/2">
-                            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-                        </div>
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-700">Search</label>
+                <div class="relative">
+                    <input type="search" wire:model.live="search" placeholder="Cari Nama/NISN Siswa..."
+                        class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                    <div class="absolute top-1/2 left-3 transform -translate-y-1/2">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
                     </div>
                 </div>
-            </form>
+            </div>
+
             <div>
-                <label class="block mb-2 text-sm font-medium text-gray-700">Jurusan</label>
-                <select wire:model.live="searchJurusan"
+                <label class="block mb-2 text-sm font-medium text-gray-700">Jenis Pembayaran</label>
+                <select wire:model.live="searchJenisPembayaran"
                     class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
-                    <option value="">Semua Jurusan</option>
-                    <option value="">Rekayasa Perangkat Lunak</option>
+                    <option value="">Semua Jenis Pembayaran</option>
+                    @foreach ($jenisPembayarans as $jenisPembayaran)
+                    <option value="{{ $jenisPembayaran->id }}">{{ $jenisPembayaran->nama_pembayaran }}</option>
+                    @endforeach
                 </select>
             </div>
+
             <div>
-                <label class="block mb-2 text-sm font-medium text-gray-700">Kelas</label>
-                <select wire:model.live="searchKelas"
+                <label class="block mb-2 text-sm font-medium text-gray-700">Tanggal Pembayaran</label>
+                <input type="date" wire:model.live="searchTanggalPembayaran"
                     class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
-                    <option value="">Semua Kelas</option>
-                    <option value="">X RPL</option>
-                </select>
             </div>
         </div>
     </div>
