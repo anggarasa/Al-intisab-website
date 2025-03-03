@@ -10,12 +10,13 @@ use App\Models\Jurusan;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\JenisKelamin;
-use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
-use App\Models\TataUsaha\Pembayaran\Tagihan;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Models\TataUsaha\Pembayaran\Tagihan;
+use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
 
 class ModalManajemenSiswa extends Component
 {
@@ -40,6 +41,7 @@ class ModalManajemenSiswa extends Component
     // Tambah Siswa
     public function tambahSiswa()
     {
+        DB::beginTransaction(); // Mulai transaksi database
         try {
             $validated = $this->validate([
                 'name' => 'required|string|max:255',
@@ -61,21 +63,21 @@ class ModalManajemenSiswa extends Component
                 'alamat' => 'required',
                 'selectedJenisPembayarans' => 'nullable|array',
             ]);
-    
-            // Simpan data user email dan password
+
+            // Simpan data user
             $user = User::create([
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password'])
             ]);
             $user->assignRole('siswa');
-    
-            // Simpan data foto ke storage jika ada
-            $fotoUrl = null; // Inisialisasi fotoUrl
+
+            // Simpan foto ke storage jika ada
+            $fotoUrl = null;
             if ($this->foto) {
                 $namaFoto = time() . '.' . $this->foto->getClientOriginalExtension();
                 $fotoUrl = $this->foto->storeAs('tata-usaha/siswa/foto', $namaFoto, 'public');
             }
-    
+
             // Simpan data siswa
             $siswa = Siswa::create([
                 'name' => $this->name,
@@ -95,37 +97,42 @@ class ModalManajemenSiswa extends Component
                 'alamat' => $this->alamat,
                 'user_id' => $user->id,
             ]);
-    
-            // Jika ada jenis pembayaran yang dipilih, buat tagihan
+
+            // Jika ada jenis pembayaran yang dipilih, buat tagihan per jenis pembayaran
             if (!empty($this->selectedJenisPembayarans)) {
-                $totalTagihan = JenisPembayaran::whereIn('id', $this->selectedJenisPembayarans)->sum('total');
-    
-                $tagihan = Tagihan::create([
-                    'siswa_id' => $siswa->id,
-                    'total_tagihan' => $totalTagihan,
-                    'sisa_tagihan' => $totalTagihan,
-                ]);
-    
-                $tagihan->jenisPembayarans()->attach($this->selectedJenisPembayarans);
+                foreach ($this->selectedJenisPembayarans as $jenisPembayaranId) {
+                    $jenisPembayaran = JenisPembayaran::findOrFail($jenisPembayaranId); // Pastikan jenis pembayaran valid
+
+                    Tagihan::create([
+                        'siswa_id' => $siswa->id,
+                        'jenis_pembayaran_id' => $jenisPembayaran->id, // Pastikan ini diisi
+                        'total_tagihan' => $jenisPembayaran->total,
+                        'sisa_tagihan' => $jenisPembayaran->total,
+                    ]);
+                }
             }
-    
+
+            DB::commit(); // Simpan perubahan ke database jika semua proses berhasil
+
             // Menampilkan data real-time
             $this->dispatch('manajemen-siswa')->to(ManajemenSiswa::class);
-    
+
             // Reset form
             $this->resetInput();
-    
-            // Kirim notifikasi success
+
+            // Kirim notifikasi sukses
             $this->dispatch('notificationTataUsaha', [
                 'type' => 'success',
                 'message' => 'Data siswa berhasil disimpan!',
                 'title' => 'Berhasil!',
             ]);
         } catch (\Exception $e) {
+            DB::rollBack(); // Batalkan semua perubahan jika terjadi error
+
             // Kirim notifikasi error
             $this->dispatch('notificationTataUsaha', [
                 'type' => 'error',
-                'message' => $e->getMessage(),
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
                 'title' => 'Gagal!',
             ]);
         }
@@ -157,12 +164,18 @@ class ModalManajemenSiswa extends Component
         $this->email = $siswa->user->email;
 
         // Ambil jenis pembayaran yang sudah dipilih sebelumnya
-        if ($siswa->tagihan) {
-            $this->selectedJenisPembayarans = $siswa->tagihan->jenisPembayarans
-                ->pluck('id') // Ambil hanya id-nya
-                ->toArray(); // Konversi ke array
-        } else {
-            $this->selectedJenisPembayarans = []; // Jika tidak ada tagihan, set ke array kosong
+        $this->selectedJenisPembayarans = []; // Reset array
+        
+        // Cari tagihan-tagihan siswa yang ada
+        $tagihan = Tagihan::where('siswa_id', $siswa->id)->get();
+        
+        // Jika ada tagihan, ambil ID jenis pembayaran untuk masing-masing tagihan
+        if ($tagihan->count() > 0) {
+            foreach ($tagihan as $t) {
+                if ($t->jenis_pembayaran_id) {
+                    $this->selectedJenisPembayarans[] = $t->jenis_pembayaran_id;
+                }
+            }
         }
 
         // Ambil URL foto jika ada
@@ -172,9 +185,11 @@ class ModalManajemenSiswa extends Component
         // Buka modal
         $this->dispatch('modal-curd-siswa');
     }
-    
+
+    // Perbaikan pada fungsi updateSiswa
     public function updateSiswa()
     {
+        DB::beginTransaction(); // Mulai transaksi database
         try {
             $siswa = Siswa::find($this->siswaId);
 
@@ -219,7 +234,7 @@ class ModalManajemenSiswa extends Component
                 'namaIbu' => 'required|string|max:255',
                 'namaWali' => 'nullable|string|max:255',
                 'alamat' => 'required',
-                'selectedJenisPembayarans' => 'nullable|array', // Validasi untuk jenis pembayaran
+                'selectedJenisPembayarans' => 'nullable|array',
             ]);
 
             // Update data user email dan password
@@ -261,32 +276,28 @@ class ModalManajemenSiswa extends Component
                 'alamat' => $this->alamat,
             ]);
 
-            // Update atau buat tagihan jika ada jenis pembayaran yang dipilih
+            // Jika ada jenis pembayaran yang dipilih, update tagihan per jenis pembayaran
             if (!empty($this->selectedJenisPembayarans)) {
-                // Hitung total tagihan
-                $totalTagihan = JenisPembayaran::whereIn('id', $this->selectedJenisPembayarans)->sum('total');
+                // Hapus semua tagihan yang ada terkait dengan siswa ini
+                Tagihan::where('siswa_id', $siswa->id)->delete();
+                
+                // Buat tagihan baru berdasarkan jenis pembayaran yang dipilih
+                foreach ($this->selectedJenisPembayarans as $jenisPembayaranId) {
+                    $jenisPembayaran = JenisPembayaran::findOrFail($jenisPembayaranId); // Pastikan jenis pembayaran valid
 
-                // Cek apakah tagihan sudah ada
-                $tagihan = $siswa->tagihan;
-
-                if ($tagihan) {
-                    // Update tagihan yang sudah ada
-                    $tagihan->update([
-                        'total_tagihan' => $totalTagihan,
-                        'sisa_tagihan' => $totalTagihan, // Reset sisa tagihan jika diperlukan
-                    ]);
-                } else {
-                    // Buat tagihan baru
-                    $tagihan = Tagihan::create([
+                    Tagihan::create([
                         'siswa_id' => $siswa->id,
-                        'total_tagihan' => $totalTagihan,
-                        'sisa_tagihan' => $totalTagihan,
+                        'jenis_pembayaran_id' => $jenisPembayaran->id,
+                        'total_tagihan' => $jenisPembayaran->total,
+                        'sisa_tagihan' => $jenisPembayaran->total,
                     ]);
                 }
-
-                // Sync jenis pembayaran yang dipilih
-                $tagihan->jenisPembayarans()->sync($this->selectedJenisPembayarans);
+            } else {
+                // Jika tidak ada jenis pembayaran yang dipilih, hapus semua tagihan
+                Tagihan::where('siswa_id', $siswa->id)->delete();
             }
+
+            DB::commit(); // Simpan perubahan ke database jika semua proses berhasil
 
             // Menampilkan data real-time
             $this->dispatch('manajemen-siswa')->to(ManajemenSiswa::class);
@@ -301,10 +312,12 @@ class ModalManajemenSiswa extends Component
                 'title' => 'Berhasil!',
             ]);
         } catch (\Exception $e) {
+            DB::rollBack(); // Batalkan semua perubahan jika terjadi error
+            
             // Kirim notifikasi error
             $this->dispatch('notificationTataUsaha', [
                 'type' => 'error',
-                'message' => $e->getMessage(),
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
                 'title' => 'Gagal!',
             ]);
         }
@@ -325,47 +338,58 @@ class ModalManajemenSiswa extends Component
 
     public function deleteSiswa()
     {
+        DB::beginTransaction(); // Mulai transaksi database
         try {
+            // Ambil data siswa
             $siswa = Siswa::find($this->siswaId);
-
-            // Hapus foto siswa dari storage
+            
+            if (!$siswa) {
+                throw new \Exception('Data siswa tidak ditemukan.');
+            }
+            
+            // Hapus tagihan terkait
+            Tagihan::where('siswa_id', $siswa->id)->delete();
+            
+            // Hapus foto jika ada
             if ($siswa->foto && Storage::disk('public')->exists($siswa->foto)) {
                 Storage::disk('public')->delete($siswa->foto);
             }
-
-            // Hapus tagihan dan relasi jenis pembayaran jika ada
-            if ($siswa->tagihan) {
-                // Hapus relasi jenis pembayaran
-                $siswa->tagihan->jenisPembayarans()->detach();
-
-                // Hapus tagihan
-                $siswa->tagihan->delete();
-            }
-
-            // Hapus data user yang berelasi
-            $siswa->user()->delete();
-
+            
+            // Simpan user_id untuk dihapus setelah siswa
+            $userId = $siswa->user_id;
+            
             // Hapus data siswa
             $siswa->delete();
-
+            
+            // Hapus data user
+            if ($userId) {
+                $user = User::find($userId);
+                if ($user) {
+                    $user->delete();
+                }
+            }
+            
+            DB::commit(); // Simpan perubahan ke database jika semua proses berhasil
+            
             // Menampilkan data real-time
             $this->dispatch('manajemen-siswa')->to(ManajemenSiswa::class);
 
-            // Reset input
             $this->resetInput();
-
+            
             // Kirim notifikasi success
             $this->dispatch('notificationTataUsaha', [
                 'type' => 'success',
-                'message' => 'Berhasil menghapus data siswa',
-                'title' => 'Berhasil!'
+                'message' => 'Data siswa berhasil dihapus!',
+                'title' => 'Berhasil!',
             ]);
         } catch (\Exception $e) {
+            DB::rollBack(); // Batalkan semua perubahan jika terjadi error
+            
             // Kirim notifikasi error
             $this->dispatch('notificationTataUsaha', [
                 'type' => 'error',
-                'message' => 'Gagal menghapus data siswa: ' . $e->getMessage(),
-                'title' => 'Gagal!'
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+                'title' => 'Gagal!',
             ]);
         }
     }
