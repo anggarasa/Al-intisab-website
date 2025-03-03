@@ -32,7 +32,7 @@
     @include('tata-usaha.sidebar')
 
     <!-- Rest of the content remains the same -->
-    <div class="lg:pl-64">
+    <div class="lg:pl-72">
         <livewire:layout.tata-usaha.navbar />
         <livewire:layout.tata-usaha.notification.popup-notification-tata-usaha>
             {{ $slot }}
