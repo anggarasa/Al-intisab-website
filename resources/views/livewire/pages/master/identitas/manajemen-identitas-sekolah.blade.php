@@ -10,7 +10,7 @@
             </p>
         </div>
         @if ($identitasSekolahs->isEmpty())
-        <button @click="$dispatch('modal-curd-identitas')"
+        <button @click="$dispatch('modal-crud-identitas')"
             class="flex items-center px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-200">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -26,7 +26,8 @@
         @foreach ($identitasSekolahs as $identitas)
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-end mb-4">
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <button type="button" wire:click="editIdentitas({{ $identitas->id }})"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     <i class="fas fa-edit mr-2"></i>Edit
                 </button>
                 <button type="button" wire:click="hapusIdentitas({{ $identitas->id }})"

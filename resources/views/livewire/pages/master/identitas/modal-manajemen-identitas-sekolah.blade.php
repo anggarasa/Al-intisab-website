@@ -4,7 +4,7 @@
 }">
 
     {{-- Modal Crud siswa --}}
-    <div x-show="showModal" class="fixed inset-0 z-30 overflow-y-auto" @modal-curd-identitas.window="showModal = true"
+    <div x-show="showModal" class="fixed inset-0 z-30 overflow-y-auto" @modal-crud-identitas.window="showModal = true"
         @close-modal-crud-identitas.window="showModal = false" x-cloak>
         <div class="flex items-center justify-center min-h-screen px-4">
             <!-- Overlay -->

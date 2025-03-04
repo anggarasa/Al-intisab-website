@@ -21,12 +21,12 @@ class ModalManajemenIdentitasSekolah extends Component
                 'kepala_sekolah' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email', 'max:255'],
                 'noHp' => ['required', 'string', 'min:10', 'max:15'],
-                'npsn' => ['required', 'string'],
+                'npsn' => ['required', 'integer'],
                 'kelurahan' => ['required', 'string', 'max:255'],
                 'kecamatan' => ['required', 'string', 'max:255'],
                 'kota' => ['required', 'string', 'max:255'],
                 'provinsi' => ['required', 'string', 'max:255'],
-                'pos' => ['required', 'string', 'max:255'],
+                'pos' => ['required', 'integer'],
                 'alamat' => ['required', 'string', 'max:255'],
                 'akreditasi' => ['required', 'string', 'max:255'],
             ]);
@@ -68,6 +68,87 @@ class ModalManajemenIdentitasSekolah extends Component
         }
     }
     // End buat identitas sekolah
+
+    // update identitas sekolah
+    #[On('editIdentitas')]
+    public function editIdentitas($id)
+    {
+        $this->isEdit = true;
+        $identitas = IdentitasSekolah::find($id);
+        $this->identitasId = $identitas->id;
+        $this->name = $identitas->nama_sekolah;
+        $this->npsn = $identitas->npsn;
+        $this->alamat = $identitas->alamat_sekolah;
+        $this->kepala_sekolah = $identitas->kepala_sekolah;
+        $this->email = $identitas->email;
+        $this->noHp = $identitas->no_telpone;
+        $this->kelurahan = $identitas->kelurahan;
+        $this->kecamatan = $identitas->kecamatan;
+        $this->kota = $identitas->kabupaten_kota;
+        $this->provinsi = $identitas->provinsi;
+        $this->pos = $identitas->kode_pos;
+        $this->akreditasi = $identitas->akreditasi;
+
+        $this->dispatch('modal-crud-identitas');
+    }
+    
+    public function updateIdentitasSekolah()
+    {
+        try {
+            $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'kepala_sekolah' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email', 'max:255'],
+                'noHp' => ['required', 'string', 'min:10', 'max:15'],
+                'npsn' => ['required', 'integer'],
+                'kelurahan' => ['required', 'string', 'max:255'],
+                'kecamatan' => ['required', 'string', 'max:255'],
+                'kota' => ['required', 'string', 'max:255'],
+                'provinsi' => ['required', 'string', 'max:255'],
+                'pos' => ['required', 'integer'],
+                'alamat' => ['required', 'string', 'max:255'],
+                'akreditasi' => ['required', 'string', 'max:255'],
+            ]);
+
+            $identitas = IdentitasSekolah::find($this->identitasId);
+
+            $identitas->update([
+                'nama_sekolah' => $this->name,
+                'npsn' => $this->npsn,
+                'alamat_sekolah' => $this->alamat,
+                'kepala_sekolah' => $this->kepala_sekolah,
+                'email' => $this->email,
+                'no_telpone' => $this->noHp,
+                'kelurahan' => $this->kelurahan,
+                'kecamatan' => $this->kecamatan,
+                'kabupaten_kota' => $this->kota,
+                'provinsi' => $this->provinsi,
+                'kode_pos' => $this->pos,
+                'akreditasi' => $this->akreditasi,
+            ]);
+
+            // menampilkan data secara real-time
+            $this->dispatch('manajemen-identitas-sekolah')->to(ManajemenIdentitasSekolah::class);
+
+            // reset input
+            $this->resetInput();
+
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Data identitas sekolah berhasil diupdate',
+                'title' => 'Berhasil'
+            ]);
+        } catch (\Exception $e) {
+            // kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal'
+            ]);
+        }
+    }
+    // End update identitas sekolah
 
     // Delete Identitas Sekolah
     #[On('hapusIdentitas')]
@@ -128,7 +209,8 @@ class ModalManajemenIdentitasSekolah extends Component
         'noHp.min' => 'Nomor HP harus minimal 10 karakter.',
         'noHp.max' => 'Nomor HP tidak boleh lebih dari 13 karakter.',
         'npsn.required' => 'NPSN harus diisi.',
-        'npsn.string' => 'NPSN harus berupa teks.',
+        'npsn.integer' => 'NPSN harus berupa angka.',
+        'npsn.max' => 'NPSN tidak boleh lebih dari 10 karakter.',
         'kelurahan.required' => 'Kelurahan harus diisi.',
         'kelurahan.string' => 'Kelurahan harus berupa teks.',
         'kelurahan.max' => 'Kelurahan tidak boleh lebih dari 255 karakter.',
@@ -142,7 +224,7 @@ class ModalManajemenIdentitasSekolah extends Component
         'provinsi.string' => 'Provinsi harus berupa teks.',
         'provinsi.max' => 'Provinsi tidak boleh lebih dari 255 karakter.',
         'pos.required' => 'Kode pos harus diisi.',
-        'pos.string' => 'Kode pos harus berupa teks.',
+        'pos.integer' => 'Kode pos harus berupa angka.',
         'pos.max' => 'Kode pos tidak boleh lebih dari 255 karakter.',
         'akreditasi.required' => 'Akreditasi harus diisi.',
         'akreditasi.string' => 'Akreditasi harus berupa teks.',
