@@ -2,13 +2,6 @@
     showModal: false,
     showDeleteModal: false,
 }">
-    <button @click="showModal = true"
-        class="flex items-center px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-200">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-        </svg>
-        Buat Identitas Sekolah
-    </button>
 
     {{-- Modal Crud siswa --}}
     <div x-show="showModal" class="fixed inset-0 z-30 overflow-y-auto" @modal-curd-identitas.window="showModal = true"
@@ -33,58 +26,67 @@
                 </div>
 
                 <!-- Form -->
-                <form wire:submit="{{ $isEdit == true ? 'updateIdentitasSekolah' : 'tambahIdentitasSekolah' }}"
+                <form wire:submit="{{ $isEdit == true ? 'updateIdentitasSekolah' : 'buatIdentitas' }}"
                     class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Nama -->
                         <div>
-                            <x-input name="name" label="Nama Sekolah" wire="name" required="true" />
+                            <x-input name="name" label="Nama Sekolah" wire="name" placeholder="Nama Sekolah"
+                                required="true" />
                         </div>
 
                         <!-- Nama Kepala sekolah -->
                         <div>
                             <x-input name="kepala_sekolah" label="Nama Kepala Sekolah" wire="kepala_sekolah"
-                                required="true" />
+                                placeholder="John Doe" required="true" />
                         </div>
 
                         <!-- Email -->
                         <div>
-                            <x-input type="email" name="email" label="Email" wire="email" required="true" />
+                            <x-input type="email" name="email" label="Email" wire="email"
+                                placeholder="emailsekolah@example.com" required="true" />
                         </div>
 
                         <!-- No HP -->
                         <div>
-                            <x-input type="tel" name="noHp" label="No. Handphone" wire="noHp" required="true" />
+                            <x-input type="tel" name="noHp" label="No. Handphone" wire="noHp" placeholder="081233456789"
+                                required="true" />
                         </div>
 
                         <!-- NPSN -->
                         <div>
-                            <x-input type="number" name="npsn" label="NPSN" wire="npsn" required="true" />
+                            <x-input type="number" name="npsn" label="NPSN" wire="npsn" placeholder="123456789"
+                                required="true" />
                         </div>
 
                         <!-- Kelurahan -->
                         <div>
-                            <x-input type="text" name="kelurahan" label="Kelurahan" wire="kelurahan" required="true" />
+                            <x-input type="text" name="kelurahan" label="Kelurahan" wire="kelurahan"
+                                placeholder="Nama Kelurahan" required="true" />
                         </div>
 
                         <!-- Kecamatam -->
                         <div>
-                            <x-input type="text" name="kecamatan" label="Kecamatam" wire="kecamatan" required="true" />
+                            <x-input type="text" name="kecamatan" label="Kecamatam" wire="kecamatan"
+                                placeholder="Nama Kecamatan" required="true" />
                         </div>
 
                         <!-- Kab/Kota -->
                         <div>
-                            <x-input type="text" name="kota" label="Kab/Kota" wire="kota" required="true" />
+                            <x-input type="text" name="kota" label="Kab/Kota" wire="kota" placeholder="Nama Kota"
+                                required="true" />
                         </div>
 
                         <!-- Provinsi -->
                         <div>
-                            <x-input type="text" name="provinsi" label="Provinsi" wire="provinsi" required="true" />
+                            <x-input type="text" name="provinsi" label="Provinsi" wire="provinsi"
+                                placeholder="Nama Provinsi" required="true" />
                         </div>
 
                         <!-- Kode Pos -->
                         <div>
-                            <x-input type="text" name="pos" label="Kode Pos" wire="pos" required="true" />
+                            <x-input type="text" name="pos" label="Kode Pos" wire="pos" placeholder="42312"
+                                required="true" />
                         </div>
 
                         <!-- Akreditasi -->
@@ -104,7 +106,7 @@
                     <!-- Alamat -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Sekolah</label>
-                        <textarea wire:model="alamat" rows="3"
+                        <textarea wire:model="alamat" rows="3" placeholder="Jl.epres No.1"
                             class="w-full px-3 py-2 border-2 rounded-lg focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50"></textarea>
                     </div>
 
@@ -124,8 +126,8 @@
         </div>
     </div>
 
-    <div x-show="showDeleteModal" @modal-delete-siswa.window="showDeleteModal = true"
-        @close-modal-delete-siswa.window="showDeleteModal = false" class="fixed inset-0 z-30 overflow-y-auto"
+    <div x-show="showDeleteModal" @modal-delete-identitas.window="showDeleteModal = true"
+        @close-modal-delete-identitas.window="showDeleteModal = false" class="fixed inset-0 z-30 overflow-y-auto"
         style="display: none">
         <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
         <div class="relative flex items-center justify-center min-h-screen p-4">
@@ -145,7 +147,7 @@
                 </h3>
                 <p class="text-sm text-center text-gray-500 mb-6">
                     Apakah Anda yakin ingin menghapus
-                    <span class="font-medium text-gray-900">{{ $name }}</span>? Tindakan ini
+                    <span class="font-medium text-gray-900">Identitas Sekolah</span>? Tindakan ini
                     tidak
                     dapat dibatalkan.
                 </p>
@@ -155,7 +157,7 @@
                         class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                         Batal
                     </button>
-                    <button type="button" wire:click="deleteSiswa"
+                    <button type="button" wire:click="deleteIdentitas"
                         class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
                         Hapus
                     </button>

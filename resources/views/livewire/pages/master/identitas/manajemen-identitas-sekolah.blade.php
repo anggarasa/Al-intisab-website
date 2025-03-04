@@ -9,16 +9,32 @@
                 Kelola identitas sekolah Smk Al-Intisab
             </p>
         </div>
-        @if (!$identitasSekolahs)
-        <livewire:pages.master.identitas.modal-manajemen-identitas-sekolah />
+        @if ($identitasSekolahs->isEmpty())
+        <button @click="$dispatch('modal-curd-identitas')"
+            class="flex items-center px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-200">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Buat Identitas Sekolah
+        </button>
         @endif
     </div>
 
-    @if ($identitasSekolahs)
+    @if ($identitasSekolahs && $identitasSekolahs->isNotEmpty())
     <!-- Main Content -->
-    <div class="pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="pt-14 pb-12 px-4 sm:px-6 lg:px-8">
         @foreach ($identitasSekolahs as $identitas)
         <div class="max-w-7xl mx-auto">
+            <div class="flex justify-end mb-4">
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-edit mr-2"></i>Edit
+                </button>
+                <button type="button" wire:click="hapusIdentitas({{ $identitas->id }})"
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                    <i class="fas fa-trash-alt mr-2"></i>Delete
+                </button>
+            </div>
+
             <!-- Header Card -->
             <div
                 class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8 transform hover:scale-[1.01] transition-transform duration-300">
@@ -77,10 +93,10 @@
                         <div>
                             <p class="text-gray-500 text-sm mb-2">Alamat Lengkap</p>
                             <p class="text-gray-800">
-                                <span x-text="sekolah.alamat"></span><br>
+                                <span>{{ $identitas->alamat_sekolah }}</span><br>
                                 Kel. <span>{{ $identitas->kelurahan }}</span>,
                                 Kec. <span>{{ $identitas->kecamatan }}</span><br>
-                                <span>{{ $identitas->kota }}</span>,
+                                <span>{{ $identitas->kabupaten_kota }}</span>,
                                 <span>{{ $identitas->provinsi }}</span><br>
                                 Kode Pos: <span>{{ $identitas->kode_pos }}</span>
                             </p>
@@ -125,4 +141,6 @@
         </div>
     </div>
     @endif
+
+    <livewire:pages.master.identitas.modal-manajemen-identitas-sekolah />
 </div>
