@@ -34,7 +34,7 @@
         @include('master.sidebar')
 
         <!-- Main Content -->
-        <div class="lg:ml-64">
+        <div class="lg:ml-72">
             <livewire:layout.master.navbar />
             <livewire:layout.master.notification.poup-notification-master />
 

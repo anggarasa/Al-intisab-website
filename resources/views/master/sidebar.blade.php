@@ -69,10 +69,10 @@
 </div>
 
 <!-- Sidebar Desktop -->
-<div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
+<div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col">
   <div class="flex flex-col flex-1 min-h-0 bg-white border-r">
     <div class="flex items-center justify-center h-48 px-4 border-b">
-      <img src="{{ asset('imgs/logo/logo-intisab.svg') }}" class="w-36 h-3w-36 object-cover" alt="SML al-intisab">
+      <img src="{{ asset('imgs/logo/logo-intisab.svg') }}" class="w-36 h-36 object-cover" alt="SML al-intisab">
     </div>
     <nav class="flex-1 overflow-y-auto">
       <ul class="p-4">
