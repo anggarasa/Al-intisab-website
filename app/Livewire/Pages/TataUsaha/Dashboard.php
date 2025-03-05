@@ -13,7 +13,7 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->identitas = IdentitasSekolah::where('id', 1)->first();
+        $this->identitas = IdentitasSekolah::first();
     }
     
     public function render()
