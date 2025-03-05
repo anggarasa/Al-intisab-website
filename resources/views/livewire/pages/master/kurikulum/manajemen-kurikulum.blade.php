@@ -52,7 +52,7 @@
                 @foreach ($kurikulums as $index => $kurikulum)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $kurikulums->firstItem() + $index }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap hover:underline hover:font-bold hover:text-gray-800 hover:cursor-pointer"
+                    <td class="px-6 py-4 whitespace-nowrap hover:underline hover:font-semibold hover:text-gray-800 hover:cursor-pointer"
                         @click="modalDetail = 'modal-detail-kurikulum_{{ $kurikulum->id }}'">
                         {{
                         $kurikulum->nama_kurikulum }}</td>

@@ -5,7 +5,7 @@
             @if ($icon)
             <i class="{{ $icon }}"></i>
             @endif
-            <span>{{ Str::limit($title, 18, '...') }}</span>
+            <span>{{ Str::limit($title, 15, '...') }}</span>
         </div>
         <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': dropdownOpen}" fill="none"
             stroke="currentColor" viewBox="0 0 24 24">

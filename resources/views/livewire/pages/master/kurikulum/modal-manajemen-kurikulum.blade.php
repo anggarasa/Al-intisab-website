@@ -22,7 +22,7 @@
             </div>
             <form wire:submit="{{ $isEdit == true ? 'updateKurikulum' : 'tambahKurikulum' }}">
                 <input type="text" wire:model="kurikulum" placeholder="Masukkan kurikulum"
-                    class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring-green-500 focus:border-green-500" />
+                    class="w-full px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-green-500 focus:border-green-500" />
 
                 <textarea wire:model="deskripsi" rows="3"
                     class="w-full px-3 py-2 mb-4 border-2 rounded-lg focus:ring-2 focus:ring-green-300 focus:border-green-400 outline-none transition bg-white/50"></textarea>
