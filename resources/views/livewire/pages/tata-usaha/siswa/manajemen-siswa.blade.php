@@ -122,6 +122,9 @@
               Email</th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              Bayaran</th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
               Tempat Lahir</th>
             <th
               class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
@@ -204,13 +207,21 @@
               <div class="text-sm text-gray-900">{{ $siswa->user->email }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
+              @php
+              $totalSisaTagihan = $siswa->tagihan->sum('sisa_tagihan');
+              @endphp
+              <div class="text-sm text-gray-900">Total Sisa Tagihan: Rp{{
+                number_format($totalSisaTagihan,0,',','.') }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->tempat_lahir }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->tanggal_lahir }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $siswa->kelamin ? $siswa->kelas->nama_kelas : '-' }}</div>
+              <div class="text-sm text-gray-900">{{ $siswa->kelamin ? $siswa->kelas->nama_kelas : '-' }}
+              </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ $siswa->agama ? $siswa->agama->agama : '-' }}</div>
@@ -225,7 +236,8 @@
               <div class="text-sm text-gray-900">{{ $siswa->nama_ayah }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ $siswa->nama_wali !== null ? $siswa->nama_wali : '-' }}</div>
+              <div class="text-sm text-gray-900">{{ $siswa->nama_wali !== null ? $siswa->nama_wali : '-'
+                }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex space-x-2">
@@ -300,13 +312,15 @@
                         <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
                           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                            </path>
                           </svg>
                           Informasi Dasar
                         </h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Nama Lengkap</label>
+                            <label class="block text-sm font-medium text-gray-500">Nama
+                              Lengkap</label>
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ $siswa->name }}
                             </p>
@@ -324,14 +338,17 @@
                             </p>
                           </div>
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Jenis Kelamin</label>
+                            <label class="block text-sm font-medium text-gray-500">Jenis
+                              Kelamin</label>
                             <p class="mt-1 text-gray-900 font-medium">
-                              {{ $siswa->kelamin ? $siswa->kelamin->kelamin : '(Kosong)' }}
+                              {{ $siswa->kelamin ? $siswa->kelamin->kelamin : '(Kosong)'
+                              }}
                             </p>
                           </div>
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Agama</label>
-                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->agama ? $siswa->agama->agama :
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->agama ?
+                              $siswa->agama->agama :
                               '(Kosong)' }}</p>
                           </div>
                           <div>
@@ -357,9 +374,11 @@
                           <div>
                             <label class="block text-sm font-medium text-gray-500">Kelas</label>
                             @if ($siswa->kelas)
-                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->kelas->nama_kelas }}</p>
+                            <p class="mt-1 text-gray-900 font-medium">{{
+                              $siswa->kelas->nama_kelas }}</p>
                             @else
-                            <p class="mt-1 text-gray-900 font-medium">Belum Memiliki Kelas</p>
+                            <p class="mt-1 text-gray-900 font-medium">Belum Memiliki Kelas
+                            </p>
                             @endif
                           </div>
                           <div>
@@ -377,6 +396,28 @@
                         </div>
                       </div>
 
+                      <!-- Informasi Tagihan -->
+                      @if ($siswa->tagihan->count() > 0)
+                      <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                        <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
+                          <i class="fa-solid fa-cash-register text-sm"></i>
+                          Informasi Pembayaran Pertahun
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          @foreach ($siswa->tagihan as $tagihan)
+                          <div>
+                            <label class="block text-sm font-medium text-gray-500">{{
+                              $tagihan->jenisPembayaran->nama_pembayaran }}</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{
+                              $tagihan->sisa_tagihan == 0 ? 'Lunas' :
+                              'Rp '. number_format($tagihan->sisa_tagihan,0,',','.') }}
+                            </p>
+                          </div>
+                          @endforeach
+                        </div>
+                      </div>
+                      @endif
+
                       <!-- Informasi Personal -->
                       <div class="space-y-4 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
                         <h4 class="text-lg font-semibold text-green-700 flex items-center gap-2">
@@ -389,11 +430,14 @@
                         </h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Tempat Lahir</label>
-                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->tempat_lahir }}</p>
+                            <label class="block text-sm font-medium text-gray-500">Tempat
+                              Lahir</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{
+                              $siswa->tempat_lahir }}</p>
                           </div>
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Tanggal Lahir</label>
+                            <label class="block text-sm font-medium text-gray-500">Tanggal
+                              Lahir</label>
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ date('d F Y', strtotime($siswa->tanggal_lahir)) }}
                             </p>
@@ -405,7 +449,8 @@
                             </p>
                           </div>
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Nomor HP</label>
+                            <label class="block text-sm font-medium text-gray-500">Nomor
+                              HP</label>
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ $siswa->no_hp }}
                             </p>
@@ -425,20 +470,24 @@
                         </h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Nama Ayah</label>
+                            <label class="block text-sm font-medium text-gray-500">Nama
+                              Ayah</label>
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ $siswa->nama_ayah }}
                             </p>
                           </div>
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Nama Ibu</label>
+                            <label class="block text-sm font-medium text-gray-500">Nama
+                              Ibu</label>
                             <p class="mt-1 text-gray-900 font-medium">
                               {{ $siswa->nama_ibu }}
                             </p>
                           </div>
                           <div>
-                            <label class="block text-sm font-medium text-gray-500">Nama Wali</label>
-                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->nama_wali !== null ? $siswa->nama_wali
+                            <label class="block text-sm font-medium text-gray-500">Nama
+                              Wali</label>
+                            <p class="mt-1 text-gray-900 font-medium">{{ $siswa->nama_wali
+                              !== null ? $siswa->nama_wali
                               : '-' }}</p>
                           </div>
                         </div>

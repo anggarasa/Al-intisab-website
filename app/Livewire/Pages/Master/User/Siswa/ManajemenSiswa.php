@@ -47,7 +47,7 @@ class ManajemenSiswa extends Component
     // End Hapus Data Siswa
     public function render()
     {
-        $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin'])
+        $siswas = Siswa::with(['user', 'agama', 'kelas', 'jurusan', 'kelamin', 'tagihan'])
             ->when($this->search !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->search . '%'))
             ->when($this->searchJurusan > 0, fn(Builder $query) => $query->where('jurusan_id', $this->searchJurusan))
             ->when($this->searchKelas > 0, fn(Builder $query) => $query->where('kelas_id', $this->searchKelas))
