@@ -60,7 +60,9 @@ class ManajemenSiswa extends Component
         $siswaP = Siswa::whereHas('kelamin', function ($query) {
             $query->where('kelamin', 'perempuan');
         })->count();
+
+        $siswaAll = Siswa::all()->count();
         
-        return view('livewire.pages.master.user.siswa.manajemen-siswa', compact(['siswas', 'siswaL', 'siswaP']));
+        return view('livewire.pages.master.user.siswa.manajemen-siswa', compact(['siswas', 'siswaL', 'siswaP', 'siswaAll']));
     }
 }

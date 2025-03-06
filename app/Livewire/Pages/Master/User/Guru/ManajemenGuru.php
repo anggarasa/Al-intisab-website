@@ -90,7 +90,9 @@ class ManajemenGuru extends Component
         $guruP = Guru::whereHas('kelamin', function ($query) {
             $query->where('kelamin', 'perempuan');
         })->count();
+
+        $guruAll = Guru::all()->count();
         
-        return view('livewire.pages.master.user.guru.manajemen-guru', compact(['gurus', 'guruL', 'guruP']));
+        return view('livewire.pages.master.user.guru.manajemen-guru', compact(['gurus', 'guruL', 'guruP', 'guruAll']));
     }
 }

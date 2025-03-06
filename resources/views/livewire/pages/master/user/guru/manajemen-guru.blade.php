@@ -46,7 +46,7 @@
                     <h3 class="text-sm font-medium text-gray-500">
                         Jumlah Guru
                     </h3>
-                    <p class="text-lg BGPI font-semibold text-gray-800">{{ $gurus->count() }}</p>
+                    <p class="text-lg BGPI font-semibold text-gray-800">{{ $guruAll }}</p>
                 </div>
             </div>
         </div>

@@ -49,7 +49,7 @@
                     <h3 class="text-sm font-medium text-gray-500">
                         Jumlah Siswa
                     </h3>
-                    <p class="text-lg BGPI font-semibold text-gray-800">{{ $siswas->count() }}</p>
+                    <p class="text-lg BGPI font-semibold text-gray-800">{{ $siswaAll }}</p>
                 </div>
             </div>
         </div>
