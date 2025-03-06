@@ -95,13 +95,9 @@
         <x-sidebar-dropdown title="Manajemen Data" icon="fas fa-database" :links="[
           ['label' => 'Jenis PTK', 'url' => '/master/manajemen/jenis-ptk'],
           ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/jurusan'],
-          ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/guru'],
+          ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/kelas'],
           ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/guru'],
           ]" />
-
-        <!-- Manajemen Kelas -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.kelas') }}" label="Manajemen Kelas" icon="fas fa-school"
-          :active="request()->routeIs('master.manajemen.kelas')" />
 
         <!-- Manajemen jenis pembayaran -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.jenis-pembayaran') }}" label="Jenis Pembayaran"
