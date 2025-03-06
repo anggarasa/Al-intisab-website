@@ -84,8 +84,6 @@
           icon="fas fa-address-card" :active="request()->routeIs('master.manajemen.identitas-sekolah')" />
 
         <!-- Manajemen Data -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"
-          :active="request()->routeIs('master.manajemen.data')" />
         <x-sidebar-dropdown title="Manajemen Data" icon="fas fa-database" :links="[
           ['label' => 'Jenis PTK', 'url' => '/master/manajemen/jenis-ptk'],
           ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/jurusan'],
