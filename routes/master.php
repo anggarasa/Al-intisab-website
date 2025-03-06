@@ -21,9 +21,6 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
     // Manajemen
     Route::prefix('manajemen')->name('manajemen.')->group(function() {
-        // Manajemdn data
-        Route::get('/data', ManajemenData::class)->name('data');
-
         // Jenis PTK
         Route::get('/jenis-ptk', JenisPtk::class)->name('jenis-ptk');
 
