@@ -96,7 +96,7 @@
           ['label' => 'Jenis PTK', 'url' => '/master/manajemen/jenis-ptk'],
           ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/jurusan'],
           ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/kelas'],
-          ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/guru'],
+          ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/agama'],
           ]" />
 
         <!-- Manajemen jenis pembayaran -->

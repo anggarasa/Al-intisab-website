@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Pages\Master\Dashboard;
+use App\Livewire\Pages\Master\Data\Agama\ManajemenAgama;
 use App\Livewire\Pages\Master\Data\JenisPtk\JenisPtk;
 use App\Livewire\Pages\Master\Data\Jurusan\ManajemenJurusan;
 use App\Livewire\Pages\Master\Data\ManajemenData;
@@ -31,6 +32,9 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
         // manajemen kelas
         Route::get('/kelas', ManajemenKelas::class)->name('kelas');
+
+        // manajemen agama
+        Route::get('/agama', ManajemenAgama::class)->name('agama');
 
         // Manajemen user
         Route::get('/user', ManajemenUser::class)->name('user');
