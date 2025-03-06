@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('identitas_sekolahs', function (Blueprint $table) {
             $table->id();
             $table->string('nama_sekolah');
-            $table->integer('npsn')->length(10);
+            $table->string('npsn');
             $table->string('alamat_sekolah');
             $table->string('kelurahan');
             $table->string('kecamatan');

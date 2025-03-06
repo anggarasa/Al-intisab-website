@@ -22,7 +22,7 @@
 
         {{-- identitas sekolah --}}
         <x-sidebar-menu-item href="{{ route('master.manajemen.identitas-sekolah') }}" label="Identitas Sekolah"
-          icon="fas fa-home" :active="request()->routeIs('master.manajemen.identitas-sekolah')" />
+          icon="fas fa-address-card" :active="request()->routeIs('master.manajemen.identitas-sekolah')" />
 
         <!-- Manajemen Data -->
         <x-sidebar-menu-item href="{{ route('master.manajemen.data') }}" label="Manajemen Data" icon="fas fa-database"

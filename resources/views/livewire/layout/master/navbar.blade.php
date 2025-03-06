@@ -1,5 +1,5 @@
 <!-- Top Navigation -->
-<div class="fixed top-0 right-0 left-0 z-20 flex items-center justify-between h-16 px-4 bg-white border-b lg:left-64">
+<div class="fixed top-0 right-0 left-0 z-20 flex items-center justify-between h-16 px-4 bg-white border-b lg:left-72">
     <button @click="sidebarOpen = true" class="lg:hidden">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
