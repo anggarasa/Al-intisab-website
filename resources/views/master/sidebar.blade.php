@@ -94,7 +94,7 @@
           :active="request()->routeIs('master.manajemen.data')" />
         <x-sidebar-dropdown title="Manajemen Data" icon="fas fa-database" :links="[
           ['label' => 'Jenis PTK', 'url' => '/master/manajemen/jenis-ptk'],
-          ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/siswa'],
+          ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/jurusan'],
           ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/guru'],
           ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/guru'],
           ]" />

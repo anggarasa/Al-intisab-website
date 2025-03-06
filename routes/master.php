@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\Master\Dashboard;
 use App\Livewire\Pages\Master\Data\JenisPtk\JenisPtk;
+use App\Livewire\Pages\Master\Data\Jurusan\ManajemenJurusan;
 use App\Livewire\Pages\Master\Data\ManajemenData;
 use App\Livewire\Pages\Master\Identitas\ManajemenIdentitasSekolah;
 use App\Livewire\Pages\Master\Kelas\ManajemenKelas;
@@ -24,6 +25,9 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
         // Jenis PTK
         Route::get('/jenis-ptk', JenisPtk::class)->name('jenis-ptk');
+
+        // manajemen jurusan
+        Route::get('/jurusan', ManajemenJurusan::class)->name('jurusan');
 
         // manajemen kelas
         Route::get('/kelas', ManajemenKelas::class)->name('kelas');
