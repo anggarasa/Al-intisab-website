@@ -26,20 +26,14 @@
 
         <!-- Manajemen Data -->
         <x-sidebar-dropdown title="Manajemen Data" icon="fas fa-database" :links="[
-          ['label' => 'Jenis PTK', 'url' => '/master/manajemen/user'],
-          ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/siswa'],
-          ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/guru'],
-          ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/guru'],
+          ['label' => 'Jenis PTK', 'url' => '/master/manajemen/jenis-ptk'],
+          ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/jurusan'],
+          ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/kelas'],
+          ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/agama'],
+          ['label' => 'Jenis Pembayaran', 'url' => '/master/manajemen/jenis-pembayaran'],
+          ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
+          ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
           ]" />
-
-        <!-- Manajemen jenis pembayaran -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.jenis-pembayaran') }}" label="Jenis Pembayaran"
-          icon="fas fa-money-check-dollar" :active="request()->routeIs('master.manajemen.jenis-pembayaran')" />
-
-        <x-sidebar-dropdown title="Users" icon="fas fa-users" :links="[
-            ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
-            ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
-            ]" />
 
         <!-- Input pembayaran -->
         <x-sidebar-menu-item href="{{ route('master.input-pembayaran') }}" label="Input Pembayaran"
@@ -61,6 +55,10 @@
             ['label' => 'Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
             ['label' => 'Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
         ]" />
+
+        <!-- users -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
+          :active="request()->routeIs('master.manajemen.user')" />
       </ul>
     </nav>
   </div>
@@ -89,16 +87,10 @@
           ['label' => 'Manajemen Jurusan', 'url' => '/master/manajemen/jurusan'],
           ['label' => 'Manajemen Kelas', 'url' => '/master/manajemen/kelas'],
           ['label' => 'Manajemen Agama', 'url' => '/master/manajemen/agama'],
+          ['label' => 'Jenis Pembayaran', 'url' => '/master/manajemen/jenis-pembayaran'],
+          ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
+          ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
           ]" />
-
-        <!-- Manajemen jenis pembayaran -->
-        <x-sidebar-menu-item href="{{ route('master.manajemen.jenis-pembayaran') }}" label="Jenis Pembayaran"
-          icon="fas fa-money-check-dollar" :active="request()->routeIs('master.manajemen.jenis-pembayaran')" />
-
-        <x-sidebar-dropdown title="Users" icon="fas fa-users" :links="[
-            ['label' => 'Manajemen Siswa', 'url' => '/master/manajemen/siswa'],
-            ['label' => 'Manajemen Guru', 'url' => '/master/manajemen/guru'],
-            ]" />
 
         <!-- Input pembayaran -->
         <x-sidebar-menu-item href="{{ route('master.input-pembayaran') }}" label="Input Pembayaran"
@@ -120,6 +112,10 @@
             ['label' => 'Siswa', 'url' => '/tata-usaha/manajemen-siswa/Siswa'],
             ['label' => 'Guru', 'url' => '/tata-usaha/manajemen-Guru/Guru'],
         ]" />
+
+        <!-- users -->
+        <x-sidebar-menu-item href="{{ route('master.manajemen.user') }}" label="Manajemen User" icon="fas fa-user"
+          :active="request()->routeIs('master.manajemen.user')" />
       </ul>
     </nav>
   </div>
