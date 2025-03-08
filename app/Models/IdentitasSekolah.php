@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IdentitasSekolah extends Model
 {
     protected $fillable = [
+        'logo',
         'npsn',
         'email',
         'provinsi',

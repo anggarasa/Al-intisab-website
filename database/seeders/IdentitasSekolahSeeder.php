@@ -26,6 +26,7 @@ class IdentitasSekolahSeeder extends Seeder
             'kode_pos' => '41263',
             'akreditasi' => 'A',
             'kepala_sekolah' => 'H. Wasep Burhanudin, S.T',
+            'logo' => '/logo/logo-yai.svg',
         ]);
     }
 }

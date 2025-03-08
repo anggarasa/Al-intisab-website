@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('identitas_sekolahs', function (Blueprint $table) {
             $table->id();
+            $table->string('logo');
             $table->string('nama_sekolah');
             $table->string('npsn');
             $table->string('alamat_sekolah');
