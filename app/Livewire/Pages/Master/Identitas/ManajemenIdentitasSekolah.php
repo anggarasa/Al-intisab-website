@@ -15,7 +15,7 @@ class ManajemenIdentitasSekolah extends Component
 {
     use WithFileUploads;
     
-    public $identitasId, $isEdit = false;
+    public $identitasId, $isEdit = false, $logoOld;
     public $name, $logo, $npsn, $alamat, $kelurahan, $kecamatan, $kota, $provinsi, $pos, $hp, $email, $akreditasi, $kepsek;
 
     public function buatIdentitas()
@@ -73,9 +73,95 @@ class ManajemenIdentitasSekolah extends Component
         }
     }
     
-    public function editIdentitas($id)
+    // update identitas sekolah
+    public function editIdentitas($identitasId)
     {
-        $this->dispatch('editIdentitas', $id)->to(ModalManajemenIdentitasSekolah::class);
+        $this->isEdit = true;
+        $identitas = IdentitasSekolah::find($identitasId);
+        $this->identitasId = $identitas->id;
+        $this->name = $identitas->nama_sekolah;
+        $this->logoOld = $identitas->logo; // Simpan nama file logo lama
+        $this->npsn = $identitas->npsn;
+        $this->alamat = $identitas->alamat_sekolah;
+        $this->kelurahan = $identitas->kelurahan;
+        $this->kecamatan = $identitas->kecamatan;
+        $this->kota = $identitas->kabupaten_kota;
+        $this->provinsi = $identitas->provinsi;
+        $this->pos = $identitas->kode_pos;
+        $this->hp = $identitas->no_telpone;
+        $this->email = $identitas->email;
+        $this->akreditasi = $identitas->akreditasi;
+        $this->kepsek = $identitas->kepala_sekolah;
+
+        // Kirim event ke Alpine.js untuk menampilkan logo lama
+        $this->dispatch('update-preview', asset('storage/' . $identitas->logo));
+    }
+
+    public function updateIdentitas()
+    {
+        try {
+            $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2024'],
+                'npsn' => ['required', 'string', 'max:255'],
+                'alamat' => ['required'],
+                'kelurahan' => ['required', 'string', 'max:255'],
+                'kecamatan' => ['required', 'string', 'max:255'],
+                'kota' => ['required', 'string', 'max:255'],
+                'provinsi' => ['required', 'string', 'max:255'],
+                'pos' => ['required', 'max:255'],
+                'hp' => ['required', 'min:10', 'max:15'],
+                'email' => ['required', 'email'],
+                'akreditasi' => ['required'],
+                'kepsek' => ['required', 'string', 'max:255'],
+            ]);
+            
+            // update identitas sekolah
+            $identitas = IdentitasSekolah::find($this->identitasId);
+
+            if ($this->logo) {
+                if (Storage::disk('public')->exists($identitas->logo)) {
+                    // Hapus logo lama
+                    Storage::disk('public')->delete($identitas->logo);
+                }
+                $namaFoto = time() . '.' . $this->logo->getClientOriginalExtension();
+                $logoURL = $this->logo->storeAs('logo/', $namaFoto, 'public');
+            } else {
+                $logoURL = $this->logoOld;
+            }
+            
+            $identitas->update([
+                'nama_sekolah' => $this->name,
+                'logo' => $logoURL, // Simpan nama file logo baru
+                'npsn' => $this->npsn,
+                'alamat_sekolah' => $this->alamat,
+                'kelurahan' => $this->kelurahan,
+                'kecamatan' => $this->kecamatan,
+                'kabupaten_kota' => $this->kota,
+                'provinsi' => $this->provinsi,
+                'kode_pos' => $this->pos,
+                'no_telpone' => $this->hp,
+                'email' => $this->email,
+                'akreditasi' => $this->akreditasi,
+                'kepala_sekolah' => $this->kepsek,
+            ]);
+            
+            // kirim notifikasi success
+            $this->dispatch('notificationMaster', [
+                'type' => 'success',
+                'message' => 'Berhasil mengubah identitas sekolah',
+                'title' => 'Berhasil'
+            ]);
+
+            $this->resetInput();
+        } catch (\Exception $e) {
+            // kirim notifikasi error
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal'
+            ]);
+        }
     }
 
     // delete identitas
@@ -119,7 +205,9 @@ class ManajemenIdentitasSekolah extends Component
     public function resetInput()
     {
         $this->reset();
-
+        
+        // Kirim event untuk menghapus preview di Alpine.js
+        $this->dispatch('update-preview', null);
         $this->dispatch('close-modal-delete-identitas');
     }
 

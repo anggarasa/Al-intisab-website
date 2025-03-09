@@ -1,6 +1,6 @@
 <div class="p-4 mt-16" x-data="{
         showDeleteModal: false,
-        previewImage: null,
+        previewImage: @js($logoOld ? asset('storage/' . $logoOld) : null),
 
         handleImageUpload(event) {
             const file = event.target.files[0];
@@ -12,6 +12,10 @@
                 reader.readAsDataURL(file);
             }
         },
+
+        resetPreview() {
+            this.previewImage = @js($logo ? asset('storage/' . $logo) : null);
+        }
     }">
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
@@ -25,7 +29,7 @@
         <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex justify-end space-x-4 mb-6">
                 <button wire:click="editIdentitas({{ $identitas->id }})"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     Edit
                 </button>
                 <button type="button" wire:click="hapusIdentitas({{ $identitas->id }})"
@@ -80,7 +84,7 @@
         <!-- Form Input -->
         <div class="bg-white rounded-lg shadow-md p-6">
 
-            <form wire:submit="buatIdentitas" class="space-y-6">
+            <form wire:submit="{{ $isEdit ? 'updateIdentitas' : 'buatIdentitas' }}" class="space-y-6">
                 <!-- Logo Upload -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -178,10 +182,16 @@
                     </div>
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end space-x-5">
+                    @if ($isEdit)
+                    <button type="button" wire:click="resetInput"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Batal
+                    </button>
+                    @endif
                     <button type="submit"
                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                        Simpan Identitas
+                        {{ $isEdit ? 'Update' : 'Simpan' }} Identitas
                     </button>
                 </div>
             </form>
@@ -230,4 +240,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('reset-preview-image', () => {
+                Alpine.data('previewImage', null);
+            });
+        });
+    </script>
 </div>
