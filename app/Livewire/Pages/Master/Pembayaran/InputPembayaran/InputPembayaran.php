@@ -105,6 +105,8 @@ class InputPembayaran extends Component
                 'message' => $this->siswa->name .' Berhasil melakukan pembayaran '. $jenisTagihan->JenisPembayaran->nama_pembayaran,
                 'title' => 'Berhasil',
             ]);
+
+            $this->reset(['searchJurusan', 'searchKelas', 'searchSiswa', 'kelases', 'siswa', 'jenisPembayaran', 'jumlahPembayaran', 'tglPembayaran', 'keterangan']);
         } catch (\Exception $e) {
             // kirim notifikasi error
             $this->dispatch('notificationMaster', [
