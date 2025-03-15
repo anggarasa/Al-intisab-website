@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Master\Identitas;
 
+use App\Livewire\Layout\Master\Sidebar;
 use App\Models\IdentitasSekolah;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
@@ -55,6 +56,8 @@ class ManajemenIdentitasSekolah extends Component
                 'akreditasi' => $this->akreditasi,
                 'kepala_sekolah' => $this->kepsek,
             ]);
+
+            $this->dispatch('update-logo');
 
             // kirim notification success
             $this->dispatch('notificationMaster', [
@@ -145,6 +148,8 @@ class ManajemenIdentitasSekolah extends Component
                 'akreditasi' => $this->akreditasi,
                 'kepala_sekolah' => $this->kepsek,
             ]);
+
+            $this->dispatch('update-logo');
             
             // kirim notifikasi success
             $this->dispatch('notificationMaster', [
@@ -184,6 +189,8 @@ class ManajemenIdentitasSekolah extends Component
         }
 
         $identitas->delete();
+
+        $this->dispatch('update-logo');
 
         $this->dispatch('notificationMaster', [
             'type' => 'success',

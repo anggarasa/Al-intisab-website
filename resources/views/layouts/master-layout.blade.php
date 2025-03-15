@@ -31,16 +31,16 @@
 <body class="bg-gray-100">
 
     <div x-data="{ sidebarOpen: false }">
-        @include('master.sidebar')
+        <livewire:layout.master.sidebar>
 
-        <!-- Main Content -->
-        <div class="lg:ml-72">
-            <livewire:layout.master.navbar />
-            <livewire:layout.master.notification.poup-notification-master />
+            <!-- Main Content -->
+            <div class="lg:ml-72">
+                <livewire:layout.master.navbar />
+                <livewire:layout.master.notification.poup-notification-master />
 
-            <!-- Content -->
-            {{ $slot }}
-        </div>
+                <!-- Content -->
+                {{ $slot }}
+            </div>
     </div>
 
     @livewireScripts
