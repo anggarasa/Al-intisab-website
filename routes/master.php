@@ -4,7 +4,6 @@ use App\Livewire\Pages\Master\Dashboard;
 use App\Livewire\Pages\Master\Data\Agama\ManajemenAgama;
 use App\Livewire\Pages\Master\Data\JenisPtk\JenisPtk;
 use App\Livewire\Pages\Master\Data\Jurusan\ManajemenJurusan;
-use App\Livewire\Pages\Master\Data\ManajemenData;
 use App\Livewire\Pages\Master\Identitas\ManajemenIdentitasSekolah;
 use App\Livewire\Pages\Master\Kelas\ManajemenKelas;
 use App\Livewire\Pages\Master\Kurikulum\ManajemenKurikulum;
@@ -15,6 +14,8 @@ use App\Livewire\Pages\Master\User\Guru\ManajemenGuru;
 use App\Livewire\Pages\Master\User\ManajemenUser;
 use App\Livewire\Pages\Master\User\Siswa\ManajemenSiswa;
 use Illuminate\Support\Facades\Route;
+
+
 Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->group(function() {
     // Dasboard master
     Route::get('/dashboard-master', Dashboard::class)->name('dashboard-master');
@@ -57,4 +58,11 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
     // Riwayat pembayaran
     Route::get('/riwayat-pembayaran', RiwayatPembayaran::class)->name('riwayat-pembayaran');
+
+    // Cetak PDF
+    // Route::prefix('pdfs')->name('pdfs')->group(function() {
+    //     Route::get('/riwayat-pembayaran-siswa-all', function() {
+    //         return view('pdfs.riwayat-pembayaran-siswa-all');
+    //     });
+    // });
 });

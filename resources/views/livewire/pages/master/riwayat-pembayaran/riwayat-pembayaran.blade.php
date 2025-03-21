@@ -80,7 +80,7 @@
                     <div class="mt-4 md:mt-0 flex space-x-2">
                         <button
                             class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium transition shadow-sm"
-                            @click="printReceipt"><i class="fas fa-print mr-2"></i>Cetak</button>
+                            wire:click="cetakPdfAll"><i class="fas fa-print mr-2"></i>Cetak</button>
                         <button
                             class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition shadow-sm"><i
                                 class="fas fa-envelope mr-2"></i>Email</button>
