@@ -58,11 +58,4 @@ Route::prefix('master')->name('master.')->middleware(['auth', 'role:master'])->g
 
     // Riwayat pembayaran
     Route::get('/riwayat-pembayaran', RiwayatPembayaran::class)->name('riwayat-pembayaran');
-
-    // Cetak PDF
-    // Route::prefix('pdfs')->name('pdfs')->group(function() {
-    //     Route::get('/riwayat-pembayaran-siswa-all', function() {
-    //         return view('pdfs.riwayat-pembayaran-siswa-all');
-    //     });
-    // });
 });

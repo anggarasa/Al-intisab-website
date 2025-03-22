@@ -3,11 +3,8 @@
 namespace App\Livewire\Pages\Master\RiwayatPembayaran;
 
 use App\Models\Siswa;
-use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
 use App\Models\TataUsaha\Transaksi;
-use Illuminate\Support\Facades\Response;
 use Livewire\Component;
-use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Spatie\LaravelPdf\Enums\Format;
@@ -22,6 +19,7 @@ class RiwayatPembayaran extends Component
     public $searchSiswa = '';
     public $searchJenisPembayaran = '';  // Filter berdasarkan jenis pembayaran
     public $searchStatus = '';  // Filter berdasarkan status pembayaran
+    public $filterType;
 
     public function setSiswa($siswaId)
     {
@@ -35,7 +33,7 @@ class RiwayatPembayaran extends Component
         $this->searchSiswa = '';
     }
 
-    public function cetakPdfAll()
+    public function cetakPdfSiswa()
     {
         try {
             $downloadPath = getenv('USERPROFILE') . '\Downloads\riwayat-pembayaran-' . $this->selectedSiswa->name . '-' . date('Y-m-d-H-i-s') . '.pdf';
@@ -63,7 +61,16 @@ class RiwayatPembayaran extends Component
             ]);
         }
     }
-    
+
+    public function cetakPdfAll()
+    {
+        try {
+            $downloadPath = getenv('USERPROFILE') . '\Downloads\riwayat-pembayaran'. date('Y-m-d-H-i-s') . '.pdf';
+
+            
+        } catch (\Exception $e) {}
+    }
+
     public function render()
     {
         $siswas = Siswa::where('name', 'like', '%'. $this->searchSiswa .'%')
@@ -109,6 +116,8 @@ class RiwayatPembayaran extends Component
         })->count();
 
         $totalSiswa = Siswa::count();
+
+        $pembayarans = Transaksi::latest()->paginate(5);
              
         return view('livewire.pages.master.riwayat-pembayaran.riwayat-pembayaran', [
             'siswas' => $siswas,
@@ -116,6 +125,7 @@ class RiwayatPembayaran extends Component
             'transaksis' => $transaksis,
             'totalSiswa' => $totalSiswa,
             'totalLunas' => $totalLunas,
+            'pembayarans' => $pembayarans,
         ]);
     }
 }
