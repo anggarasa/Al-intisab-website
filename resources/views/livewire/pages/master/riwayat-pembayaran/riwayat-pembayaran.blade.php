@@ -280,21 +280,12 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4 md:mb-0">Filter Pembayaran</h2>
 
             <div class="flex flex-col md:flex-row gap-4">
-                <div>
-                    <select wire:model.live="filterType"
-                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all">
-                        <option value="custom">Kustom (Rentang Tanggal)</option>
-                        <option value="monthly">Bulanan</option>
-                    </select>
-                </div>
-
-                @if ($filterType === 'custom')
                 <div class="flex flex-col sm:flex-row gap-2">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <i class="fas fa-calendar-alt text-gray-500"></i>
                         </div>
-                        <input type="date" x-model="startDate"
+                        <input type="date" wire:model="startDate"
                             class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all w-full"
                             placeholder="Tanggal Mulai" />
                     </div>
@@ -302,42 +293,13 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <i class="fas fa-calendar-alt text-gray-500"></i>
                         </div>
-                        <input type="date" x-model="endDate"
+                        <input type="date" wire:model="endDate"
                             class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all w-full"
                             placeholder="Tanggal Akhir" />
                     </div>
                 </div>
-                @else
-                <div class="flex gap-2">
-                    <div class="w-full">
-                        <select x-model="selectedMonth"
-                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all">
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">Mei</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
-                    </div>
-                    <div class="w-full">
-                        <select x-model="selectedYear"
-                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all">
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                        </select>
-                    </div>
-                </div>
-                @endif
 
-                <button @click="applyFilter"
+                <button wire:click="applyFilter"
                     class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center"><i
                         class="fas fa-filter mr-2"></i> Terapkan Filter</button>
             </div>
@@ -346,20 +308,15 @@
         <div class="flex flex-wrap gap-4 mt-6">
             <div class="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-3">
                 <span class="text-green-700 text-sm font-medium">
-                    @if ($filterType === 'custom')
-                    <span>
-                        <span x-text="formatDateDisplay(startDate)"></span>
+                    @if ($startDate || $endDate)
+                    <span class="text-green-700 text-sm font-medium">
+                        {{ $startDate ? date('d F Y', strtotime($startDate)) : '' }}
                         s/d
-                        <span x-text="formatDateDisplay(endDate)"></span>
-                    </span>
-                    @else
-                    <span>
-                        <span x-text="getMonthName(selectedMonth)"></span>
-                        <span x-text="selectedYear"></span>
+                        {{ $endDate ? date('d F Y', strtotime($endDate)) : '' }}
                     </span>
                     @endif
                 </span>
-                <button @click="resetFilter" class="text-green-700 hover:text-green-900">
+                <button wire:click="resetFilter" class="text-green-700 hover:text-green-900">
                     <i class="fas fa-times-circle"></i>
                 </button>
             </div>

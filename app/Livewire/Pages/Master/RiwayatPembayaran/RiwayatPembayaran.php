@@ -9,6 +9,7 @@ use App\Models\TataUsaha\Transaksi;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use PhpParser\Node\Expr\FuncCall;
 use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Facades\Pdf;
 
@@ -21,7 +22,8 @@ class RiwayatPembayaran extends Component
     public $searchSiswa = '';
     public $searchJenisPembayaran = '';  // Filter berdasarkan jenis pembayaran
     public $searchStatus = '';  // Filter berdasarkan status pembayaran
-    public $filterType;
+    public $startDate = '';
+    public $endDate = '';
 
     public function setSiswa($siswaId)
     {
@@ -35,6 +37,32 @@ class RiwayatPembayaran extends Component
         $this->searchSiswa = '';
     }
 
+    public function applyFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilter()
+    {
+        $this->startDate = '';
+        $this->endDate = '';
+        $this->applyFilter();
+    }
+
+    public function updatedStartDate()
+    {
+        if ($this->endDate && $this->startDate > $this->endDate) {
+            $this->endDate = $this->startDate;
+        }
+    }
+
+    public function updatedEndDate()
+    {
+        if ($this->startDate && $this->endDate < $this->startDate) {
+            $this->startDate = $this->endDate;
+        }
+    }
+    
     public function cetakPdfSiswa()
     {
         try {
@@ -88,12 +116,11 @@ class RiwayatPembayaran extends Component
                     'title' => 'Berhasil'
                 ]);
         } catch (\Exception $e) {
-            // $this->dispatch('notificationMaster', [
-            //     'type' => 'error',
-            //     'message' => 'PDF gagal di unduh',
-            //     'title' => 'Gagal'
-            // ]);
-            dd($e->getMessage());
+            $this->dispatch('notificationMaster', [
+                'type' => 'error',
+                'message' => 'PDF gagal di unduh',
+                'title' => 'Gagal'
+            ]);
         }
     }
 
@@ -143,7 +170,17 @@ class RiwayatPembayaran extends Component
 
         $totalSiswa = Siswa::count();
 
-        $pembayarans = Transaksi::latest()->paginate(5);
+        $query = Transaksi::query();
+    
+        if ($this->startDate && $this->endDate) {
+            $query->whereBetween('tgl_pembayaran', [$this->startDate, $this->endDate]);
+        } elseif ($this->startDate) {
+            $query->where('tgl_pembayaran', '>=', $this->startDate);
+        } elseif ($this->endDate) {
+            $query->where('tgl_pembayaran', '<=', $this->endDate);
+        }
+        
+        $pembayarans = $query->latest()->paginate(5);
              
         return view('livewire.pages.master.riwayat-pembayaran.riwayat-pembayaran', [
             'siswas' => $siswas,
