@@ -388,7 +388,7 @@
                 <button @click="exportToExcel"
                     class="bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center"><i
                         class="fas fa-file-excel mr-2"></i> Export Excel</button>
-                <button @click="exportToPDF"
+                <button wire:click="cetakPdfAll"
                     class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center"><i
                         class="fas fa-file-pdf mr-2"></i> Export PDF</button>
             </div>

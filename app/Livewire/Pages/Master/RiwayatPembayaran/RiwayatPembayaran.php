@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Pages\Master\RiwayatPembayaran;
 
+use App\Models\IdentitasSekolah;
 use App\Models\Siswa;
+use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
 use App\Models\TataUsaha\Transaksi;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -65,10 +67,34 @@ class RiwayatPembayaran extends Component
     public function cetakPdfAll()
     {
         try {
-            $downloadPath = getenv('USERPROFILE') . '\Downloads\riwayat-pembayaran'. date('Y-m-d-H-i-s') . '.pdf';
+            $downloadPath = getenv('USERPROFILE') . '\Downloads\riwayat-pembayaran-'. date('Y-m-d-H-i-s') . '.pdf';
 
-            
-        } catch (\Exception $e) {}
+            // Pastikan direktori ada sebelum menyimpan file
+            if (!file_exists(dirname($downloadPath))) {
+                mkdir(dirname($downloadPath), 0755, true);
+            }
+
+            $pembayarans = Transaksi::all();
+            $jenisPembayarans = JenisPembayaran::all();
+
+            // Generate PDF dan simpan ke Downloads
+            Pdf::view('pdfs.riwayat-pembayaran-all', ['pembayarans' => $pembayarans, 'jenisPembayarans' => $jenisPembayarans])
+                ->format(Format::A4)
+                ->save($downloadPath);
+
+                $this->dispatch('notificationMaster', [
+                    'type' => 'success',
+                    'message' => 'PDF berhasil di unduh',
+                    'title' => 'Berhasil'
+                ]);
+        } catch (\Exception $e) {
+            // $this->dispatch('notificationMaster', [
+            //     'type' => 'error',
+            //     'message' => 'PDF gagal di unduh',
+            //     'title' => 'Gagal'
+            // ]);
+            dd($e->getMessage());
+        }
     }
 
     public function render()

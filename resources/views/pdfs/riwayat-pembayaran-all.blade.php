@@ -79,6 +79,97 @@
     </div>
   </header>
 
+  <div class="p-8">
+    <!-- Informasi Laporan -->
+    <div class="mb-4">
+      <div>
+        <p><span class="font-semibold">Periode:</span> 1 Maret 2025 - 22 Maret 2025</p>
+        <p><span class="font-semibold">Dicetak pada:</span> {{ date('d F Y') }}</p>
+      </div>
+    </div>
+
+    <!-- Tabel Laporan -->
+    <table class="w-full border-collapse border border-gray-300 mb-6">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">No.</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Tanggal</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">NISN</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Nama Siswa</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Kelas</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Jenis Pembayaran</th>
+          <th class="border border-gray-300 px-3 py-2 text-right">Jumlah (Rp)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Baris data -->
+        @php
+        $no = 1;
+        @endphp
+        @foreach ($pembayarans as $pembayaran)
+        <tr>
+          <td class="border border-gray-300 px-3 py-2">{{ $no++ }}</td>
+          <td class="border border-gray-300 px-3 py-2">{{ date('d F Y', strtotime($pembayaran->tgl_pembayaran)) }}</td>
+          <td class="border border-gray-300 px-3 py-2">{{ $pembayaran->siswa->nisn }}</td>
+          <td class="border border-gray-300 px-3 py-2">{{ $pembayaran->siswa->name }}</td>
+          <td class="border border-gray-300 px-3 py-2">{{ $pembayaran->siswa->kelas->nama_kelas }}</td>
+          <td class="border border-gray-300 px-3 py-2">{{ $pembayaran->tagihan->jenisPembayaran->nama_pembayaran }}</td>
+          <td class="border border-gray-300 px-3 py-2 text-right">Rp {{
+            number_format($pembayaran->jumlah_pembayaran,0,',','.') }}</td>
+        </tr>
+        @endforeach
+      </tbody>
+      <tfoot>
+        <tr class="bg-gray-200 font-semibold">
+          <td class="border border-gray-300 px-3 py-2 text-right" colspan="6">Total</td>
+          <td class="border border-gray-300 px-3 py-2 text-right">Rp {{
+            number_format($pembayarans->sum('jumlah_pembayaran'),0,',','.') }}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Ringkasan -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="border border-gray-300 p-4 rounded">
+        <h3 class="font-semibold mb-2">Ringkasan Status</h3>
+        <table class="w-full">
+          <tr>
+            <td>Lunas</td>
+            <td>: {{ $pembayarans->where('tagihan.sisa_tagihan', 0)->count() }} pembayaran</td>
+          </tr>
+          <tr>
+            <td>Belum Lunas</td>
+            <td>: {{ $pembayarans->where('tagihan.sisa_tagihan', '>', 0)->count() }} pembayaran</td>
+          </tr>
+        </table>
+      </div>
+      <div class="border border-gray-300 p-4 rounded">
+        <h3 class="font-semibold mb-2">Ringkasan Jenis</h3>
+        <table class="w-full">
+          @foreach ($jenisPembayarans as $jenis)
+          <tr>
+            <td>{{ $jenis->nama_pembayaran }}</td>
+            <td>
+              : Rp {{ number_format($jenis->tagihans->flatMap->transaksis->sum('jumlah_pembayaran'), 0, ',', '.') }}
+            </td>
+          </tr>
+          @endforeach
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer Laporan -->
+    {{-- <div class="flex justify-end mt-8">
+      @foreach ($sekolahs as $sekolah)
+      <div class="text-center w-64">
+        <p>{{ $sekolah->kabupaten_kota }}, {{ date('d F Y') }}</p>
+        <p class="mb-16">Petugas Keuangan,</p>
+        <p class="font-semibold">{{ }}</p>
+        <p>NIP. 19750610 200012 1 003</p>
+      </div>
+      @endforeach
+    </div>
+  </div> --}}
 
 </body>
 
