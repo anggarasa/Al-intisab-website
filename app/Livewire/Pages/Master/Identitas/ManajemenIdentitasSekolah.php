@@ -39,7 +39,7 @@ class ManajemenIdentitasSekolah extends Component
             ]);
 
             $namaFoto = time() . '.' . $this->logo->getClientOriginalExtension();
-            $logoURL = $this->logo->storeAs('logo/', $namaFoto, 'public');
+            $logoURL = $this->logo->storeAs('logo', $namaFoto, 'public');
 
             IdentitasSekolah::create([
                 'nama_sekolah' => $this->name,
@@ -128,7 +128,7 @@ class ManajemenIdentitasSekolah extends Component
                     Storage::disk('public')->delete($identitas->logo);
                 }
                 $namaFoto = time() . '.' . $this->logo->getClientOriginalExtension();
-                $logoURL = $this->logo->storeAs('logo/', $namaFoto, 'public');
+                $logoURL = $this->logo->storeAs('logo', $namaFoto, 'public');
             } else {
                 $logoURL = $this->logoOld;
             }
