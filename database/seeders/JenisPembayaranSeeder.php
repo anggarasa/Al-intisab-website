@@ -18,8 +18,7 @@ class JenisPembayaranSeeder extends Seeder
             ['jenis' => 'SPP XI', 'total' => 3000000],
             ['jenis' => 'SPP XII', 'total' => 4000000],
             ['jenis' => 'Baju Seragam', 'total' => 850000],
-            ['jenis' => 'Bangunan', 'total' => 1000000],
-            ['jenis' => 'LKS', 'total' => 100000],
+            ['jenis' => 'PKL', 'total' => 500000],
         ];
 
         foreach ($pembayarans as $pembayaran) {

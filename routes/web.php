@@ -6,6 +6,10 @@ Route::get('/', function() {
     return auth()->check() ? redirect(route('dashboard')) : redirect(route('login'));
 });
 
+Route::get('pdf', function() {
+    return view('pdf.riwayat-pembayaran-semua-siswa');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

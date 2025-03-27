@@ -8,57 +8,31 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use App\Models\TataUsaha\Transaksi;
 use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
+use Spatie\LaravelPdf\Enums\Format;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 #[Layout('layouts.master-layout', ['title' => 'Riwayat Pembayaran'])]
 class RiwayatPembayaran extends Component
 {
     use WithPagination;
-    
-    public $jenisPembayarans;
 
-    #[Url] public $search = '';
-    #[Url] public $searchJenisPembayaran = '';
-    #[Url] public $searchTanggalPembayaran = '';
-
-    public function mount()
+    public function cetakPdfs()
     {
-        $this->jenisPembayarans = JenisPembayaran::all();
+        $transaksis = Transaksi::latest()->get();
+
+        $pdf = Pdf::view('pdf.riwayat-pembayaran-semua-siswa', ['transaksis' => $transaksis])
+        ->format(Format::A4)
+        ->name('riwayat-pembayaran-semua-siswa-'. now()->timestamp .'.pdf');
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo base64_decode($pdf->download()->base64());
+        }, $pdf->downloadName);
     }
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
-    public function updatingSearchJenisPembayaran()
-    {
-        $this->resetPage();
-    }
-
-    public function updatingSearchTanggalPembayaran()
-    {
-        $this->resetPage();
-    }
-    
     public function render()
     {
-        $transaksis = Transaksi::with(['siswa', 'tagihan', 'tagihan.jenisPembayaran'])
-            ->when($this->search, function ($query) {
-                $query->whereHas('siswa', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('nisn', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->searchJenisPembayaran, function ($query) {
-                $query->whereHas('tagihan.jenisPembayaran', function ($q) {
-                    $q->where('id', $this->searchJenisPembayaran);
-                });
-            })
-            ->when($this->searchTanggalPembayaran, function ($query) {
-                $query->whereDate('tgl_pembayaran', $this->searchTanggalPembayaran);
-            })
-            ->latest()->paginate(5);
-        
-        return view('livewire.pages.master.riwayat-pembayaran.riwayat-pembayaran', compact('transaksis'));
+        return view('livewire.pages.master.riwayat-pembayaran.riwayat-pembayaran', [
+            'pembayarans' => Transaksi::with(['siswa.kelas', 'tagihan.jenisPembayaran'])->latest()->paginate(5),
+        ]);
     }
 }
