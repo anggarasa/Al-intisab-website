@@ -103,14 +103,15 @@
 
     <!-- REPORT TITLE -->
     <div class="pt-6 pb-4 px-6">
-        <h2 class="text-xl font-bold text-center uppercase">Laporan Pembayaran Siswa</h2>
-        <p class="text-center text-gray-600">Tahun Ajaran 2023/2024</p>
+        <h2 class="text-xl font-bold text-center uppercase">Laporan Pembayaran Siswa & Siswi</h2>
+{{--        <p class="text-center text-gray-600">Tahun Ajaran 2023/2024</p>--}}
     </div>
 
     <!-- REPORT INFO -->
     <div class="pl-6 mb-4">
-        <p class="text-sm"><span class="font-semibold">Tanggal Laporan:</span> <span id="current-date">12 Juli 2024</span></p>
-        <p class="text-sm"><span class="font-semibold">Periode:</span> Juli 2023 - Juni 2024</p>
+        <p class="text-sm"><span class="font-semibold">Tanggal Laporan:</span> <span id="current-date">{{ \Carbon\Carbon::now()->format('d F Y') }}</span></p>
+        <p class="text-sm"><span class="font-semibold">Periode:</span> {{ \Carbon\Carbon::parse($startDate)->format('d F Y') }} -
+            {{ \Carbon\Carbon::parse($endDate)->format('d F Y') }}</p>
     </div>
 
     <!-- PAYMENT TABLE -->

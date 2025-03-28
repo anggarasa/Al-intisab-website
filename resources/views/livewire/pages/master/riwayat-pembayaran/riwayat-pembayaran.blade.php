@@ -1,84 +1,27 @@
 <div class="p-4 mt-16">
     <!-- Filter Section -->
     <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-sm p-4 md:p-6 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between">
             <h2 class="text-lg font-semibold text-gray-800 mb-4 md:mb-0">Filter Pembayaran</h2>
 
-            <div class="flex flex-col md:flex-row gap-4">
-                <div>
-                    <select x-model="filterType" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                        <option value="custom">Kustom (Rentang Tanggal)</option>
-                        <option value="monthly">Bulanan</option>
-                    </select>
-                </div>
-
-                <template x-if="filterType === 'custom'">
-                    <div class="flex flex-col sm:flex-row gap-2">
+            <form wire:submit="applyFilter" class="flex flex-col md:flex-row gap-4">
+                <div class="flex flex-col sm:flex-row gap-2">
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <i class="fas fa-calendar-alt text-gray-500"></i>
                             </div>
-                            <input type="date" x-model="startDate" class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full" placeholder="Tanggal Mulai" />
+                            <input type="date" wire:model="startDate" class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full" placeholder="Tanggal Mulai" />
                         </div>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <i class="fas fa-calendar-alt text-gray-500"></i>
                             </div>
-                            <input type="date" x-model="endDate" class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full" placeholder="Tanggal Akhir" />
+                            <input type="date" wire:model="endDate" class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full" placeholder="Tanggal Akhir" />
                         </div>
                     </div>
-                </template>
 
-                <template x-if="filterType === 'monthly'">
-                    <div class="flex gap-2">
-                        <div class="w-full">
-                            <select x-model="selectedMonth" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                                <option value="1">Januari</option>
-                                <option value="2">Februari</option>
-                                <option value="3">Maret</option>
-                                <option value="4">April</option>
-                                <option value="5">Mei</option>
-                                <option value="6">Juni</option>
-                                <option value="7">Juli</option>
-                                <option value="8">Agustus</option>
-                                <option value="9">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
-                            </select>
-                        </div>
-                        <div class="w-full">
-                            <select x-model="selectedYear" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                            </select>
-                        </div>
-                    </div>
-                </template>
-
-                <button @click="applyFilter" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center"><i class="fas fa-filter mr-2"></i> Terapkan Filter</button>
-            </div>
-        </div>
-
-        <div class="flex flex-wrap gap-4 mt-6">
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center gap-3">
-            <span class="text-blue-700 text-sm font-medium">
-              <template x-if="filterType === 'custom'">
-                <span> <span x-text="formatDateDisplay(startDate)"></span> s/d <span x-text="formatDateDisplay(endDate)"></span> </span>
-              </template>
-              <template x-if="filterType === 'monthly'">
-                <span> <span x-text="getMonthName(selectedMonth)"></span> <span x-text="selectedYear"></span> </span>
-              </template>
-            </span>
-                <button @click="resetFilter" class="text-blue-700 hover:text-blue-900">
-                    <i class="fas fa-times-circle"></i>
-                </button>
-            </div>
-
-            <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
-                <span class="text-emerald-700 text-sm font-medium">Total: <span x-text="formatCurrency(calculateTotal())"></span></span>
-            </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center"><i class="fas fa-filter mr-2"></i> Terapkan Filter</button>
+            </form>
         </div>
     </div>
 
@@ -97,7 +40,7 @@
             />
         </div>
 
-        <button wire:click="cetakPdfs" wire:loading.attr="disabled"
+        <button wire:click="cetakPdf" wire:loading.attr="disabled"
                 class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center relative">
             <span wire:loading.remove>
                 <i class="fas fa-file-pdf mr-2"></i> Export PDF
@@ -132,7 +75,7 @@
                         {{ $no++  }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        {{ date('d F Y', $pembayaran->tgl_transaksi)  }}
+                        {{ \Carbon\Carbon::parse($pembayaran->tgl_pembayaran)->translatedFormat('d F Y') }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         {{ $pembayaran->siswa->nisn }}
