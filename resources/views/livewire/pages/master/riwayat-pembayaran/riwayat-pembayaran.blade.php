@@ -75,7 +75,22 @@
                             <p class="text-gray-600"><span>{{ $selectedSiswa->kelas->nama_kelas }}</span> • NISN: <span>{{ $selectedSiswa->nisn }}</span></p>
                         </div>
                         <div class="mt-4 md:mt-0 flex space-x-2">
-                            <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium transition shadow-sm" @click="printReceipt"><i class="fas fa-print mr-2"></i>Cetak</button>
+                            <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center"
+                                    wire:click="perSiswaPdf"
+                                    wire:loading.attr="disabled"
+                                    wire:target="perSiswaPdf">
+
+                                <!-- Tombol normal (sembunyi saat loading) -->
+                                <span class="inline-flex items-center" wire:loading.remove wire:target="perSiswaPdf">
+                                    <i class="fas fa-print mr-2"></i>Cetak
+                                </span>
+
+                                <!-- Animasi loading menggunakan FontAwesome -->
+                                <span class="inline-flex items-center space-x-2" wire:loading wire:target="perSiswaPdf">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Mencetak...</span>
+                                </span>
+                            </button>
                         </div>
                     </div>
 

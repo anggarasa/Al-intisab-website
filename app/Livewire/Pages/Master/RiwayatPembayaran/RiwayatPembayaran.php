@@ -53,6 +53,20 @@ class RiwayatPembayaran extends Component
         $this->resetPage();
     }
 
+    public function perSiswaPdf()
+    {
+        $transaksis = collect($this->selectedSiswa->transaksis);
+        $pdf = Pdf::view('pdf.riwayat-pembayaran-per-siswa', [
+            'transaksis' => $transaksis,
+            'siswa' => $this->selectedSiswa,
+        ])
+            ->format('A4')
+            ->name('riwayat-pembayaran-siswa-' . $this->selectedSiswa->name . '-' . now()->timestamp .'.pdf');
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo base64_decode($pdf->download()->base64());
+        }, $pdf->downloadName);
+    }
     public function cetakPdf()
     {
         $query = Transaksi::query();

@@ -1,41 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Laporan Pembayaran Siswa - SMK AL INTISAB</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pembayaran Siswa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-        body {
-            font-family: "Inter", sans-serif;
-        }
-
         @page {
             size: A4;
             margin: 0;
         }
-
+        body {
+            font-family: 'Arial', sans-serif;
+        }
         @media print {
-            body {
-                width: 210mm;
-                height: 297mm;
-            }
-
-            .page-break {
-                page-break-after: always;
-            }
-
-            .no-print-break {
-                page-break-inside: avoid;
+            .no-print {
+                display: none;
             }
         }
     </style>
 </head>
-
-<body class="bg-white w-[210mm] mx-auto shadow-md">
-<div class="a4-page">
+<body class="bg-gray-100 p-4">
+<div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
     <!-- HEADER SECTION -->
     <header class="w-full bg-white shadow-md">
         <div class="container mx-auto px-4 py-4">
@@ -101,75 +87,76 @@
         </div>
     </header>
 
-    <!-- REPORT TITLE -->
-    <div class="pt-6 pb-4 px-6">
-        <h2 class="text-xl font-bold text-center uppercase">Laporan Pembayaran Siswa & Siswi</h2>
-{{--        <p class="text-center text-gray-600">Tahun Ajaran 2023/2024</p>--}}
+    <!-- Data Siswa -->
+    <div class="p-6 border-b">
+        <h2 class="text-xl font-semibold mb-4">Data Siswa</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <div class="mb-3">
+                    <p class="text-gray-600 text-sm">Nama Siswa</p>
+                    <p class="font-semibold" id="nama-siswa">{{ $siswa->name }}</p>
+                </div>
+                <div class="mb-3">
+                    <p class="text-gray-600 text-sm">Nomor Induk</p>
+                    <p class="font-semibold" id="nisn">{{ $siswa->nisn }}</p>
+                </div>
+            </div>
+            <div>
+                <div class="mb-3">
+                    <p class="text-gray-600 text-sm">Kelas</p>
+                    <p class="font-semibold" id="kelas">{{ $siswa->kelas->nama_kelas }}</p>
+                </div>
+                <div class="mb-3">
+                    <p class="text-gray-600 text-sm">Tanggal Pencetakan</p>
+                    <p class="font-semibold" id="tahun-ajaran">{{ \Carbon\Carbon::now()->format('d F Y') }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- REPORT INFO -->
-    <div class="pl-6 mb-4">
-        <p class="text-sm"><span class="font-semibold">Tanggal Laporan:</span> <span id="current-date">{{ \Carbon\Carbon::now()->format('d F Y') }}</span></p>
-        <p class="text-sm"><span class="font-semibold">Periode:</span> {{ \Carbon\Carbon::parse($startDate)->format('d F Y') }} -
-            {{ \Carbon\Carbon::parse($endDate)->format('d F Y') }}</p>
-    </div>
-
-    <!-- PAYMENT TABLE -->
-    <div class="px-6 mb-6">
+    <!-- Riwayat Pembayaran -->
+    <div class="p-6">
+        <h2 class="text-xl font-semibold mb-4">Riwayat Pembayaran</h2>
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                <tr class="bg-gray-100">
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        No
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        NISN
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        Nama Siswa
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        Kelas
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        Tanggal
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        Jenis Pembayaran
-                    </th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
-                        Total Pembayaran
-                    </th>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Pembayaran</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
                 </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200" id="payment-history">
                 @php $no = 1; @endphp
                 @foreach($transaksis as $transaksi)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-2 text-sm">{{ $no++}}</td>
-                        <td class="px-4 py-2 text-sm">{{ $transaksi->siswa->nisn }}</td>
-                        <td class="px-4 py-2 text-sm font-medium">{{ $transaksi->siswa->name }}</td>
-                        <td class="px-4 py-2 text-sm">{{ $transaksi->siswa->kelas->nama_kelas }}</td>
-                        <td class="px-4 py-2 text-sm">{{ \Carbon\Carbon::parse($transaksi->tgl_pembayaran)->format('d F Y') }}</td>
-                        <td class="px-4 py-2 text-sm">
-                            {{ $transaksi->tagihan->jenisPembayaran->nama_pembayaran }}
-                        </td>
-                        <td class="px-4 py-2 text-sm">
-                            Rp {{ number_format($transaksi->jumlah_pembayaran,0,',','.') }}
-                        </td>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $no++ }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ \Carbon\Carbon::parse($transaksi->tgl_pembayaran)->format('d F Y') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $transaksi->tagihan->jenisPembayaran->nama_pembayaran }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Rp {{ number_format($transaksi->jumlah_pembayaran,0,',','.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $transaksi->keterangan ? $transaksi->keterangan : 'Kosong' }}</td>
                     </tr>
                 @endforeach
                 </tbody>
-                <tfoot>
-                <tr class="bg-gray-50">
-                    <td colspan="6" class="px-4 py-3 text-sm font-semibold text-right">Total:</td>
-                    <td class="px-4 py-3 text-sm font-semibold">
-                        Rp {{ number_format($transaksis->sum('jumlah_pembayaran'), 0, ',', '.') }}
-                    </td>
-                </tr>
-                </tfoot>
             </table>
+        </div>
+    </div>
+
+    <!-- Ringkasan -->
+    <div class="p-6 bg-gray-50">
+        <h2 class="text-xl font-semibold mb-4">Ringkasan Pembayaran</h2>
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="font-medium text-gray-700 mb-2">Total Pembayaran</h3>
+            <div class="flex justify-between items-center">
+                <p class="text-gray-600">Total yang sudah dibayar:</p>
+                <p class="font-bold text-blue-600" id="total-paid">Rp {{ number_format($transaksis->sum('jumlah_pembayaran'),0,',','.') }}</p>
+            </div>
+            <div class="flex justify-between items-center mt-1">
+                <p class="text-gray-600">Total yang belum dibayar:</p>
+                <p class="font-bold text-red-600" id="total-unpaid">Rp {{ number_format($siswa->tagihan->sum('sisa_tagihan'),0,',','.') }}</p>
+            </div>
         </div>
     </div>
 </div>
