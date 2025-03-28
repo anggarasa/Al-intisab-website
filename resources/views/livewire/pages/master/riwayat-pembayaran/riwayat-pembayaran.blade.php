@@ -6,29 +6,42 @@
 
             <form wire:submit="applyFilter" class="flex flex-col md:flex-row gap-4">
                 <div class="flex flex-col sm:flex-row gap-2">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <i class="fas fa-calendar-alt text-gray-500"></i>
-                            </div>
-                            <input type="date" wire:model="startDate" class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full" placeholder="Tanggal Mulai" />
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-calendar-alt text-gray-500"></i>
                         </div>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <i class="fas fa-calendar-alt text-gray-500"></i>
-                            </div>
-                            <input type="date" wire:model="endDate" class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full" placeholder="Tanggal Akhir" />
-                        </div>
+                        <input type="date" wire:model="startDate"
+                               class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all w-full"
+                               placeholder="Tanggal Mulai"/>
                     </div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-calendar-alt text-gray-500"></i>
+                        </div>
+                        <input type="date" wire:model="endDate"
+                               class="pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all w-full"
+                               placeholder="Tanggal Akhir"/>
+                    </div>
+                </div>
 
-                <button type="submit" wire:loading.attr="disabled" wire:target="applyFilter"
-                        class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center relative min-w-[170px]">
-                    <span wire:loading.remove wire:target="applyFilter">
-                        <i class="fas fa-filter mr-2"></i> Terapkan Filter
-                    </span>
-                                    <span wire:loading wire:target="applyFilter" class="flex items-center gap-2">
-                        <i class="fas fa-spinner fa-spin"></i> Memproses...
-                    </span>
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit" wire:loading.attr="disabled" wire:target="applyFilter"
+                            class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center relative min-w-[170px]">
+                        <span wire:loading.remove wire:target="applyFilter">
+                            <i class="fas fa-filter mr-2"></i> Terapkan Filter
+                        </span>
+                        <span wire:loading wire:target="applyFilter" class="flex items-center gap-2">
+                            <i class="fas fa-spinner fa-spin"></i> Memproses...
+                        </span>
+                    </button>
+                    <button type="button" wire:click="resetFilter"
+                            wire:loading.attr="disabled"
+                            wire:target="resetFilter"
+                            class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center relative"
+                            @if(!$startDate && !$endDate) style="display: none;" @endif>
+                        <i class="fas fa-times mr-2"></i> Reset Filter
+                    </button>
+                </div>
             </form>
         </div>
     </div>
