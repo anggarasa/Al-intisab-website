@@ -4,12 +4,9 @@ namespace App\Livewire\Pages\Master\RiwayatPembayaran;
 
 use Carbon\Carbon;
 use Livewire\Component;
-use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use App\Models\TataUsaha\Transaksi;
-use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
-use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 #[Layout('layouts.master-layout', ['title' => 'Riwayat Pembayaran'])]
@@ -19,8 +16,14 @@ class RiwayatPembayaran extends Component
 
     public $startDate;
     public $endDate;
+    public $search = '';
 
     public function applyFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearch()
     {
         $this->resetPage();
     }
@@ -60,7 +63,13 @@ class RiwayatPembayaran extends Component
 
     public function render()
     {
-        $query = Transaksi::with(['siswa.kelas', 'tagihan.jenisPembayaran']);
+        $query = Transaksi::with(['siswa.kelas', 'tagihan.jenisPembayaran'])
+        ->when($this->search, function ($query) {
+            $query->whereHas('siswa', function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                  ->orWhere('nisn', 'like', '%' . $this->search . '%');
+            });
+        });
 
         // Filter berdasarkan rentang tanggal jika diset
         if ($this->startDate && $this->endDate) {

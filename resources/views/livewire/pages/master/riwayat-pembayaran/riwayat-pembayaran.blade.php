@@ -20,7 +20,15 @@
                         </div>
                     </div>
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center"><i class="fas fa-filter mr-2"></i> Terapkan Filter</button>
+                <button type="submit" wire:loading.attr="disabled" wire:target="applyFilter"
+                        class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition-all flex items-center justify-center relative min-w-[170px]">
+                    <span wire:loading.remove wire:target="applyFilter">
+                        <i class="fas fa-filter mr-2"></i> Terapkan Filter
+                    </span>
+                                    <span wire:loading wire:target="applyFilter" class="flex items-center gap-2">
+                        <i class="fas fa-spinner fa-spin"></i> Memproses...
+                    </span>
+                </button>
             </form>
         </div>
     </div>
@@ -32,21 +40,20 @@
                 <i class="fas fa-search text-gray-500"></i>
             </div>
             <input
-                type="text"
-                x-model="searchTerm"
-                @input="searchPayments"
-                class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Cari berdasarkan nama/NIS..."
+                type="search"
+                wire:model.live="search"
+                class="pl-10 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                placeholder="Cari berdasarkan nama/NISN..."
             />
         </div>
 
-        <button wire:click="cetakPdf" wire:loading.attr="disabled"
-                class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center relative">
-            <span wire:loading.remove>
+        <button wire:click="cetakPdf" wire:loading.attr="disabled" wire:target="cetakPdf"
+                class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center relative min-w-[150px]">
+            <span wire:loading.remove wire:target="cetakPdf">
                 <i class="fas fa-file-pdf mr-2"></i> Export PDF
             </span>
-                    <span wire:loading class="absolute inset-0 flex items-center justify-center">
-                <i class="fas fa-spinner fa-spin"></i>
+                    <span wire:loading wire:target="cetakPdf" class="flex items-center gap-2">
+                <i class="fas fa-spinner fa-spin"></i> Mengunduh...
             </span>
         </button>
     </div>
