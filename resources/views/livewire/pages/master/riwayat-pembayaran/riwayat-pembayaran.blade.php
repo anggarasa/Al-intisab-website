@@ -114,17 +114,7 @@
 
         <!-- Filter dan Pencarian -->
         <div class="p-6 mb-8 bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-700">Search</label>
-                    <div class="relative">
-                        <input type="search" wire:model.live="search" placeholder="Cari Nama/NISN Siswa..." class="w-full p-2 pl-10 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" />
-                        <div class="absolute top-1/2 left-3 transform -translate-y-1/2">
-                            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-700">Jenis Pembayaran</label>
                     <select wire:model.live="searchJenisPembayaran" class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
@@ -136,8 +126,12 @@
                 </div>
 
                 <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-700">Tanggal Pembayaran</label>
-                    <input type="date" wire:model.live="searchTanggalPembayaran" class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500" />
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Status</label>
+                    <select wire:model.live="searchStatus" class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                        <option value="">Pilih Status</option>
+                        <option value="lunas">Lunas</option>
+                        <option value="belum lunas">Belum Lunas</option>
+                    </select>
                 </div>
             </div>
         </div>

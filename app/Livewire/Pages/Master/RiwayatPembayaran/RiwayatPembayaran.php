@@ -22,6 +22,23 @@ class RiwayatPembayaran extends Component
     public $search = '';
     public $searchSiswa = '';
     public $jenisPembayarans;
+    public $searchJenisPembayaran = '';
+    public $searchStatus = '';
+
+    protected $queryString = [
+        'searchJenisPembayaran' => ['except' => ''],
+        'searchStatus' => ['except' => ''],
+    ];
+
+    public function updatingSearchJenisPembayaran()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearchStatus()
+    {
+        $this->resetPage();
+    }
 
     public function setSelectedSiswa($siswaId)
     {
@@ -97,7 +114,18 @@ class RiwayatPembayaran extends Component
     {
         // Jika ada siswa yang dipilih, gunakan data dari $selectedSiswa->transaksis
         if ($this->selectedSiswa) {
-            $transaksis = collect($this->selectedSiswa->transaksis); // Konversi ke Collection untuk kompatibilitas dengan pagination
+            $transaksis = collect($this->selectedSiswa->transaksis)
+                ->when($this->searchJenisPembayaran, function ($query) {
+                    return $query->filter(function ($transaksi) {
+                        return $transaksi->tagihan->jenisPembayaran->id == $this->searchJenisPembayaran;
+                    });
+                })
+                ->when($this->searchStatus, function ($query) {
+                    return $query->filter(function ($transaksi) {
+                        return ($this->searchStatus == 'lunas' && $transaksi->tagihan->sisa_tagihan == 0) ||
+                            ($this->searchStatus == 'belum lunas' && $transaksi->tagihan->sisa_tagihan > 0);
+                    });
+                });
         } else {
             // Jika tidak ada siswa yang dipilih, jalankan query seperti biasa
             $query = Transaksi::with(['siswa.kelas', 'tagihan.jenisPembayaran'])
