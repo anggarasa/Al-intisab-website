@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Pages\Master\RiwayatPembayaran;
 
+use App\Models\Siswa;
+use App\Models\TataUsaha\Pembayaran\JenisPembayaran;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,9 +16,25 @@ class RiwayatPembayaran extends Component
 {
     use WithPagination;
 
+    public ?Siswa $selectedSiswa = null;
     public $startDate;
     public $endDate;
     public $search = '';
+    public $searchSiswa = '';
+    public $jenisPembayarans;
+
+    public function setSelectedSiswa($siswaId)
+    {
+        $this->jenisPembayarans = JenisPembayaran::all();
+        $this->selectedSiswa = Siswa::with(['kelas', 'tagihan.jenisPembayaran'])->find($siswaId);
+        $this->searchSiswa = '';
+        $this->dispatch('modal-select-siswa');
+    }
+
+    public function clearSelectedSiswa()
+    {
+        $this->selectedSiswa = null;
+    }
 
     public function applyFilter()
     {
@@ -63,24 +81,38 @@ class RiwayatPembayaran extends Component
 
     public function render()
     {
-        $query = Transaksi::with(['siswa.kelas', 'tagihan.jenisPembayaran'])
-        ->when($this->search, function ($query) {
-            $query->whereHas('siswa', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('nisn', 'like', '%' . $this->search . '%');
-            });
-        });
+        // Jika ada siswa yang dipilih, gunakan data dari $selectedSiswa->transaksis
+        if ($this->selectedSiswa) {
+            $transaksis = collect($this->selectedSiswa->transaksis); // Konversi ke Collection untuk kompatibilitas dengan pagination
+        } else {
+            // Jika tidak ada siswa yang dipilih, jalankan query seperti biasa
+            $query = Transaksi::with(['siswa.kelas', 'tagihan.jenisPembayaran'])
+                ->when($this->search, function ($query) {
+                    $query->whereHas('siswa', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%')
+                            ->orWhere('nisn', 'like', '%' . $this->search . '%');
+                    });
+                });
 
-        // Filter berdasarkan rentang tanggal jika diset
-        if ($this->startDate && $this->endDate) {
-            $start = Carbon::parse($this->startDate)->toDateString();
-            $end = Carbon::parse($this->endDate)->toDateString();
+            // Filter berdasarkan rentang tanggal jika diset
+            if ($this->startDate && $this->endDate) {
+                $start = Carbon::parse($this->startDate)->toDateString();
+                $end = Carbon::parse($this->endDate)->toDateString();
+                $query->whereBetween('tgl_pembayaran', [$start, $end]);
+            }
 
-            $query->whereBetween('tgl_pembayaran', [$start, $end]);
+            $transaksis = $query->latest()->paginate(5);
         }
 
+        $siswas = Siswa::with('kelas')
+        ->when($this->searchSiswa, function ($query) {
+            $query->where('name', 'like', '%' . $this->searchSiswa . '%')
+                  ->orWhere('nisn', 'like', '%' . $this->searchSiswa . '%');
+        })->get();
+
         return view('livewire.pages.master.riwayat-pembayaran.riwayat-pembayaran', [
-            'pembayarans' => $query->latest()->paginate(5),
+            'pembayarans' => $transaksis,
+            'siswas' => $siswas,
         ]);
     }
 }
