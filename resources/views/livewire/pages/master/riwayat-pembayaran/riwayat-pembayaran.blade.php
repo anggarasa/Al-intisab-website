@@ -1,4 +1,4 @@
-<div class="p-4 mt-16" x-data="{ showSiswaSelector: false }">
+<div class="p-4 mt-16" x-data="{ showSiswaSelector: false, modalDetail: null }">
     <!-- select siswa -->
     <div class="bg-white rounded-lg shadow p-4 mb-6 print:hidden">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -66,7 +66,7 @@
         <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
             <div class="md:flex">
                 <div class="md:flex-shrink-0 p-4 md:p-6 flex justify-center md:justify-start">
-                    <img class="h-32 w-32 rounded-full object-cover border-4 border-blue-100" src="{{ $selectedSiswa->foto ? asset('storage/'. $selectedSiswa->foto) : asset('imgs/component/profile/avatar-man.jpg') }}" alt="{{ $selectedSiswa->name }}" />
+                    <img class="h-32 w-32 rounded-full object-cover border-4 border-green-100" src="{{ $selectedSiswa->foto ? asset('storage/'. $selectedSiswa->foto) : asset('imgs/component/profile/avatar-man.jpg') }}" alt="{{ $selectedSiswa->name }}" />
                 </div>
                 <div class="p-4 md:p-6 md:flex-1">
                     <div class="flex flex-col md:flex-row md:justify-between md:items-start">
@@ -152,7 +152,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($pembayarans as $transaksi)
-                        <tr class="hover:bg-gray-50 transition cursor-pointer">
+                        <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 #{{ $transaksi->id }}
                             </td>
@@ -171,9 +171,82 @@
                               </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium print:hidden">
-                                <button class="text-blue-600 hover:text-blue-900">Detail</button>
+                                <button @click="modalDetail = 'modal-detail_{{ $transaksi->id }}'" class="text-blue-600 hover:text-blue-900">Detail</button>
                             </td>
                         </tr>
+
+                        <!-- Detail Pembayaran Modal -->
+                        <div
+                            x-show="modalDetail === 'modal-detail_{{ $transaksi->id }}'"
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-200"
+                            x-transition:leave-start="opacity-100"
+                            x-transition:leave-end="opacity-0"
+                            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 print:hidden"
+                        >
+                            <div
+                                @click.away="modalDetail = null"
+                                x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0 transform scale-95"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-200"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-95"
+                                class="bg-white rounded-lg shadow-xl max-w-lg w-full mx-auto max-h-[90vh] overflow-y-auto"
+                            >
+                                <div class="border-b border-gray-200 p-4 flex justify-between items-center">
+                                    <h3 class="text-lg font-medium text-gray-900">Detail Pembayaran</h3>
+                                    <button @click="modalDetail = null" class="text-gray-400 hover:text-gray-500">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="p-6">
+                                    <div class="mb-6 flex justify-between items-center">
+                                        <h3 class="text-xl font-bold text-gray-900">{{ $transaksi->tagihan->jenisPembayaran->nama_pembayaran }}</h3>
+                                        <span
+                                            class="px-3 py-1 text-sm font-semibold rounded-full {{ $transaksi->tagihan->sisa_tagihan == 0 ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800' }}"
+                                        >
+                                        {{ $transaksi->tagihan->sisa_tagihan == 0 ? 'Lunas' : 'Belum Lunas' }}
+                                    </span>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between border-b border-gray-100 pb-3">
+                                            <span class="text-gray-600">ID Transaksi</span>
+                                            <span class="font-medium text-gray-900">
+                                            #{{ $transaksi->id }}
+                                        </span>
+                                        </div>
+                                        <div class="flex justify-between border-b border-gray-100 pb-3">
+                                            <span class="text-gray-600">Tanggal</span>
+                                            <span class="font-medium text-gray-900">
+                                            {{ \Carbon\Carbon::parse($transaksi->tgl_pembayaran)->format('d F Y') }}
+                                        </span>
+                                        </div>
+                                        <div class="flex justify-between border-b border-gray-100 pb-3">
+                                            <span class="text-gray-600">Jumlah</span>
+                                            <span class="font-medium text-gray-900">
+                                            {{ number_format($transaksi->jumlah_pembayaran,0,',','.') }}
+                                        </span>
+                                        </div>
+                                        <div class="flex justify-between border-b border-gray-100 pb-3">
+                                            <span class="text-gray-600">Keterangan</span>
+                                            <span class="font-medium text-gray-900">
+                                            {{ $transaksi->keterangan ? $transaksi->keterangan : '-' }}
+                                        </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8 flex justify-end space-x-3">
+                                        <button @click="modalDetail = null" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                            Tutup
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @empty
                         <tr>
                             <td colspan="7" class="px-6 py-10 text-center text-gray-500">
@@ -316,12 +389,94 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                             <div class="flex space-x-2">
-                                <button class="text-blue-600 hover:text-blue-800" title="Lihat Detail">
+                                <button @click="modalDetail = 'modal-detail_{{ $pembayaran->id }}'" class="text-blue-600 hover:text-blue-800" title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
                         </td>
                     </tr>
+
+                    <!-- Detail Pembayaran Modal -->
+                    <div
+                        x-show="modalDetail === 'modal-detail_{{ $pembayaran->id }}'"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 print:hidden"
+                    >
+                        <div
+                            @click.away="modalDetail = null"
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 transform scale-95"
+                            x-transition:enter-end="opacity-100 transform scale-100"
+                            x-transition:leave="transition ease-in duration-200"
+                            x-transition:leave-start="opacity-100 transform scale-100"
+                            x-transition:leave-end="opacity-0 transform scale-95"
+                            class="bg-white rounded-lg shadow-xl max-w-lg w-full mx-auto max-h-[90vh] overflow-y-auto"
+                        >
+                            <div class="border-b border-gray-200 p-4 flex justify-between items-center">
+                                <h3 class="text-lg font-medium text-gray-900">Detail Pembayaran</h3>
+                                <button @click="modalDetail = null" class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-6 flex justify-between items-center">
+                                    <h3 class="text-xl font-bold text-gray-900">{{ $pembayaran->siswa->name }}</h3>
+                                    <span
+                                        class="text-xl font-bold text-gray-900"
+                                    >
+                                        {{ $pembayaran->siswa->kelas->nama_kelas }}
+                                    </span>
+                                </div>
+
+                                <div class="mb-6 flex justify-between items-center">
+                                    <h3 class="text-xl text-gray-900">{{ $pembayaran->tagihan->jenisPembayaran->nama_pembayaran }}</h3>
+                                    <span
+                                        class="px-3 py-1 text-sm font-semibold rounded-full {{ $pembayaran->tagihan->sisa_tagihan == 0 ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800' }}"
+                                    >
+                                        {{ $pembayaran->tagihan->sisa_tagihan == 0 ? 'Lunas' : 'Belum Lunas' }}
+                                    </span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="flex justify-between border-b border-gray-100 pb-3">
+                                        <span class="text-gray-600">ID Transaksi</span>
+                                        <span class="font-medium text-gray-900">
+                                            #{{ $pembayaran->id }}
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between border-b border-gray-100 pb-3">
+                                        <span class="text-gray-600">Tanggal</span>
+                                        <span class="font-medium text-gray-900">
+                                            {{ \Carbon\Carbon::parse($pembayaran->tgl_pembayaran)->format('d F Y') }}
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between border-b border-gray-100 pb-3">
+                                        <span class="text-gray-600">Jumlah</span>
+                                        <span class="font-medium text-gray-900">
+                                            {{ number_format($pembayaran->jumlah_pembayaran,0,',','.') }}
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between border-b border-gray-100 pb-3">
+                                        <span class="text-gray-600">Keterangan</span>
+                                        <span class="font-medium text-gray-900">
+                                            {{ $pembayaran->keterangan ? $pembayaran->keterangan : '-' }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-8 flex justify-end space-x-3">
+                                    <button @click="modalDetail = null" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                        Tutup
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @empty
                     <tr>
                         <td colspan="9" class="px-6 py-10 text-center text-gray-500">
